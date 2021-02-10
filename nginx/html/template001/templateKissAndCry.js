@@ -9,27 +9,16 @@
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @version   1.0.2
  */
 
- //Шаблоны для "Уголок слёз и поцелуев" (Kiss and Cry)
+//Шаблоны для "Уголок слёз и поцелуев" (Kiss and Cry)
 
-//Информация об участнике
-var FS_UserInfo = ``;
-
-//Показать индивидуальные результаты проката
-var FS_UserResult = ``;
-
-//Информация об официальном лице
-var FS_JudgeOne = ``;
-
-//Стартовый лист - Полный
-//Стартовый лист - По группам
-//Промежуточные результаты соревнования
-//Информация о всех судьях
-var FS_UsersList = ``;
-
-//Название программы выступления
-var FS_EventName = `
+/* ################################################################################################
+Информационная панель:
+    Кнопка:Segment; - Название соревнования, группа и сегмент
+*/
+FS_EventName = `
 <div id="boardSegment" class="cl_boardEvent">
     <div class='TitleBG'>
         <div id='TitleBlock'>
@@ -41,8 +30,11 @@ var FS_EventName = `
     </div>
 </div>`;
 
-//Показать индивидуальные результаты проката "Уголок слёз и поцелуев"
-var FS_KissAndCry = `
+/* ################################################################################################
+Информационная панель:
+    Кнопка: 1nd Score; - Показать индивидуальные результаты проката "Уголок слёз и поцелуев"
+*/
+FS_KissAndCry = `
 <div id="boardKissAndCry" class="cl_board0">
     <div class='TitleBG'>
         <div id='TitleBlock'>
@@ -86,40 +78,7 @@ var FS_KissAndCry = `
         </div>
     </div>
 </div>`;
-//Таймер
-var FS_Timer = ``;
 // Количество линий участников
-var LineCountWeb = 7;
-// Показать время 
-var ConfigShowTimer = false;
+LineCountWeb = 7;
 // Табло "Уголок слёз и поцелуев"
-var ConfigKissAndCry = true;
-// Отладочная информация
-var debuging = false;
-// 
-var TitleSubNameJudgeAll = "Официальные лица:";
-// 
-var TitleSubName3nd = "Промежуточные результаты:";
-// 
-var TitleSubNameWup = "Разминка, группа №:";
-// 
-var TitleSubNameStartList = "Стартовый лист:";
-
-//Официальные лица
-var OfficialFunction = [];
-//Судья №1...99
-OfficialFunction['JDG'] = "Судья №";
-//Помощник технического специалиста
-OfficialFunction['STS'] = "Ассистент технического специалиста";
-//Технический специалист
-OfficialFunction['TSP'] = "Технический специалист";
-//Технический контролёр
-OfficialFunction['TCO'] = "Технический контролёр";
-// Старший судья
-OfficialFunction['ERF'] = "Старший судья";
-//Оператор ввода данных или видео оператор
-OfficialFunction['DOP'] = "Оператор ввода данных";
-//Пока незнаю кто это
-OfficialFunction['REP'] = "Representative";
-//Пока незнаю кто это
-OfficialFunction['TDG'] = "Технический делегат";
+ConfigKissAndCry = true;

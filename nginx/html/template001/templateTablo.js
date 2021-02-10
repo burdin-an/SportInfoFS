@@ -9,12 +9,16 @@
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @version   1.0.1
  */
 
- //Шаблоны для кубика (экран на льду)
+//Шаблоны для кубика (экран на льду)
 
-//Информация об участнике
-var FS_UserInfo = `
+/* ################################################################################################
+Информационная панель:
+    Кнопка: Name; - Информация об участнике
+*/
+FS_UserInfo = `
 <div id="boardPersonal" class="cl_board0">
     <div class='TitleBG'>
         <div id='TitleBlock'>
@@ -30,8 +34,11 @@ var FS_UserInfo = `
     <div id="LineThree" class="Line"><div class="LineFirst">Музыка:</div><div class="LineType02" id='pMusic'></div></div>
 </div>`;
 
-//Показать индивидуальные результаты проката
-var FS_UserResult = `
+/* ################################################################################################
+Информационная панель:
+    Кнопка: 2nd Score;  - Показать индивидуальные результаты выступления
+*/
+FS_UserResult = `
 <div id="boardPersonal" class="cl_board0">
     <div class='TitleBG'>
         <div id='TitleBlock'>
@@ -49,9 +56,11 @@ var FS_UserResult = `
     <div id="LineFour" class="Line"><div class="LineType03">Баллы за выступление:</div><div class="LineLast" id='pSeqPoints'></div></div>
     <div id="LineFour" class="Line"><div class="LineType03">Место:</div><div class="LineLast" id='pRank'></div></div>
 </div>`;
-
-//Информация об официальном лице
-var FS_JudgeOne = `
+/* ################################################################################################
+Информационная панель:
+    Кнопка: Judge -> Send; - Информация об официальном лице (судья)
+*/
+FS_JudgeOne = `
 <div id="boardPersonal" class="cl_board0">
     <div class='TitleBG'>
         <div id='TitleBlock'>
@@ -65,12 +74,13 @@ var FS_JudgeOne = `
     <div id="LineOne" class="Line"><div class="LineType01 center" id="pClub"></div></div>
     <div id="LineTwo" class="Line"><div class="LineType01" id='pProff'></div></div>
 </div>`;
-
-//Стартовый лист - Полный
-//Стартовый лист - По группам
-//Промежуточные результаты соревнования
-//Информация о всех судьях
-var FS_UsersList = `
+/* ################################################################################################
+Информационная панель:
+    Кнопка: Start List; - Стартовый лист (Полный)
+    Кнопка: WarmG;      - Стартовый лист (По группам разминки)
+    Кнопка: Judge -> Send All Judges; - Информация обо всех судьях
+*/
+FS_UsersList = `
 <div id="boardGroup" class="cl_board20">
     <div class='TitleBG'>
         <div id='TitleBlock'>
@@ -83,8 +93,11 @@ var FS_UsersList = `
     <div id="participantListContainer"></div>
 </div>`;
 
-//Промежуточные результаты соревнования
-var FS_ListResult = `
+/* ################################################################################################
+Информационная панель:
+    Кнопка: 3nd Score; - Промежуточные результаты соревнования
+*/
+FS_ListResult = `
 <div id="boardGroup" class="cl_boardGroupResult">
     <div class='TitleBG'>
         <div id='TitleBlock'>
@@ -97,8 +110,11 @@ var FS_ListResult = `
     <div id="participantListContainer"></div>
 </div>`;
 
-//Название программы выступления
-var FS_EventName = `
+/* ################################################################################################
+Информационная панель:
+    Кнопка: Segment; - Название соревнования, группа и сегмент
+*/
+FS_EventName = `
 <div id="boardSegment" class="cl_boardEvent">
     <div class='TitleBG'>
         <div id='TitleBlock'>
@@ -111,7 +127,10 @@ var FS_EventName = `
     </div>
 </div>`;
 
-//Таймер
+/* ################################################################################################
+Информационная панель:
+    Кнопка: Time+ или Time-; - Таймер внизу экрана
+*/
 var FS_Timer = `
 <div class="cl_boardTimer">
     <div class="round-button">
@@ -122,37 +141,6 @@ var FS_Timer = `
 </div>`;
 
 // Количество линий участников
-var LineCountWeb = 6;
+LineCountWeb = 6;
 // Показать время 
-var ConfigShowTimer = true;
-// Табло "Уголок слёз и поцелуев"
-var ConfigKissAndCry = false;
-// Отладочная информация
-var debuging = true;
-// 
-var TitleSubNameJudgeAll = "Официальные лица:";
-// 
-var TitleSubName3nd = "Промежуточные результаты:";
-// 
-var TitleSubNameWup = "Разминка, группа №:";
-// 
-var TitleSubNameStartList = "Стартовый лист:";
-
-//Официальные лица
-var OfficialFunction = [];
-//Судья №1...99
-OfficialFunction['JDG'] = "Судья №";
-//Помощник технического специалиста
-OfficialFunction['STS'] = "Ассистент технического специалиста";
-//Технический специалист
-OfficialFunction['TSP'] = "Технический специалист";
-//Технический контролёр
-OfficialFunction['TCO'] = "Технический контролёр";
-// Старший судья
-OfficialFunction['ERF'] = "Старший судья";
-//Оператор ввода данных или видео оператор
-OfficialFunction['DOP'] = "Оператор ввода данных";
-//Пока незнаю кто это
-OfficialFunction['REP'] = "Representative";
-//Пока незнаю кто это
-OfficialFunction['TDG'] = "Технический делегат";
+ConfigShowTimer = true;

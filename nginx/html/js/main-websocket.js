@@ -262,7 +262,7 @@ function updateBoard() {
                 $("#SegmentName" ).html(EventDB['SegmentName']);
                 $("#boardSegment").addClass("cl_boardIn");
                 boardSegmentOpen = true;
-            }, 120000);
+            }, 360000);
 
         }
     }

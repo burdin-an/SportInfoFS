@@ -15,34 +15,22 @@
  /**
  * Шаблоны для кубика (экран на льду)
  */
-
+/* Делаем черный фон*/
  html,body,#id_board {
     background-color: #000;
 }
 
 /* ################################################################################################
 Информационная панель:
-    Информация об участнике
-    Показать индивидуальные результаты проката
+    Кнопка:Name; - Информация об участнике
+    Кнопка:2nd Score;  - Показать индивидуальные результаты выступления
+    Кнопка:Judge -> Send; - Информация об официальном лице (судья)
 */
 
 .cl_board0 {
     width: 100%;
     height: 100%;
     font-size: 2.2rem;
-}
-#board3 {
-    position: absolute;
-    z-index:100;
-    overflow: hidden;
-}
-#board3 {
-    width:60px;
-    height:60px;
-    margin: 5px 0 0 10px;
-    z-index:103;
-    background: url('../images/LogoFS.png') no-repeat;
-    background-size: cover;
 }
 .cl_board0 #SegmentName, .cl_board20 #SubName {
     display: inline-block;
@@ -121,11 +109,11 @@
     font-size: 2.5rem;
     text-align: center;
 }
-
 #pProff {
     text-align: center;
 }
-/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+/* Анимация: Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 .cl_board0.cl_boardIn .TitleBG {
     animation: backInDown 1s linear 0s normal forwards;
 }
@@ -135,7 +123,7 @@
 .cl_board0.cl_boardIn .Line:nth-child(even){
     animation: backInLeft 1s linear 0s normal backwards;
 }
-/* Закрытие панели ------------------------------------------------------------- */
+/* Анимация: Закрытие панели ------------------------------------------------------------- */
 .cl_board0.cl_boardOut .TitleBG {
     animation: backOutUp 1s linear 0s normal forwards;
 }
@@ -149,10 +137,10 @@
 
 /* ################################################################################################
 Информационная панель:
-    Стартовый лист - Полный
-    Стартовый лист - По группам
-    Промежуточные результаты соревнования
-    Информация об судьях
+    Кнопка:Start List; - Стартовый лист (Полный)
+    Кнопка:WarmG; - Стартовый лист (По группам разминки)
+    Кнопка:3nd Score; - Промежуточные результаты соревнования
+    Кнопка:Judge -> Send All Judges; - Информация обо всех судьях
 */
 
 .cl_board20,
@@ -251,7 +239,7 @@
     text-align: center;
     font-weight: bold;
 }
-/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* Анимация: Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 .cl_board20.cl_boardIn .TitleBG,
 .cl_boardGroupResult.cl_boardIn .TitleBG {
     animation: backInDown 1s linear 0s normal forwards;
@@ -286,16 +274,7 @@
 .cl_boardGroupResult.cl_boardIn #participantListContainer3>.participantList{
     animation: fadeIn 2s ease-out 20s normal forwards;
 }
-/*
-.cl_board20.cl_boardIn .participantList:nth-child(odd),
-.cl_boardGroupResult.cl_boardIn .participantList:nth-child(odd) {
-    animation: backInRight 1s linear 0s normal forwards;
-}
-.cl_board20.cl_boardIn .participantList:nth-child(even),
-.cl_boardGroupResult.cl_boardIn .participantList:nth-child(even){
-    animation: backInLeft 1s linear 0s normal forwards;
-}*/
-/* Закрытие панели ------------------------------------------------------------- */
+/* Анимация: Закрытие панели ------------------------------------------------------------- */
 .cl_board20.cl_boardOut .TitleBG,
 .cl_boardGroupResult.cl_boardOut .TitleBG{
     animation: backOutUp 1s linear 0s normal forwards;
@@ -312,7 +291,10 @@
 
 
 
-/* Segment -------------------------------------------------------- */
+/* ################################################################################################
+Информационная панель:
+    Кнопка:Segment; - Название соревнования, группа и сегмент
+*/
 .cl_boardEvent {
     position: relative;
     top:40%;
@@ -342,65 +324,20 @@
     width: 95%;
 }
 
-
-
-@keyframes animation_boardIn {
-    0% {width:15%;opacity: 0;}
-    100% {width:70%;opacity: 1;}
-}
-@keyframes animation_boardOut {
-    0% {width:70%;opacity: 1;}
-    100% {width:15%;opacity: 0;}
-}
-@keyframes animation_board2In {
-    0% {height: 0%;}
-    100% {height: 90%;}
-}
-@keyframes animation_board2Out {
-    0% {height: 90%;}
-    100% {height: 0%;}
-}
-
-
-/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-/*.cl_board20.cl_boardIn {
-    animation: fadeIn 1s linear 0s normal backwards;
-}
-
-.cl_board20.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList {
-    animation: fadeIn .5s ease-out .5s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList {
-    animation: fadeIn .5s ease-out .8s normal forwards,
-    fadeOut 1s linear 8s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList {
-    animation: fadeIn .5s ease-out 10s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList {
-    animation: fadeIn .5s ease-out 10s normal forwards,
-    fadeOut 1s linear 18s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer3>.participantList {
-    animation: fadeIn .5s ease-out 20s normal forwards;
-}*/
-/* Закрытие панели ------------------------------------------------------------- */
-/*.cl_board20.cl_boardOut {
-    animation: fadeOut 1s linear 0s normal forwards;
-}*/
-
-/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* Анимация: Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 .cl_boardEvent.cl_boardIn {
     animation: bounceInDown 1s linear 0s normal backwards;
 }
-/* Закрытие панели ------------------------------------------------------------- */
+/* Анимация: Закрытие панели ------------------------------------------------------------- */
 .cl_boardEvent.cl_boardOut {
     animation: hinge 1s linear 0s normal forwards;
     transform-origin: top left; 
 }
 
-
-/* Открытие панели со временем ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* ################################################################################################
+Информационная панель:
+    Кнопка:Time+ или Time-; - Таймер внизу экрана
+*/
 .cl_boardTimer,.round-button-circle {
     background: #4679BD; 
 }
