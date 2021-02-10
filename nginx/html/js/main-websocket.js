@@ -439,9 +439,11 @@ function updateBoard() {
         $( "#SegmentName"    ).html(JsonData.pSegment);
         $( "#boardSegment"   ).addClass("cl_boardIn");
         boardSegmentOpen = true;
-        timerCloseBoardSegment = setTimeout(function() {
-            cleanBoardSegment();
-        }, 30000);
+        if (!ConfigShowTimer) {
+            timerCloseBoardSegment = setTimeout(function() {
+                cleanBoardSegment();
+            }, 30000);
+        }
     }
 
     if (debuging != false) {console.log('Play') };

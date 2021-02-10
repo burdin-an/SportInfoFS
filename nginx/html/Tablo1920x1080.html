@@ -1,0 +1,55 @@
+<!doctype html>
+<!--
+ * Проект "Информатор спортивных соревнований: фигурное катание на коньках"
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the MIT-LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author    Бурдин А.Н. <support@it-sakh.net>
+ * @copyright Бурдин А.Н. <support@it-sakh.net>
+ * @link      http://www.it-sakh.info/SportInfo/
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @version	  0.0.2
+
+Шаблоны для кубика (экран на льду)
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <link type="text/css" charset="utf-8" rel="stylesheet" href="css/animate.min.css" />
+    <link type="text/css" charset="utf-8" rel="stylesheet" href="css/main.css" />
+    <script type="text/javascript" charset="utf-8" src="js/jquery-3.5.1.min.js"></script>
+    <!-- Указываем фалы с шаблонами ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <link type="text/css" charset="utf-8" rel="stylesheet" href="template001/templateTablo1920x1080.css">
+    <script type="text/javascript" charset="utf-8"          src="template001/templateTablo1920x1080.js"></script>
+    <!-- Далее не меняем!           ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <script type="text/javascript" charset="utf-8" src="js/main-websocket.js"></script>
+</head>
+<body>
+    <div id="id_boardTimer"></div>
+    <div id="root_boardPersonal"></div>
+    <div id="root_boardGroup"></div>
+    <div id="root_boardSegment"></div>
+    <audio id="player" preload="auto" >
+        <source src="/audio/Razminka_Info_01.mp3" type="audio/mpeg">
+        <!--
+          1)Razminka_Info_01.mp3: Уважаемые участники! идёт последняя минута разминки
+          2)Razminka_Info_02.mp3: Внимание! идёт последняя минута разминки
+          3)Razminka_Info_03.mp3: Внимание! пошла последняя минута разминки
+          4)Razminka_Info_04.mp3: Уважаемые участники! пошла последняя минута разминки
+        -->
+    </audio>
+    <!--
+    <audio id="RazminkaStop" preload="auto" >
+        <source src="/audio/Razminka_Stop_01.mp3" type="audio/mpeg"> -->
+        <!--
+          1)Razminka_Stop_01.mp3: Уважаемые участники! Разминка завершена, просьба освободить лёд.
+          2)Razminka_Stop_02.mp3: Внимание! Разминка завершена, просьба освободить лёд.
+          3)Razminka_Stop_03.mp3: Внимание! Разминка окончена, просьба освободить лёд.
+          4)Razminka_Stop_04.mp3: Уважаемые участники! пошла последняя минута разминки
+        -->
+    <!--
+    </audio>-->
+</body>
+</html>
