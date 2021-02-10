@@ -132,12 +132,13 @@ function FuncWorksCalc($data_line, $connection) {
                                             'ID'          => (int)$Participant['ID'],
                                             'SegmentID'   => 0,
                                             'FullName'    => mb_convert_case($Participant['Full_Name'], MB_CASE_TITLE, "UTF-8"),
-                                            'Club'        => $Participant['Club'],
+                                            'Club'        => (string)$Participant['Club'],
                                             'Nation'      => (empty($Participant['Club'])) ?  '' : preg_replace('/^(.*),(.*)/', '\1', $Participant['Club']),//$Participant['Nation']
                                             //'Club'        => (empty($Participant['Club'])) ?  '' : preg_replace('/^(.*),(.*)/', '\2', $Participant['Club']),
-                                            'Music'       => (empty($Participant['Music'])) ? '' : $Participant['Music'],
-                                            'Coach'       => (empty($Participant['Coach'])) ? 'Нет тренера' : $Participant['Coach'],
-                                            'Status'      => $Participant['Status'],
+                                            'City'        => (empty($Participant['Club'])) ?  '' : preg_replace('/^(.*),(.*)/', '\1', $Participant['Club']),
+                                            'Music'       => (empty($Participant['Music'])) ? '' : (string)$Participant['Music'],
+                                            'Coach'       => (empty($Participant['Coach'])) ? 'Нет тренера' : (string)$Participant['Coach'],
+                                            'Status'      => (string)$Participant['Status'],
                                             //Сортировка за выступление
                                             'Sort'        => 0,
                                             //Место за текущее выступление
@@ -153,7 +154,7 @@ function FuncWorksCalc($data_line, $connection) {
                                             //Итоговое место
                                             'TRank'       => 0,
                                             //Общее количество баллов
-                                            'TPoints'     => 0,
+                                            'TPoint'      => 0,
                                             'StartNumber' => (int)$Performance['Start_Number'],
                                             'GroupNumber' => (int)$Performance['Start_Group_Number'],
                                             'Bonus'       => 0,
@@ -196,29 +197,29 @@ function FuncWorksCalc($data_line, $connection) {
                 if(is_object($xml_line->Segment_Running->Segment_Result_List)) {
                     foreach ($xml_line->Segment_Running->Segment_Result_List->Performance as $Performance) {
                         //Сортировка
-                        $EventDB['Participants']["p-".$Performance['ID']]['Sort']      = $Performance['Index'];
+                        $EventDB['Participants']["p-".$Performance['ID']]['Sort']      = (int)$Performance['Index'];
                         //Место
-                        $EventDB['Participants']["p-".$Performance['ID']]['Rank']      = $Performance['Rank'];
+                        $EventDB['Participants']["p-".$Performance['ID']]['Rank']      = (int)$Performance['Rank'];
                         //Балы
-                        $EventDB['Participants']["p-".$Performance['ID']]['SeqPoints'] = $Performance['Points'];
+                        $EventDB['Participants']["p-".$Performance['ID']]['SeqPoints'] = (string)$Performance['Points'];
                         //Балы за элементы
-                        $EventDB['Participants']["p-".$Performance['ID']]['TES']       = $Performance['TES'];
+                        $EventDB['Participants']["p-".$Performance['ID']]['TES']       = (string)$Performance['TES'];
                         //Балы за компоненты
-                        $EventDB['Participants']["p-".$Performance['ID']]['TCS']       = $Performance['TCS'];
+                        $EventDB['Participants']["p-".$Performance['ID']]['TCS']       = (string)$Performance['TCS'];
                         //Балы Бонус
-                        $EventDB['Participants']["p-".$Performance['ID']]['Bonus']     = $Performance['Bonus'];
+                        $EventDB['Participants']["p-".$Performance['ID']]['Bonus']     = (string)$Performance['Bonus'];
                         //Балы Снижение
-                        $EventDB['Participants']["p-".$Performance['ID']]['DedSum']    = $Performance['Ded_Sum'];
+                        $EventDB['Participants']["p-".$Performance['ID']]['DedSum']    = (string)$Performance['Ded_Sum'];
                     }
                 }
                 if(is_object($xml_line->Segment_Running->Category_Result_List)) {
                     foreach ($xml_line->Segment_Running->Category_Result_List->Participant as $Participant) {
                         //Итоговая сортировка
-                        $EventDB['Participants']["p-".$Participant['ID']]['TSort']   = $Participant['TIndex'];
+                        $EventDB['Participants']["p-".$Participant['ID']]['TSort']  = (int)$Participant['TIndex'];
                         //Итоговое место
-                        $EventDB['Participants']["p-".$Participant['ID']]['TRank']   = $Participant['TRank'];
+                        $EventDB['Participants']["p-".$Participant['ID']]['TRank']  = (int)$Participant['TRank'];
                         //Итоговые баллы
-                        $EventDB['Participants']["p-".$Participant['ID']]['TPoint'] = $Participant['TPoint'];
+                        $EventDB['Participants']["p-".$Participant['ID']]['TPoint'] = (string)$Participant['TPoint'];
                     }
                 }
                 $ReturnJsonToWeb = [
@@ -243,13 +244,13 @@ function FuncWorksCalc($data_line, $connection) {
                 //Баллы за текущее выступление
                 $EventDB['Participants'][$ParticipantID]['SeqPoints'] = (int)$xml_line->Segment_Running->Prf_Details['Points'];
                 //Баллы за элементы
-                $EventDB['Participants'][$ParticipantID]['TES']       = (float)$xml_line->Segment_Running->Prf_Details['TES'];
+                $EventDB['Participants'][$ParticipantID]['TES']       = (string)$xml_line->Segment_Running->Prf_Details['TES'];
                 //Баллы за компоненты
-                $EventDB['Participants'][$ParticipantID]['TCS']       = (float)$xml_line->Segment_Running->Prf_Details['TCS'];
+                $EventDB['Participants'][$ParticipantID]['TCS']       = (string)$xml_line->Segment_Running->Prf_Details['TCS'];
                 //Баллы Бонус
-                $EventDB['Participants'][$ParticipantID]['Bonus']     = (float)$xml_line->Segment_Running->Prf_Details['Bonus'];
+                $EventDB['Participants'][$ParticipantID]['Bonus']     = (string)$xml_line->Segment_Running->Prf_Details['Bonus'];
                 //Баллы Снижение
-                $EventDB['Participants'][$ParticipantID]['DedSum']    = (float)$xml_line->Segment_Running->Prf_Details['Ded_Sum'];
+                $EventDB['Participants'][$ParticipantID]['DedSum']    = (string)$xml_line->Segment_Running->Prf_Details['Ded_Sum'];
                 //Элементы
                 if(is_object($xml_line->Segment_Running->Prf_Details->Element_List)) {
                     foreach ($xml_line->Segment_Running->Prf_Details->Element_List->Element as $Element) {
@@ -312,7 +313,7 @@ function FuncWorksCalc($data_line, $connection) {
                     foreach ($xml_line->Segment_Running->Segment_Result_List->Performance as $Performance) {
                         $ParticipantID = "p-" . $Performance['ID'];
                         //Сортировка
-                        $EventDB['Participants'][$ParticipantID]['Sort']      = $Performance['Index'];
+                        $EventDB['Participants'][$ParticipantID]['Sort']      = (int)$Performance['Index'];
                         //Если участник отсутствует
                         if ($Performance['Status'] != "OK") {
                             //Место
@@ -338,7 +339,7 @@ function FuncWorksCalc($data_line, $connection) {
                     foreach ($xml_line->Segment_Running->Category_Result_List->Participant as $Participant) {
                         $ParticipantID = "p-" . $Participant['ID'];
                         //Итоговая сортировка
-                        $EventDB['Participants'][$ParticipantID]['TSort']  = $Participant['TIndex'];
+                        $EventDB['Participants'][$ParticipantID]['TSort'] = (int)$Participant['TIndex'];
                         //Если участник отсутствует
                         if ($Participant['Status'] != "ACT") {
                             //Итоговое место
@@ -630,80 +631,67 @@ function FuncWorksCalc($data_line, $connection) {
                     $ReturnJsonToWeb = [
                         "timestamp"    => time(),
                         "dAction"      => "VictoryStart",
+                        "EventName"    => (string)$EventDB["Name"],
                         "pCategory"    => (string)$EventDB["Category"]["Name"],
-                        "pSegment"     => (string)$EventDB["Segment"]["Name"],
                     ];
                     echo "---------------------------------------------------------------------\n";
                     echo "Action: VictoryStart;\n";
                 }
                 // Первое место
-                elseif ($SubCommandAction == 1) {
+                elseif ($SubCommandAction == 1 || $SubCommandAction == 2 || $SubCommandAction == 3) {
                     $ReturnJsonToWeb = [
                         "timestamp" => time(),
-                        "dAction"   => "VictoryFirst",
+                        "dAction"   => "VictoryPlace",
+                        "sAction"   => "",
                         "pFullName" => "",
+                        "pClub"     => "",
                     ];
+                    if ($SubCommandAction == 1) {
+                        $ReturnJsonToWeb["sAction"] = "First";
+                    }
+                    elseif ($SubCommandAction == 2) {
+                        $ReturnJsonToWeb["sAction"] = "Second";
+                    }
+                    elseif ($SubCommandAction == 3) {
+                        $ReturnJsonToWeb["sAction"] = "Third";
+                    }
                     foreach ($EventDB['Participants'] as $ParticipantStr) {
-                        if ($ParticipantStr["TRank"] == 1) {
+                        if ($ParticipantStr["TRank"] == $SubCommandAction) {
                             $ReturnJsonToWeb["pFullName"] = $ParticipantStr["FullName"];
+                            $ReturnJsonToWeb["pClub"]     = $ParticipantStr["Club"];
                         }
                     }
                     echo "---------------------------------------------------------------------\n";
-                    echo "Action: VictoryFirst;\n";
+                    echo "Action: Victory" . $ReturnJsonToWeb["sAction"] . ";\n";
                     echo "FullName: " . $ReturnJsonToWeb["pFullName"] . ";\n";
-                }
-                // Второе место
-                elseif ($SubCommandAction == 2) {
-                    $ReturnJsonToWeb = [
-                        "timestamp" => time(),
-                        "dAction"   => "VictorySecond",
-                        "pFullName" => "",
-                    ];
-                    foreach ($EventDB['Participants'] as $ParticipantStr) {
-                        if ($ParticipantStr["TRank"] == 2) {
-                            $ReturnJsonToWeb["pFullName"] = $ParticipantStr["FullName"];
-                        }
-                    }
-                    echo "---------------------------------------------------------------------\n";
-                    echo "Action: VictorySecond;\n";
-                    echo "FullName: " . $ReturnJsonToWeb["pFullName"] . ";\n";
-                }
-                // Третье место
-                elseif ($SubCommandAction == 3) {
-                    $ReturnJsonToWeb = [
-                        "timestamp" => time(),
-                        "dAction"   => "VictoryThird",
-                        "pFullName" => "",
-                    ];
-                    foreach ($EventDB['Participants'] as $ParticipantStr) {
-                        if ($ParticipantStr["TRank"] == 3) {
-                            $ReturnJsonToWeb["pFullName"] = $ParticipantStr["FullName"];
-                        }
-                    }
-                    echo "---------------------------------------------------------------------\n";
-                    echo "Action: VictoryThird;\n";
-                    echo "FullName: " . $ReturnJsonToWeb["pFullName"] . ";\n";
+                    echo "Club: "     . $ReturnJsonToWeb["pClub"] . ";\n";
                 }
                 //Подиум (Все места)
                 elseif ($SubCommandAction == 0) {
                     $ReturnJsonToWeb = [
                         "timestamp"    => time(),
                         "dAction"      => "VictoryAll",
+                        "EventName"    => (string)$EventDB["Name"],
                         "pParticipant" => [],
                     ];
-                    foreach ($EventDB['Participants'] as $ParticipantStr) {
-                        if ($ParticipantStr["TRank"] == 1) {
-                            $ReturnJsonToWeb["pParticipant"][0] = [
-                                "pFullName" => $ParticipantStr["FullName"],
-                                "pNation"   => $ParticipantStr["Nation"],
-                                "pTRank"    => $ParticipantStr["TRank"],
-                            ];
-                        }
-                    }
                     echo "---------------------------------------------------------------------\n";
                     echo "Action: VictoryAll;\n";
+                    foreach ($EventDB['Participants'] as $ParticipantStr) {
+                        foreach (range(1, 3) as $line) {
+                            if ($ParticipantStr["TRank"] == $line) {
+                                $ReturnJsonToWeb["pParticipant"][$ParticipantStr["TRank"]] = [
+                                    "pFullName" => $ParticipantStr["FullName"],
+                                    "City"      => $ParticipantStr["City"],
+                                    "pTRank"    => (int)$ParticipantStr["TRank"],
+                                ];
+                                echo "FullName: " . $ParticipantStr["FullName"] . ";\n";
+                                echo "City: "     . $ParticipantStr["City"] . ";\n";
+                                echo "Place: "    . $ParticipantStr["TRank"] . ";\n";
+                            }
+                        }
+                    }
+                    ksort($ReturnJsonToWeb["pParticipant"]);
                 }
-                
             }
             //Segment
             //Сегменты

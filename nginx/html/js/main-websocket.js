@@ -368,7 +368,6 @@ function updateBoard() {
     // JudgeOne - Информация об официальном лице
     else if (JsonData.dAction == 'NAM' || JsonData.dAction == '2SC' || JsonData.dAction == 'JudgeOne') {
         if (boardPersonalOpen && !ConfigShowTimer) {
-            if (debuging != false) {console.log('Test 3'  . boardPersonalOpen);};
             cleanBoardPersonal();
         }
         //Информация об участнике
@@ -426,6 +425,69 @@ function updateBoard() {
             timerCloseBoardPersonal = setTimeout(function() {
                 cleanBoardPersonal();
             }, 40000);
+        }
+    }
+    // Приглашение на церемонию награждения
+    else if (JsonData.dAction == 'VictoryStart') {
+        if (boardSegmentOpen && !ConfigShowTimer) {
+            cleanBoardSegment();
+        }
+        if (debuging != false) {console.log('Action VictoryStart');};
+        $("#root_boardSegment").html( FS_VictoryStart );
+        $("#EventName"   ).html(JsonData.EventName);
+        $("#boardSegment").addClass("cl_boardIn");
+        boardSegmentOpen = true;
+        if (!ConfigShowTimer) {
+            timerCloseBoardSegment = setTimeout(function() {
+                cleanBoardSegment();
+            }, 40000);
+        }
+    }
+    // Церемония награждения, места
+    else if (JsonData.dAction == 'VictoryPlace') {
+        if (boardPersonalOpen && !ConfigShowTimer) {
+            cleanBoardPersonal();
+        }
+        if (debuging != false) {console.log('Action Victory' + JsonData.sAction);};
+        $("#root_boardPersonal").html( FS_VictoryPlace );
+        $("#EventName").html(JsonData.EventName);
+        $("#pFullName").html(JsonData.pFullName);
+        $("#pClub").html(JsonData.pClub);
+        if (JsonData.sAction == "First") {
+            $("#VictoryPlaсe").html( VictoryPlaceFirst );
+        }
+        else if (JsonData.sAction == "Second") {
+            $("#VictoryPlaсe").html( VictoryPlaceSecond );
+        }
+        else if (JsonData.sAction == "Third") {
+            $("#VictoryPlaсe").html( VictoryPlaceThird );
+        }
+        $("#boardPersonal").addClass("cl_boardIn");
+        boardPersonalOpen = true;
+        if (!ConfigShowTimer) {
+            timerCloseBoardPersonal = setTimeout(function() {
+                cleanBoardPersonal();
+            }, 40000);
+        }
+    }
+    // Церемония награждения, все места
+    else if (JsonData.dAction == 'VictoryAll') {
+        if (boardGroupOpen && !ConfigShowTimer) {
+            cleanBoardGroup();
+        }
+        if (debuging != false) {console.log('Action VictoryAll');};
+        $("#root_boardGroup").html( FS_VictoryAll );
+        $("#EventName").html(JsonData.EventName);
+        Object.keys(JsonData.pParticipant).forEach( function(itemKey){
+            item = JsonData.pParticipant[itemKey];
+            $('#participantListContainerOne').append( `<div class='participantList'><div>${item["pTRank"]}) ${item["pFullName"]} / ${item["City"]}</div></div>` );
+        });
+        $("#boardGroup").addClass("cl_boardIn");
+        boardGroupOpen = true;
+        if (!ConfigShowTimer) {
+            timerCloseBoardGroup = setTimeout(function() {
+                cleanBoardGroup();
+            }, 30000);
         }
     }
     //Показать название программы выступления

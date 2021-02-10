@@ -131,7 +131,7 @@ FS_EventName = `
 Информационная панель:
     Кнопка: Time+ или Time-; - Таймер внизу экрана
 */
-var FS_Timer = `
+FS_Timer = `
 <div class="cl_boardTimer">
     <div class="round-button">
         <div class="round-button-circle">
@@ -139,6 +139,49 @@ var FS_Timer = `
         </div>
     </div>
 </div>`;
+/* ################################################################################################
+Информационная панель:
+    Кнопка: V.Cerem -> Send Victory Ceremony; - Приглашение на церемонию награждения
+*/
+FS_VictoryStart = `
+<div id="boardSegment" class="cl_boardEvent">
+    <div class='TitleBG'>
+        <div id='TitleBlock'>
+            <div id='EventName'></div>
+            <hr style="width:60%;">
+            <div>Церемония награждения</div>
+        </div>
+    </div>
+</div>`;
+/* ################################################################################################
+Информационная панель:
+    Кнопка: V.Cerem -> Send Podium; - Показать все призовые места
+*/
+FS_VictoryAll = `
+<div id="boardGroup" class="cl_boardGroupResult">
+    <div class='TitleBG'>
+        <div id='TitleBlock'>
+            <div id='EventName'></div>
+        </div>
+    </div>
+    <div id="participantListContainer"><div id="participantListContainerOne" class="participantListContainerIn"></div></div>
+</div>`;
+/* ################################################################################################
+Информационная панель:
+    Кнопка: V.Cerem -> Send Gold, Silver, Bronze; - Показать призовое место: Золото, Серебро или Бронза
+*/
+FS_VictoryPlace = `
+<div id="boardPersonal" class="cl_board0">
+    <div class='TitleBG'>
+        <div id='TitleBlock'>
+            <div id='EventName'></div>
+        </div>
+    </div>
+    <div id="LineName" class="Line"><div class="LineType01" id="pFullName"></div></div>
+    <div id="LineOne" class="Line"><div class="LineType01" id="pClub"></div></div>
+    <div id="LineOne" class="Line"><div class="LineType01 center" id="VictoryPlaсe"></div></div>
+</div>`;
+
 
 // Количество линий участников
 LineCountWeb = 6;
