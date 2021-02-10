@@ -1,0 +1,23 @@
+
+Версия:0.1
+
+Файлы шаблонов:
+1)C:\SportInfo\nginx\html\js
+2)C:\SportInfo\nginx\html\css
+
+
+База информатора:
+C:\SportInfo\SportInfoFS\config\DB.json
+В формате JSON
+
+Файлы журналирования(лог файлы):
+C:\SportInfo\SportInfoFS\logs
+
+На каждый запуск будут создаваться два файла.
+
+RawInput-<ДАТА>-<Уникальный номер>.log - это файл с сырыми данными от CALC
+Error-<ДАТА>-<Уникальный номер>.log - это файл со всякой хренью(потом удалю)
+
+
+
+

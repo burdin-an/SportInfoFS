@@ -1,0 +1,23 @@
+
+Версия:0.1
+
+Проект "Информатор спортивных соревнований: фигурное катание на коньках"
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the MIT-LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+Автор: Бурдин А.Н. <support@it-sakh.net>
+Ссылка на проект:  http://www.it-sakh.info/SportInfo/
+Лицензия: http://www.opensource.org/licenses/mit-license.php MIT License
+
+
+Инструкция по запуску:
+1)Проверяем настройки, файл: c:\SportInfo\SportInfoFS\config.ini
+2)Запускаем веб сервер (Nginx) (от имени администратора!!!!!!!), файл: 1-ЗапускВебСервераNginx.cmd
+3)Запускаем информатор(от имени администратора!!!!!!!), файл: 2-ЗапускСервераИнформатора.cmd
+
+Инструкция по остановке:
+1)Закрываем черное окно
+2)Прибиваем процесс веб сервера Nginx или запускаем файл: 1-ОстановкаВебСервераNginx.cmd
+

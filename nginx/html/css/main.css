@@ -1,0 +1,72 @@
+/**
+ * Проект "Информатор спортивных соревнований: фигурное катание на коньках"
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the MIT-LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author    Бурдин А.Н. <support@it-sakh.net>
+ * @copyright Бурдин А.Н. <support@it-sakh.net>
+ * @link      http://www.it-sakh.info/SportInfo/
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @version	  0.0.1
+ */
+
+ /**
+ * Шаблоны для титров
+ */
+
+@font-face {
+    font-family: 'SansationRegular';
+    src: url('Sansation_Regular-webfont.eot');
+    src: url('Sansation_Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Sansation_Regular-webfont.woff') format('woff'),
+         url('Sansation_Regular-webfont.ttf') format('truetype'),
+         url('Sansation_Regular-webfont.svg#SansationRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SansationBold';
+    src: url('Sansation_Bold-webfont.eot');
+    src: url('Sansation_Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Sansation_Bold-webfont.woff') format('woff'),
+         url('Sansation_Bold-webfont.ttf') format('truetype'),
+         url('Sansation_Bold-webfont.svg#SansationBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,body,#id_board {
+    height: 100%;
+}
+html,body,#id_boardTimer {
+    margin:0px;
+    width: 100%;
+    overflow: hidden;
+    font-family:SansationRegular, Geneva, Arial, Helvetica, sans-serif;
+    background-color: transparent;
+    color: white;
+}
+#root_boardPersaonal,#root_boardGroup, #root_boardSegment, #root_boardKissAndCry {
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family:SansationRegular, Geneva, Arial, Helvetica, sans-serif;
+    background-color: transparent;
+    color: white;
+}
+.center {
+    text-align: center;
+}
+#copyright {
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+    color: #3CD3AD;
+    text-align: center;
+}

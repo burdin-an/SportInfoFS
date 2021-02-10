@@ -1,0 +1,247 @@
+/**
+ * Проект "Информатор спортивных соревнований: фигурное катание на коньках"
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the MIT-LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author    Бурдин А.Н. <support@it-sakh.net>
+ * @copyright Бурдин А.Н. <support@it-sakh.net>
+ * @link      http://www.it-sakh.info/SportInfo/
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @version	  0.0.1
+ */
+
+ /**
+ * Шаблоны для "Уголок слёз и поцелуев" (Kiss and Cry)
+ */
+
+body {
+    background: center / cover no-repeat #000 url("../images/background.jpg");
+}
+
+/* ################################################################################################
+Информационная панель:
+    Информация об участнике
+    Показать индивидуальные результаты проката
+*/
+
+.cl_board0 {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+}
+.cl_board0 #SegmentName, .cl_board20 #SubName, .cl_board0 #TitleBlock {
+    font-size: 2rem;
+}
+.cl_board0 #SegmentName, .cl_board20 #SubName {
+    display: inline-block;
+}
+.cl_board0 .TitleBG {
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: white;
+    width: 100%;
+    opacity: 0;
+}
+.cl_board0 #TitleBlock {
+    text-align: center;
+    width: 100%;
+    padding: 1rem 0;
+}
+.cl_board0 hr {
+    width: 50%;
+    margin: .5rem auto;
+}
+/*.cl_board0 .Line {
+    overflow: hidden;
+    z-index: 104;
+    width: 100%;
+    margin-top: .3rem;
+    opacity: 1;
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: white;
+}*/
+#LineName {
+    text-align: center;
+    font-size: 3rem;
+    line-height: 5rem;
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: #fff;
+    margin: 1% 0;
+}
+.cl_board0 #LineFirst>div {
+    display: grid;
+    grid-template-columns: 19% 19% 19% 19% 19%;
+    grid-gap: 0 1.5%;
+}
+#pTES,#pTCS,#pDedSum,#pSeqPoints,#pRank,#pBonus,#pTPoint,#pTRank {
+    font-size: 4rem;
+}
+#LineFirst .LineType03 {
+    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
+    color: black;
+    text-align: center;
+    font-size: 1.5rem;
+}
+#LineFirst .LineType03:nth-child(3) {
+    background-image: linear-gradient( 135deg, #f57070 10%, #c65528 100%);
+    color: black;
+}
+#LineFirst .LineType03:nth-child(5) {
+    background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
+    color: black;
+}
+
+#LineElementOne {
+    display: grid;
+    grid-template-columns: 81% 18%;
+    grid-gap: 1rem 1%;
+}
+
+
+.cl_board0 #LineSecond, .cl_board0 #LineThree {
+    margin-top: 1rem;
+}
+.cl_board0 #LineSecond>div {
+    display: grid;
+    grid-template-columns: 30% 11% 11% 11% 11%;
+    grid-gap: 0;
+}
+#LineSecond .LineTechDetail {
+    text-align: center;
+    font-size: 1.5rem;
+}
+#LineSecond>div .LineTechDetail:nth-child(1) {
+    text-align: right;
+}
+
+#LineSecond>div {
+    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%) ;
+    color: black ;
+}
+#LineSecond>div:nth-child(odd)  {
+    background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
+    color: black;
+}
+#LineSecond>div:nth-child(even)  {
+    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
+    color: black;
+}
+.cl_board0 #LineThree .LineType03  {
+    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
+    color: black;
+    text-align: center;
+    font-size: 1.5rem;
+}
+.cl_board0 #LineThree .LineType03:nth-child(1)  {
+    background-image: linear-gradient( 135deg, #f57070 10%, #c65528 100%);
+    margin-bottom: 1rem;
+}
+
+#LineFourth {
+    margin-top: .2rem;
+}
+#LineFourth>div {
+    display: grid;
+    grid-template-columns: 30% 11%;
+    grid-gap: 0;
+}
+#LineFourth .LineTechDetail {
+    text-align: center;
+    font-size: 1.5rem;
+}
+#LineFourth>div .LineTechDetail:nth-child(1) {
+    text-align: right;
+}
+
+#LineFourth>div {
+    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%) ;
+    color: black ;
+}
+#LineFourth>div:nth-child(odd)  {
+    background-image: linear-gradient( 135deg, #f75353 10%, #c62828 100%);
+    color: black;
+}
+#LineFourth>div:nth-child(even)  {
+    background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
+    color: black;
+}
+
+
+
+/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_board0.cl_boardIn .TitleBG {
+    animation: backInDown 1s linear 0s normal forwards;
+}
+.cl_board0.cl_boardIn #LineName{
+    animation: backInLeft 1s linear 0s normal backwards;
+}
+.cl_board0.cl_boardIn #LineFirst {
+    animation: backInRight 1s linear 0s normal backwards;
+}
+.cl_board0.cl_boardIn #LineSecond, .cl_board0.cl_boardIn #LineFourth{
+    animation: backInLeft 1s linear 0s normal backwards;
+}
+.cl_board0.cl_boardIn #LineThree {
+    animation: backInRight 1s linear 0s normal backwards;
+}
+/* Закрытие панели ------------------------------------------------------------- */
+.cl_board0.cl_boardOut .TitleBG {
+    animation: backOutUp 1s linear 0s normal forwards;
+}
+.cl_board0.cl_boardOut #LineName{
+    animation: backOutLeft 1s linear 0s normal backwards;
+}
+.cl_board0.cl_boardOut #LineFirst {
+    animation: backOutRight 1s linear 0s normal backwards;
+}
+.cl_board0.cl_boardOut #LineSecond, .cl_board0.cl_boardOut #LineFourth {
+    animation: backOutRight 1s linear 0s normal backwards;
+}
+
+
+/* Segment -------------------------------------------------------- */
+.cl_boardEvent {
+    position: relative;
+    top:40%;
+    background-color: rgba(255, 255, 255, 0);
+    margin: 0 auto 0;
+    font-size: 2.8rem;
+    width: fit-content;
+    width: 90%;
+}
+.cl_boardEvent #SegmentName {
+    font-size: 2.5rem;
+}
+.cl_boardEvent .TitleBG {
+    background-color: #09418a; /*#8a0974*/
+    color: white;
+    border-radius: 1rem;
+    transform: skew(25deg);
+    margin: .2rem auto .2rem;
+    padding: .5rem 0;
+    width: 95%;
+}
+.cl_boardEvent #TitleBlock {
+    margin-left: 2%;
+    margin-right: 2%;
+    text-align: center;
+    transform: skew(-25deg);
+    width: 95%;
+}
+.cl_boardEvent hr {
+    width: 60%;
+    margin: .5rem auto;
+}
+
+
+/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_boardEvent.cl_boardIn {
+    animation: bounceInDown 1s linear 0s normal backwards;
+}
+/* Закрытие панели ------------------------------------------------------------- */
+.cl_boardEvent.cl_boardOut {
+    animation: hinge 1s linear 0s normal forwards;
+    transform-origin: top left; 
+}
+

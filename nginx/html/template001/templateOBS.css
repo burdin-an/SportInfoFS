@@ -1,0 +1,392 @@
+/**
+ * Проект "Информатор спортивных соревнований: фигурное катание на коньках"
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the MIT-LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author    Бурдин А.Н. <support@it-sakh.net>
+ * @copyright Бурдин А.Н. <support@it-sakh.net>
+ * @link      http://www.it-sakh.info/SportInfo/
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @version	  0.0.1
+ */
+
+ /**
+ * Шаблоны для титров
+ */
+
+/* ################################################################################################
+Информационная панель:
+    Информация об участнике
+    Показать индивидуальные результаты проката
+*/
+
+.cl_board0 {
+    position: absolute;
+    bottom:3%;
+    width: 76%;
+    height: 80px;
+    left: 12%;
+}
+.cl_board0 #SegmentName, .cl_board20 #SubName {
+    display: inline-block;
+}
+
+#board00 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+#board1, #board2, #board3, #LineUP, #LineDown, #LineDownOne, #LineDownTwo, #LineDownThree {
+    position: absolute;
+    z-index:100;
+    overflow: hidden;
+}
+
+#board1 {
+    width: 101.5%;
+    border-radius: 0 0 100px;
+    height: 100px;
+    z-index:101;
+    margin-top: -59px;
+}
+#board2 {
+    width: 100%;
+    border-radius: 0 0 100px 10px;
+    height: 90%;
+}
+/* Задаем цвет верхней полосы */
+#board1,#LineUP {
+    background-color:#1E8EE3;
+}
+/* Задаем цвет нижней полосы */
+#board2, #LineDown, #LineDownOne, #LineDownTwo, #LineDownThree {
+    background-color: #e4941e;
+}
+#board3 {
+    width:60px;
+    height:60px;
+    margin: 5px 0 0 10px;
+    z-index:103;
+    background: url('../images/LogoFS.png') no-repeat;
+    background-size: cover;
+}
+
+#LineUP, #LineDown, #LineDownOne, #LineDownTwo, #LineDownThree {
+    left: 80px;
+    z-index: 104;
+    width: 80%;
+    opacity: 0;
+}
+
+#LineUP {
+    top: 0;
+    font-size: 25px;
+    height: 41px;
+    line-height: 41px;
+}
+#LineUP>span {
+    padding-right: 10px;
+}
+#LineDown, #LineDownOne, #LineDownTwo, #LineDownThree {
+    top: 41px;
+    font-size: 18px;
+    height: 31px;
+    line-height: 31px;
+    color: black;
+}
+#LineDown>span {
+    margin-left: 0px;
+}
+/* Национальность участника (RUS) */
+#pNation {
+    text-transform: none;
+}
+/* Картинка, флаг */
+#Flag {
+    width: 43px;
+    height: 28px;
+    vertical-align: sub;
+}
+/* ФИО участника */
+#pName {
+    /*   */
+}
+/* Занимаемое место участника (Место: 1) */
+#pRank {
+    float: right;
+}
+/* Общее количество баллов участника (Баллы: 100) */
+#pTPoint {
+    float: right;
+}
+/* Под какую музыку выступает участник (Кадриль) */
+#pMusic {
+    /*   */
+}
+/* ФИО тренера участника (Тренер: Иванов Иван Иванович) */
+#pCoach {
+    /*   */
+}
+/* Клуб или спортивная школа участника (Клуб: ОГАУ "СШ "Ромашка") */
+#pClub { 
+    /*   */
+}
+
+#board-circle1,#board-circle2,#board-circle3,#board-circle4,#board-circle5,#board-circle6 {
+    position: absolute;
+    background-color: #e4941e;
+    width: 50%;
+    height: 20px;
+    margin-top: -5px;
+    border-radius: 10px;
+}
+#board-circle1 {margin-left: 20px;}
+/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_board0.cl_boardIn {
+    animation: animation_boardIn 1s linear 0s normal backwards;
+}
+.cl_board0.cl_boardIn #board2 {
+    animation: animation_board2In 0.5s linear 1s  normal both;
+}
+.cl_board0.cl_boardIn #board3 {
+    animation: fadeIn 1s linear 2s both, flip 4s 2 1.5s both;
+}
+.cl_board0.cl_boardIn #LineUP, .cl_board0.cl_boardIn #LineDown {
+    animation: fadeIn 1s linear 2s normal both;
+}
+.cl_board0.cl_boardIn #LineDownOne {
+    animation: fadeIn 1s linear 2s normal forwards,
+    fadeOut 2s linear 6s normal forwards;
+}
+.cl_board0.cl_boardIn #LineDownTwo {
+    animation: fadeIn 2s linear 8.5s  alternate forwards,
+    fadeOut 2s linear 13s alternate forwards;
+}
+.cl_board0.cl_boardIn #LineDownThree {
+    animation: fadeIn 2s linear 15.5s  alternate forwards;
+}
+
+
+/* Закрытие панели ------------------------------------------------------------- */
+.cl_board0.cl_boardOut {
+    animation: animation_boardOut 2s linear 1.5s normal forwards;
+    transform-origin: right center;
+}
+.cl_board0.cl_boardOut #LineUP, .cl_board0.cl_boardOut #LineDown, .cl_board0.cl_boardOut #LineDownThree {
+    animation: fadeOut 1s linear 0s normal both;
+}
+.cl_board0.cl_boardOut #board3 {
+    animation: fadeOut 1s linear 0s forwards;
+}
+.cl_board0.cl_boardOut #board2 {
+    animation: animation_board2Out 1s linear 1s normal both;
+}
+
+
+/* ################################################################################################
+Информационная панель:
+    Стартовый лист - Полный
+    Стартовый лист - По группам
+    Промежуточные результаты соревнования
+    Информация об судьях
+*/
+
+.cl_board20,
+.cl_boardGroupResult {
+    position: relative;
+    top:5%;
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 1.4rem;
+    width: fit-content;
+    width: 90%;
+}
+.cl_boardGroupResult {
+    margin: 0 0 0 auto;
+    width: 30%;
+    right: 1%;
+}
+.cl_board20 {
+    margin: 0 auto 0;
+    width: 90%;
+}
+
+.cl_board20 #SegmentName,
+.cl_board20 #SubName,
+.cl_boardGroupResult #SegmentName,
+.cl_boardGroupResult #SubName {
+    display: inline-block;
+}
+.cl_board20 .TitleBG,
+.cl_boardGroupResult .TitleBG{
+    background-color: #09418ac4; /*#8a0974*/
+    color: white;
+    border-radius: 1rem;
+    transform: skew(25deg);
+    margin: .2rem auto .2rem;
+    padding: .5rem 0;
+    width: 95%;
+}
+.cl_board20 #TitleBlock,
+.cl_board20 #SubTitle,
+.cl_boardGroupResult #TitleBlock,
+.cl_boardGroupResult #SubTitle {
+    margin-left: 2%;
+    margin-right: 2%;
+    text-align: center;
+    transform: skew(-25deg);
+    width: 95%;
+}
+#participantListContainer {
+    position: relative;
+    min-height: 400px;
+}
+#participantListContainer>div {
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+}
+.cl_board20 .participantList,
+.cl_boardGroupResult .participantList {
+    margin: .2rem 1rem;
+    padding: 0.2rem 1rem;
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    background-color: #09418a8a;
+    transform: skew(30deg);
+    opacity: 0;
+}
+.cl_board20 .participantList>div,
+.cl_boardGroupResult .participantList>div {
+    transform: skew(-30deg);
+}
+.cl_board20 .participantList:nth-child(odd) {
+    background-color: #8a0974;
+}
+.cl_boardGroupResult .participantList:nth-child(odd) {
+    background-color: #095b8a9d;
+}
+.cl_board20 .participantList:nth-child(even) {
+    background-color: #09418a;
+}
+.cl_boardGroupResult .participantList:nth-child(even) {
+    background-color: #095b8a9d;
+}
+
+.cl_board20 .participantList>small,
+.cl_boardGroupResult .participantList>small {
+    font-size: 0.9rem;
+}
+.cl_board20 .participantCurrent,
+.cl_boardGroupResult .participantCurrent {
+    background-color: #e4941e !important;
+    color: black;
+    /*margin: 0.3rem -1rem !important;*/
+}
+.cl_board20 .participantPoint,
+.cl_boardGroupResult .participantPoint {
+    float: right;
+}
+.participantList .Nation {
+    margin-left: 2rem;
+}
+
+/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_board20.cl_boardIn,
+.cl_boardGroupResult.cl_boardIn{
+    animation: zoomInRight 2s linear 0s normal backwards;
+}
+.cl_boardGroupResult.cl_boardIn #participantListContainerOne.participantListContainerIn>.participantList {
+    animation: fadeIn 1s ease-out 2s normal forwards;
+}
+
+.cl_board20.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList {
+    animation: fadeIn 1s ease-out 2s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList {
+    animation: fadeIn 1s ease-out 2s normal forwards,
+    fadeOut 1s linear 8s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList {
+    animation: fadeIn 2s ease-out 10s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList {
+    animation: fadeIn 2s ease-out 10s normal forwards,
+    fadeOut 1s linear 18s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer3>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer3>.participantList{
+    animation: fadeIn 2s ease-out 20s normal forwards;
+}
+/* Закрытие панели ------------------------------------------------------------- */
+.cl_board20.cl_boardOut,
+.cl_boardGroupResult.cl_boardOut {
+    animation: zoomOutDown 2s linear 0s normal forwards;
+}
+
+
+/* Segment -------------------------------------------------------- */
+.cl_boardEvent {
+    position: relative;
+    top:40%;
+    background-color: rgba(255, 255, 255, 0);
+    margin: 0 auto 0;
+    font-size: 4rem;
+    width: fit-content;
+    width: 90%;
+}
+.cl_boardEvent #SegmentName {
+    font-size: 3.5rem;
+}
+.cl_boardEvent .TitleBG {
+    background-color: #09418a; /*#8a0974*/
+    color: white;
+    border-radius: 1rem;
+    transform: skew(25deg);
+    margin: .2rem auto .2rem;
+    padding: .5rem 0;
+    width: 95%;
+}
+.cl_boardEvent #TitleBlock {
+    margin-left: 2%;
+    margin-right: 2%;
+    text-align: center;
+    transform: skew(-25deg);
+    width: 95%;
+}
+ 
+/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_boardEvent.cl_boardIn {
+    animation: bounceInDown 2s linear 0s normal backwards;
+}
+/* Закрытие панели ------------------------------------------------------------- */
+.cl_boardEvent.cl_boardOut {
+    animation: hinge 2s linear 0s normal forwards;
+    transform-origin: top left; 
+}
+
+
+@keyframes animation_boardIn {
+    0% {width:15%;opacity: 0;}
+    100% {width:76%;opacity: 1;}
+}
+@keyframes animation_boardOut {
+    0% {width:76%;opacity: 1;}
+    100% {width:15%;opacity: 0;}
+}
+@keyframes animation_board2In {
+    0% {height: 0%;}
+    100% {height: 90%;}
+}
+@keyframes animation_board2Out {
+    0% {height: 90%;}
+    100% {height: 0%;}
+}

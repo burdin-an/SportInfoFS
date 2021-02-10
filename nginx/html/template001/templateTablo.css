@@ -1,0 +1,433 @@
+/**
+ * Проект "Информатор спортивных соревнований: фигурное катание на коньках"
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the MIT-LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author    Бурдин А.Н. <support@it-sakh.net>
+ * @copyright Бурдин А.Н. <support@it-sakh.net>
+ * @link      http://www.it-sakh.info/SportInfo/
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @version	  0.0.1
+ */
+
+ /**
+ * Шаблоны для кубика (экран на льду)
+ */
+
+ html,body,#id_board {
+    background-color: #000;
+}
+
+/* ################################################################################################
+Информационная панель:
+    Информация об участнике
+    Показать индивидуальные результаты проката
+*/
+
+.cl_board0 {
+    width: 100%;
+    height: 100%;
+    font-size: 2.2rem;
+}
+#board3 {
+    position: absolute;
+    z-index:100;
+    overflow: hidden;
+}
+#board3 {
+    width:60px;
+    height:60px;
+    margin: 5px 0 0 10px;
+    z-index:103;
+    background: url('../images/LogoFS.png') no-repeat;
+    background-size: cover;
+}
+.cl_board0 #SegmentName, .cl_board20 #SubName {
+    display: inline-block;
+}
+.cl_board0 .TitleBG {
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: white;
+    width: 100%;
+    opacity: 0;
+}
+.cl_board0 #TitleBlock {
+    text-align: center;
+    width: 100%;
+    padding: 1rem 0;
+}
+.cl_board0 hr {
+    width: 60%;
+    margin: .5rem auto;
+}
+.cl_board0 .Line {
+    overflow: hidden;
+    z-index: 104;
+    width: 100%;
+    height:5rem;
+    line-height: 5rem;
+    font-size: 2.5rem;
+    margin-top: .3rem;
+    opacity: 1;
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: white;
+}
+.Line .LineFirst, .Line .LineLast {
+    width: 16rem;
+    padding-left: .5rem;
+}
+.Line .LineFirst, .Line .LineType03 {
+    padding-left: .5rem;
+    float: left;
+}
+.Line .LineFirst {
+    background-image: linear-gradient(15deg, #13547a 0%, #63aba3 100%);
+    color: white;
+    border-right: .3rem blue solid;
+    font-size: 4.0rem;
+}
+.Line .LineType01 {
+    width: 99%;
+    padding-left: .5rem;
+}
+.Line .LineType02, .Line .LineType03 {
+    width: 78%;
+    float: left;
+}
+.Line .LineType02 {
+    padding-left: .5rem;
+}
+.Line .LineLast {
+    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
+    color: black;
+    float: right;
+    text-align: center;
+    font-size: 5.5rem;
+    border-left: .3rem blue solid;
+    width: 20rem;
+}
+#LineName {
+    font-size: 4rem;
+    text-align: center;
+}
+
+#pProff {
+    text-align: center;
+}
+/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_board0.cl_boardIn .TitleBG {
+    animation: backInDown 1s linear 0s normal forwards;
+}
+.cl_board0.cl_boardIn .Line:nth-child(odd) {
+    animation: backInRight 1s linear 0s normal backwards;
+}
+.cl_board0.cl_boardIn .Line:nth-child(even){
+    animation: backInLeft 1s linear 0s normal backwards;
+}
+/* Закрытие панели ------------------------------------------------------------- */
+.cl_board0.cl_boardOut .TitleBG {
+    animation: backOutUp 1s linear 0s normal forwards;
+}
+.cl_board0.cl_boardOut .Line:nth-child(odd) {
+    animation: backOutRight 1s linear 0s normal backwards;
+}
+.cl_board0.cl_boardOut .Line:nth-child(even){
+    animation: backOutLeft 1s linear 0s normal backwards;
+}
+
+
+/* ################################################################################################
+Информационная панель:
+    Стартовый лист - Полный
+    Стартовый лист - По группам
+    Промежуточные результаты соревнования
+    Информация об судьях
+*/
+
+.cl_board20,
+.cl_boardGroupResult {
+    position: relative;
+    top:0%;
+    font-size: 3.5rem;
+    width: 100%;
+}
+.cl_board20 #SegmentName,
+.cl_board20 #SubName,
+.cl_boardGroupResult #SegmentName,
+.cl_boardGroupResult #SubName {
+    display: inline-block;
+}
+.cl_board20 .TitleBG, 
+.cl_boardGroupResult .TitleBG {
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: white;
+    width: 100%;
+    opacity: 0;
+}
+.cl_board20 #TitleBlock, 
+.cl_boardGroupResult #TitleBlock {
+    text-align: center;
+    width: 100%;
+    padding: 1rem 0;
+}
+.cl_board20 hr, 
+.cl_boardGroupResult hr {
+    width: 60%;
+    margin: .5rem auto;
+}
+#participantListContainer {
+    position: relative;
+    min-height: 400px;
+}
+#participantListContainer>div {
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+}
+.cl_board20 .participantList, 
+.cl_boardGroupResult .participantList {
+    margin-top: .5rem;
+    padding-left: 0.3rem;
+    height:8rem;
+    line-height: 8rem;
+    font-size: 3.5rem;
+    letter-spacing: 2px;
+    opacity: 0;
+}
+.cl_board20 .participantList>div, 
+.cl_boardGroupResult .participantList>div{
+    padding-left: .3rem;
+}
+.cl_board20 .participantList:nth-child(odd), 
+.cl_boardGroupResult .participantList:nth-child(odd){
+    background-color: #8a0974;
+    color: white;
+}
+.cl_board20 .participantList:nth-child(even), 
+.cl_boardGroupResult .participantList:nth-child(even) {
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: white;
+}
+.cl_board20 .participantList>small, 
+.cl_boardGroupResult .participantList>small{
+    font-size: 0.9rem;
+}
+.cl_board20 .participantList .Nation, 
+.cl_boardGroupResult .participantList .Nation {
+    color: #e4bd8a;
+    font-style: italic;
+    float: right;
+    font-size: 2.9rem;
+    padding-right: 1rem;
+}
+.cl_board20 .participantCurrent, 
+.cl_boardGroupResult .participantCurrent {
+    background-image: linear-gradient(to right, #4CB8C4 0%, #3CD3AD  51%, #4CB8C4  100%) !important;
+    color: black !important;
+}
+.cl_board20 .participantCurrent .Nation, 
+.cl_boardGroupResult .participantCurrent .Nation{
+    color: #000;
+}
+.cl_board20 .participantPoint, 
+.cl_boardGroupResult .participantPoint {
+    float: right;
+    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
+    color: black;
+    width: 20rem;
+    text-align: center;
+}
+/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_board20.cl_boardIn .TitleBG,
+.cl_boardGroupResult.cl_boardIn .TitleBG {
+    animation: backInDown 1s linear 0s normal forwards;
+}
+.cl_board20.cl_boardIn,
+.cl_boardGroupResult.cl_boardIn{
+    animation: zoomInRight 2s linear 0s normal backwards;
+}
+.cl_boardGroupResult.cl_boardIn #participantListContainerOne.participantListContainerIn>.participantList {
+    animation: fadeIn 1s ease-out 2s normal forwards;
+}
+
+.cl_board20.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList {
+    animation: fadeIn 1s ease-out 2s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList {
+    animation: fadeIn 1s ease-out 2s normal forwards,
+    fadeOut 1s linear 8s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList {
+    animation: fadeIn 2s ease-out 10s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList {
+    animation: fadeIn 2s ease-out 10s normal forwards,
+    fadeOut 1s linear 18s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer3>.participantList,
+.cl_boardGroupResult.cl_boardIn #participantListContainer3>.participantList{
+    animation: fadeIn 2s ease-out 20s normal forwards;
+}
+/*
+.cl_board20.cl_boardIn .participantList:nth-child(odd),
+.cl_boardGroupResult.cl_boardIn .participantList:nth-child(odd) {
+    animation: backInRight 1s linear 0s normal forwards;
+}
+.cl_board20.cl_boardIn .participantList:nth-child(even),
+.cl_boardGroupResult.cl_boardIn .participantList:nth-child(even){
+    animation: backInLeft 1s linear 0s normal forwards;
+}*/
+/* Закрытие панели ------------------------------------------------------------- */
+.cl_board20.cl_boardOut .TitleBG,
+.cl_boardGroupResult.cl_boardOut .TitleBG{
+    animation: backOutUp 1s linear 0s normal forwards;
+}
+.cl_board20.cl_boardOut .participantList:nth-child(odd),
+.cl_boardGroupResult.cl_boardOut .participantList:nth-child(odd){
+    animation: backOutRight 1s linear 0s normal forwards;
+}
+.cl_board20.cl_boardOut .participantList:nth-child(even),
+.cl_boardGroupResult.cl_boardOut .participantList:nth-child(even){
+    animation: backOutLeft 1s linear 0s normal forwards;
+}
+
+
+
+
+/* Segment -------------------------------------------------------- */
+.cl_boardEvent {
+    position: relative;
+    top:40%;
+    background-color: rgba(255, 255, 255, 0);
+    margin: 0 auto 0;
+    font-size: 4rem;
+    width: fit-content;
+    width: 90%;
+}
+.cl_boardEvent #SegmentName {
+    font-size: 3.5rem;
+}
+.cl_boardEvent .TitleBG {
+    background-color: #09418a; /*#8a0974*/
+    color: white;
+    border-radius: 1rem;
+    transform: skew(25deg);
+    margin: .2rem auto .2rem;
+    padding: .5rem 0;
+    width: 95%;
+}
+.cl_boardEvent #TitleBlock {
+    margin-left: 2%;
+    margin-right: 2%;
+    text-align: center;
+    transform: skew(-25deg);
+    width: 95%;
+}
+
+
+
+@keyframes animation_boardIn {
+    0% {width:15%;opacity: 0;}
+    100% {width:70%;opacity: 1;}
+}
+@keyframes animation_boardOut {
+    0% {width:70%;opacity: 1;}
+    100% {width:15%;opacity: 0;}
+}
+@keyframes animation_board2In {
+    0% {height: 0%;}
+    100% {height: 90%;}
+}
+@keyframes animation_board2Out {
+    0% {height: 90%;}
+    100% {height: 0%;}
+}
+
+
+/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/*.cl_board20.cl_boardIn {
+    animation: fadeIn 1s linear 0s normal backwards;
+}
+
+.cl_board20.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList {
+    animation: fadeIn .5s ease-out .5s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList {
+    animation: fadeIn .5s ease-out .8s normal forwards,
+    fadeOut 1s linear 8s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList {
+    animation: fadeIn .5s ease-out 10s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList {
+    animation: fadeIn .5s ease-out 10s normal forwards,
+    fadeOut 1s linear 18s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer3>.participantList {
+    animation: fadeIn .5s ease-out 20s normal forwards;
+}*/
+/* Закрытие панели ------------------------------------------------------------- */
+/*.cl_board20.cl_boardOut {
+    animation: fadeOut 1s linear 0s normal forwards;
+}*/
+
+/* Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_boardEvent.cl_boardIn {
+    animation: bounceInDown 1s linear 0s normal backwards;
+}
+/* Закрытие панели ------------------------------------------------------------- */
+.cl_boardEvent.cl_boardOut {
+    animation: hinge 1s linear 0s normal forwards;
+    transform-origin: top left; 
+}
+
+
+/* Открытие панели со временем ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_boardTimer,.round-button-circle {
+    background: #4679BD; 
+}
+.cl_boardTimer {
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    height: 6.4rem;
+    text-align: center;
+    font-size: 3rem;
+    border-top: 4px solid #cfdcec;
+}
+.round-button {
+    width: 10rem;
+    margin: -5.5rem auto;
+  }
+  .round-button-circle {
+    width: 100%;
+    height:0;
+    padding-bottom: 100%;
+    border-radius: 50%;
+    border:4px solid #cfdcec;
+    overflow:hidden;
+    box-shadow: 0 0 3px gray;
+  }
+  .round-button .round-button-time {
+    display:block;
+    float:left;
+    width:100%;
+    padding-top:50%;
+    padding-bottom:50%;
+    line-height:1em;
+    margin-top:-0.5em;
+          
+    text-align:center;
+    color:#e2eaf3;
+    font-family:Verdana;
+    font-size:1.2em;
+    font-weight:bold;
+    text-decoration:none;
+  }
