@@ -17,6 +17,126 @@
  */
 
 /* ################################################################################################
+Шапка (заголовок) всех плашек
+*/
+.cl_board20 .TitleBG, 
+.cl_boardGroupResult .TitleBG {
+    background-image: linear-gradient(to right, rgba(36, 57, 73, 0.9) 0%, rgba(81, 127, 164, 0.9) 100%);
+    color: white;
+}
+.cl_board20 #TitleBlock, 
+.cl_boardGroupResult #TitleBlock {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 1.7vw;
+}
+.cl_board20 #SegmentName,
+.cl_board20 #SubName,
+.cl_board0 #SegmentName,
+.cl_boardGroupResult #SegmentName,
+.cl_boardGroupResult #SubName {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 1.5vw;
+}
+
+
+/* ################################################################################################
+Информационная панель:
+    Кнопка:Start List; - Стартовый лист (Полный)
+    Кнопка:WarmG; - Стартовый лист (По группам разминки)
+    Кнопка:3nd Score; - Промежуточные результаты соревнования
+    Кнопка:Judge -> Send All Judges; - Информация обо всех судьях
+*/
+
+/* Цвета полос */
+.cl_board20 .LineLast,
+.cl_boardGroupResult .LineLast {
+    background-image: linear-gradient(to right, #85008A 0%, #59005c 50%, #85008A 100%);
+    color: white;
+}
+.cl_board20 .container-fluid .row:nth-child(odd), 
+.cl_boardGroupResult .container-fluid .row:nth-child(odd){
+    background-image: linear-gradient(to right, rgba(36, 57, 73, 0.9) 0%, rgba(81, 127, 164, 0.9) 50%, rgba(36, 57, 73, 0.9) 100%);
+    color: white;
+}
+.cl_board20 .container-fluid .row:nth-child(even), 
+.cl_boardGroupResult .container-fluid .row:nth-child(even) {
+    background-image: linear-gradient(to right, rgba(81, 127, 164, 0.9) 0%, rgba(36, 57, 73, 0.9) 50%, rgba(81, 127, 164, 0.9) 100%);
+    color: white;
+}
+.cl_board20 .participantCurrent, 
+.cl_boardGroupResult .participantCurrent {
+    background-image: linear-gradient(to right, #4CB8C4 0%, #3CD3AD  51%, #4CB8C4  100%) !important;
+    color: white !important;
+}
+
+/* Размер шрифта */
+.cl_board20 .LineText,
+.cl_boardGroupResult .LineText,
+.cl_board20 .LineTextEmpty,
+.cl_boardGroupResult .LineTextEmpty {
+    font-size: 1.4vw;
+}
+.cl_board20 .LineLast,
+.cl_boardGroupResult .LineLast {
+    font-size: 1.5vw;
+}
+.cl_board20 .LineText .Nation, 
+.cl_boardGroupResult .LineText .Nation {
+    font-style: italic;
+    float: right;
+    font-size: 1.2vw;
+}
+
+/* ################################################################################################
+Информационная панель:
+    Кнопка:Segment; - Название соревнования, группа и сегмент
+*/
+.cl_boardEvent .TitleBG {
+    background-color: rgba(9, 65, 138, 0.7); /*#8a0974*/
+    color: white;
+}
+.cl_boardEvent {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 2.7vw;
+}
+.cl_boardEvent #SegmentName {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 2.4vw;
+}
+
+
+/* ################################################################################################
+Шапка всех плашек
+*/
+
+.cl_board20 .TitleBG, 
+.cl_boardGroupResult .TitleBG {
+    border-radius: 1rem;
+    transform: skew(25deg);
+    margin: .2rem auto .2rem;
+    padding: .5rem 0;
+    width: 95%;
+}
+.cl_board20 #TitleBlock,
+.cl_board20 #SubTitle,
+.cl_boardGroupResult #TitleBlock,
+.cl_boardGroupResult #SubTitle {
+    text-align: center;
+    width: 95%;
+    padding: 1vh 0 1vh;
+    margin-left: 2%;
+    margin-right: 2%;
+    transform: skew(-25deg);
+}
+
+.cl_board20 #SegmentName,
+.cl_board20 #SubName,
+.cl_boardGroupResult #SegmentName,
+.cl_boardGroupResult #SubName {
+    display: inline-block;
+}
+
+/* ################################################################################################
 Информационная панель:
     Кнопка:Name; - Информация об участнике
     Кнопка:2nd Score;  - Показать индивидуальные результаты выступления
@@ -179,105 +299,80 @@
     Кнопка:Judge -> Send All Judges; - Информация обо всех судьях
 */
 
+
+/* Остальные настройки */
 .cl_board20,
 .cl_boardGroupResult {
-    position: relative;
     top:5%;
-    background-color: rgba(255, 255, 255, 0);
-    font-size: 1.4rem;
-    width: fit-content;
-    width: 90%;
 }
 .cl_boardGroupResult {
-    margin: 0 0 0 auto;
+    position: absolute;
     width: 30%;
     right: 1%;
 }
 .cl_board20 {
+    position: relative;
     margin: 0 auto 0;
     width: 90%;
 }
+.cl_board20 #participantListContainer {
+    margin-left: 4vw;
+}
+.cl_boardGroupResult #participantListContainer {
+    margin-left: 2vw;
+}
 
-.cl_board20 #SegmentName,
-.cl_board20 #SubName,
-.cl_boardGroupResult #SegmentName,
-.cl_boardGroupResult #SubName {
-    display: inline-block;
-}
-.cl_board20 .TitleBG,
-.cl_boardGroupResult .TitleBG{
-    background-color: #09418ac4; /*#8a0974*/
-    color: white;
-    border-radius: 1rem;
-    transform: skew(25deg);
-    margin: .2rem auto .2rem;
-    padding: .5rem 0;
-    width: 95%;
-}
-.cl_board20 #TitleBlock,
-.cl_board20 #SubTitle,
-.cl_boardGroupResult #TitleBlock,
-.cl_boardGroupResult #SubTitle {
-    margin-left: 2%;
-    margin-right: 2%;
-    text-align: center;
-    transform: skew(-25deg);
-    width: 95%;
-}
-#participantListContainer {
+.cl_board20 #participantListContainer,
+.cl_boardGroupResult #participantListContainer {
     position: relative;
     min-height: 400px;
 }
-#participantListContainer>div {
+.cl_board20 #participantListContainer>div, 
+.cl_boardGroupResult #participantListContainer>div {
     position: absolute;
     top: 0%;
     width: 100%;
     height: 100%;
 }
-.cl_board20 .participantList,
-.cl_boardGroupResult .participantList {
-    margin: .2rem 1rem;
-    padding: 0.2rem 1rem;
-    border-radius: 1rem;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    background-color: #09418a8a;
-    transform: skew(30deg);
+.cl_board20 .LineRow,
+.cl_boardGroupResult .LineRow {
+    margin-top: 0.5vh;
+    text-align: center;
+}
+.cl_board20 .LineTitle,
+.cl_boardGroupResult .LineTitle,
+.cl_board20 .LineText,
+.cl_boardGroupResult .LineText,
+.cl_board20 .LineTextEmpty,
+.cl_boardGroupResult .LineTextEmpty,
+.cl_board20 .LineLast,
+.cl_boardGroupResult .LineLast {
+    padding: .5rem .5rem .5rem .5rem;
+}
+.cl_board20 .LineLast,
+.cl_boardGroupResult .LineLast {
+    font-weight: bold;
+    border-left: .3rem blue solid;
+}
+.cl_board20 .LineText,
+.cl_boardGroupResult .LineText {
+    text-align: left;
+}
+.cl_board20 .LineTextEmpty,
+.cl_boardGroupResult .LineTextEmpty {
+    text-align: center;
+}
+.cl_board20 .participantListContainerItem,
+.cl_boardGroupResult .participantListContainerItem {
     opacity: 0;
 }
-.cl_board20 .participantList>div,
-.cl_boardGroupResult .participantList>div {
-    transform: skew(-30deg);
+.cl_board20 .participantListContainerItem>div:nth-child(1),
+.cl_boardGroupResult .participantListContainerItem>div:nth-child(1) {
+    opacity: 1;
 }
-.cl_board20 .participantList:nth-child(odd) {
-    background-color: #8a0974;
-}
-.cl_boardGroupResult .participantList:nth-child(odd) {
-    background-color: #095b8a9d;
-}
-.cl_board20 .participantList:nth-child(even) {
-    background-color: #09418a;
-}
-.cl_boardGroupResult .participantList:nth-child(even) {
-    background-color: #095b8a9d;
-}
-
-.cl_board20 .participantList>small,
-.cl_boardGroupResult .participantList>small {
-    font-size: 0.9rem;
-}
-.cl_board20 .participantCurrent,
-.cl_boardGroupResult .participantCurrent {
-    background-color: #e4941e !important;
-    color: black;
-    /*margin: 0.3rem -1rem !important;*/
-}
-.cl_board20 .participantPoint,
-.cl_boardGroupResult .participantPoint {
-    float: right;
-}
-.participantList .Nation {
-    margin-left: 2rem;
+.cl_board20 .participantListContainerItem.active,
+.cl_boardGroupResult .participantListContainerItem.active {
+    opacity: 1;
 }
 
 /* Анимация: Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -324,18 +419,11 @@
 .cl_boardEvent {
     position: relative;
     top:40%;
-    background-color: rgba(255, 255, 255, 0);
     margin: 0 auto 0;
-    font-size: 4rem;
     width: fit-content;
     width: 90%;
 }
-.cl_boardEvent #SegmentName {
-    font-size: 3.5rem;
-}
 .cl_boardEvent .TitleBG {
-    background-color: #09418a; /*#8a0974*/
-    color: white;
     border-radius: 1rem;
     transform: skew(25deg);
     margin: .2rem auto .2rem;
@@ -348,6 +436,12 @@
     text-align: center;
     transform: skew(-25deg);
     width: 95%;
+}
+.cl_boardEvent hr,
+.cl_board20 hr, 
+.cl_boardGroupResult hr {
+    width: 60%;
+    margin: 1vh auto;
 }
  
 /* Анимация: Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */

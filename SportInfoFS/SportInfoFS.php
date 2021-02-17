@@ -25,6 +25,411 @@ if (!is_array($ini)) {
 
 $EventDB = [];
 $timeOldCheckAction = -1;
+//
+function ActionName($ParticipantID) {
+    global $EventDB;
+    $ReturnJsonToWeb = [
+        "timestamp" => time(),
+        "dAction" => "NAM",
+        "EventName"  => (string)$EventDB["Name"],
+        "pCategory"  => (string)$EventDB["Category"]["Name"],
+        "pSegment"   => (string)$EventDB["Segment"]["Name"],
+        "pName"   => "".$EventDB['Participants'][$ParticipantID]['FullName'],
+        "pNation" => "".$EventDB['Participants'][$ParticipantID]['Nation'],
+        "pClub"   => "".$EventDB['Participants'][$ParticipantID]['Club'],
+        "pCity"   => "".$EventDB['Participants'][$ParticipantID]['City'],
+        "pMusic"  => "".$EventDB['Participants'][$ParticipantID]['Music'],
+        "pCoach"  => "".$EventDB['Participants'][$ParticipantID]['Coach'],
+    ];
+    echo "---------------------------------------------------------------------\n";
+    echo "Action: Name;\n";
+    echo "Full: " .    $ReturnJsonToWeb['pName'] . ";\n";
+    echo "Club: " .    $ReturnJsonToWeb['pClub'] . ";\n";
+    echo "City: " .    $ReturnJsonToWeb['pCity'] . ";\n";
+    echo "Nation: " .  $ReturnJsonToWeb['pNation'] . ";\n";
+    echo "Music: " .   $ReturnJsonToWeb['pMusic'] . ";\n";
+    echo "Coach: " .   $ReturnJsonToWeb['pCoach'] . ";\n";
+    return $ReturnJsonToWeb;
+};
+//Start List (STL) Стартовый лист
+//Warm Group (WUP) Список группы разминки
+//3nd Score (3SC) Список промежуточных результатов соревнования
+function ActionGroup($CommandAction,$ParticipantID) {
+    global $EventDB;
+    $ReturnJsonToWeb = [
+        "timestamp"    => time(),
+        "EventName"  => (string)$EventDB["Name"],
+        "pCategory"  => (string)$EventDB["Category"]["Name"],
+        "pSegment"   => (string)$EventDB["Segment"]["Name"],
+        "pParticipant" => [],
+    ];
+
+    echo "---------------------------------------------------------------------\n";
+    if ($CommandAction == 'STL') {
+        $ReturnJsonToWeb["dAction"] = 'STL';
+        echo "Action: STL;\n";
+    }
+    elseif ($CommandAction == 'WUP') {
+        $ReturnJsonToWeb["dAction"] = 'WUP';
+        $ReturnJsonToWeb["pCurrentGroup"] = (int)$EventDB['Participants']["p-" . $ParticipantID]['GroupNumber'];
+        echo "Action: WUP;\n";
+        echo "CurrentGroupNumber: "  . $ReturnJsonToWeb["pGroup"] . ";\n";
+    }
+    elseif ($CommandAction == '3SC') {
+        $ReturnJsonToWeb["dAction"] = '3SC';
+        echo "Action: 3SC;\n";
+    }
+
+    echo "EventName: " . $ReturnJsonToWeb['EventName'] . ";\n";
+    echo "CategoryName: " . $ReturnJsonToWeb['pCategory'] . ";\n";
+    echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
+
+    foreach ($EventDB['Participants'] as $ParticipantStr) {
+        if ($CommandAction == 'STL' || $CommandAction == 'WUP') {
+            $idLine = (int)$ParticipantStr['StartNumber'];
+        }
+        elseif ($CommandAction == '3SC') {
+            $idLine = (int)$ParticipantStr['TSort'];
+        }
+        //Для WUP (Группа разминки)
+        //Пропускаем участника не из своей группы разминки
+        if ($CommandAction == 'WUP' && $ReturnJsonToWeb["pCurrentGroup"] != $ParticipantStr['GroupNumber']) {
+            //echo "StartNumber: "  . $ParticipantStr['StartNumber'] . ";\n";
+            //echo "GroupNumber: "  . $ParticipantStr['GroupNumber'] . ";\n";
+            continue;
+        }
+
+        $ReturnJsonToWeb["pParticipant"][$idLine] = [
+            "ID"           => $ParticipantStr["ID"],
+            "pStartNumber" => (int)$ParticipantStr["StartNumber"],
+            "pGroupNumber" => (int)$ParticipantStr["GroupNumber"],
+            "pFullName"    => (string)$ParticipantStr["FullName"],
+            "pNation"      => (string)$ParticipantStr["Nation"],
+            "pClub"        => (string)$ParticipantStr["Club"],
+            "pCity"        => (string)$ParticipantStr["City"],
+            "pTRank"       => (int)$ParticipantStr["TRank"],
+            "pTPoint"      => (string)$ParticipantStr["TPoint"],
+            "pTSort"       => (int)$ParticipantStr["TSort"],
+            "pStatus"      => (string)$ParticipantStr["Status"],
+            "pCurrent"     => 2
+        ];
+        if ($ParticipantStr['ID'] === (int)$ParticipantID) {
+            $ReturnJsonToWeb["pParticipant"][$idLine]["pCurrent"]  = 1;
+        }
+
+        echo "-----------------\n";
+        echo "StartLine: "    . $idLine . ";\n";
+        echo "ID: "           . $ReturnJsonToWeb["pParticipant"][$idLine]['ID'] . ";\n";
+        echo "StartNumber: "  . $ReturnJsonToWeb["pParticipant"][$idLine]['pStartNumber'] . ";\n";
+        echo "GroupNumber: "  . $ReturnJsonToWeb["pParticipant"][$idLine]['pGroupNumber'] . ";\n";
+        echo "FullName: "     . $ReturnJsonToWeb["pParticipant"][$idLine]['pFullName'] . ";\n";
+        echo "Nation: "       . $ReturnJsonToWeb["pParticipant"][$idLine]['pNation'] . ";\n";
+        echo "Club: "         . $ReturnJsonToWeb["pParticipant"][$idLine]['pClub'] . ";\n";
+        echo "City: "         . $ReturnJsonToWeb["pParticipant"][$idLine]['pCity'] . ";\n";
+        echo "TRank: "        . $ReturnJsonToWeb["pParticipant"][$idLine]['pTRank'] . ";\n";
+        echo "TPoint: "       . $ReturnJsonToWeb["pParticipant"][$idLine]['pTPoint'] . ";\n";
+        echo "TSort: "        . $ReturnJsonToWeb["pParticipant"][$idLine]['pTSort'] . ";\n";
+        echo "Status: "       . $ReturnJsonToWeb["pParticipant"][$idLine]['pStatus'] . ";\n";
+        if ($CommandAction == '3SC') {
+            echo "Current: "  . $ReturnJsonToWeb["pParticipant"][$idLine]["pCurrent"] . ";\n";
+        }
+    }
+    ksort($ReturnJsonToWeb["pParticipant"],0);
+    return $ReturnJsonToWeb;
+}
+//Показать индивидуальные результаты проката 2SC и 1SC
+function ActionPersonalResult($dAction,$ParticipantID) {
+    global $EventDB;
+    echo "ParticipantID: "   .  $ParticipantID . ";\n";
+    $ReturnJsonToWeb = [
+        "timestamp"  => time(),
+        "dAction"    => (string)$dAction,
+        "EventName"  => (string)$EventDB["Name"],
+        "pCategory"  => (string)$EventDB["Category"]["Name"],
+        "pSegment"   => (string)$EventDB["Segment"]["Name"],
+        "pName"      => (string)$EventDB['Participants'][$ParticipantID]['FullName'],
+        "pClub"      => (string)$EventDB['Participants'][$ParticipantID]['Club'],
+        "pCity"      => (string)$EventDB['Participants'][$ParticipantID]['City'],
+        "pNation"    => (string)$EventDB['Participants'][$ParticipantID]['Nation'],
+        "pMusic"     => (string)$EventDB['Participants'][$ParticipantID]['Music'],
+        "pCoach"     => (string)$EventDB['Participants'][$ParticipantID]['Coach'],
+    ];
+    echo "---------------------------------------------------------------------\n";
+    echo "Action: "   .  $dAction . ";\n";
+    echo "Участник: " .  $ReturnJsonToWeb['pName'] . ";\n";
+    echo "СШ: " .        $ReturnJsonToWeb['pClub'] . ";\n";
+    echo "Город: " .     $ReturnJsonToWeb['pCity'] . ";\n";
+    echo "Страна: " .    $ReturnJsonToWeb['pNation'] . ";\n";
+    echo "Music: " .     $ReturnJsonToWeb['pMusic'] . ";\n";
+    echo "Coach: " .     $ReturnJsonToWeb['pCoach'] . ";\n";
+    if ($dAction == "1SC") {
+        $ReturnJsonToWeb["Element"]   = $EventDB['Participants'][$ParticipantID]['Element'];
+        $ReturnJsonToWeb["Deduction"] = $EventDB['Participants'][$ParticipantID]['Deduction'];
+    }
+    if ($dAction == "1SC" || $dAction == "2SC") {
+        $ReturnJsonToWeb["pTES"]       = (string)$EventDB['Participants'][$ParticipantID]['TES'];
+        $ReturnJsonToWeb["pTCS"]       = (string)$EventDB['Participants'][$ParticipantID]['TCS'];
+        $ReturnJsonToWeb["pBonus"]     = (string)$EventDB['Participants'][$ParticipantID]['Bonus'];
+        $ReturnJsonToWeb["pDedSum"]    = (string)$EventDB['Participants'][$ParticipantID]['DedSum'];
+        $ReturnJsonToWeb["pSeqPoints"] = (string)$EventDB['Participants'][$ParticipantID]['SeqPoints'];
+        $ReturnJsonToWeb["pTPoint"]    = (string)$EventDB['Participants'][$ParticipantID]['TPoint'];
+        $ReturnJsonToWeb["pRank"]      = (string)$EventDB['Participants'][$ParticipantID]['Rank'];
+        echo "TES: " .       $ReturnJsonToWeb['pTES'] . ";\n";
+        echo "TCS: " .       $ReturnJsonToWeb['pTCS'] . ";\n";
+        echo "Bonus: " .     $ReturnJsonToWeb['pBonus'] . ";\n";
+        echo "DedSum: " .    $ReturnJsonToWeb['pDedSum'] . ";\n";
+        echo "SeqPoints: " . $ReturnJsonToWeb['pSeqPoints'] . ";\n";
+        echo "TPoint: " .    $ReturnJsonToWeb['pTPoint'] . ";\n";
+        echo "Rank: " .      $ReturnJsonToWeb['pRank'] . ";\n";
+    }
+    unset($ParticipantID);    
+    return $ReturnJsonToWeb;
+};
+//
+function ActionJudge($JudgeID) {
+    global $EventDB;
+    if ($JudgeID == -1) {
+        $ReturnJsonToWeb = [
+            "timestamp"    => time(),
+            "dAction"      => 'JudgeAll',
+            "EventName"    => (string)$EventDB["Name"],
+            "pCategory"    => (string)$EventDB["Category"]["Name"],
+            "pSegment"     => (string)$EventDB["Segment"]["Name"],
+            "pParticipant" => [],
+        ];
+
+        echo "---------------------------------------------------------------------\n";
+        echo "Action: JudgeALL;\n";
+        echo "EventName: " . $ReturnJsonToWeb['EventName'] . ";\n";
+        echo "CategoryName: " . $ReturnJsonToWeb['pCategory'] . ";\n";
+        echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
+        $ReturnJsonToWeb["pParticipant"] = $EventDB['Judge'];
+    }
+    elseif ($JudgeID > 0) {
+        $ReturnJsonToWeb = [
+            "timestamp"    => time(),
+            "dAction"      => 'JudgeOne',
+            "EventName"    => (string)$EventDB["Name"],
+            "pCategory"    => (string)$EventDB["Category"]["Name"],
+            "pSegment"     => (string)$EventDB["Segment"]["Name"],
+        ];
+        echo "---------------------------------------------------------------------\n";
+        echo "Action: JudgeOne;\n";
+        echo "EventName: " . $ReturnJsonToWeb['EventName'] . ";\n";
+        echo "CategoryName: " . $ReturnJsonToWeb['pCategory'] . ";\n";
+        echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
+        foreach ($EventDB['Judge'] as $JudgeStr) {
+            if ($JudgeStr["pID"] == $JudgeID) {
+                $ReturnJsonToWeb["pIndex"][(int)$JudgeStr["pIndex"]] = (string)$JudgeStr["dFunction"];
+                $ReturnJsonToWeb["pName"]   = (string)$JudgeStr["pFullName"];
+                $ReturnJsonToWeb["pNation"] = (string)$JudgeStr["pNation"];
+                $ReturnJsonToWeb["pClub"]   = (string)$JudgeStr["pClub"];
+                echo "-----------------\n";
+                echo "Index: "    . $JudgeStr['pIndex'] . ";\n";
+                echo "FullName: " . $JudgeStr['pFullName'] . ";\n";
+                echo "Nation: "   . $JudgeStr['pNation'] . ";\n";
+                echo "Club: "     . $JudgeStr['pClub'] . ";\n";
+                echo "Function: " . $JudgeStr['dFunction'] . ";\n";
+            }
+        }
+    }
+    else {
+        $ReturnJsonToWeb = [
+            "timestamp"    => time(),
+            "dAction"      => 'JudgeEmpty',
+            "EventName"    => (string)$EventDB["Name"],
+            "pCategory"    => (string)$EventDB["Category"]["Name"],
+            "pSegment"     => (string)$EventDB["Segment"]["Name"],
+        ];
+        echo "---------------------------------------------------------------------\n";
+        echo "Action: JudgeEmpty;\n";
+    }
+    $JudgeID = 0;
+    return $ReturnJsonToWeb;
+};
+//
+function ActionVictory($SubCommandAction) {
+    global $EventDB;
+    //Приглашение на награждение участников
+    if ($SubCommandAction == 5) {
+        $ReturnJsonToWeb = [
+            "timestamp"    => time(),
+            "dAction"      => "VictoryStart",
+            "EventName"    => (string)$EventDB["Name"],
+            "pCategory"    => (string)$EventDB["Category"]["Name"],
+        ];
+        echo "---------------------------------------------------------------------\n";
+        echo "Action: VictoryStart;\n";
+    }
+    // Первое место
+    elseif ($SubCommandAction == 1 || $SubCommandAction == 2 || $SubCommandAction == 3) {
+        $ReturnJsonToWeb = [
+            "timestamp" => time(),
+            "dAction"   => "VictoryPlace",
+            "EventName" => $EventDB["Name"],
+            "sAction"   => "",
+            "pFullName" => "",
+            "pNation"   => "",
+            "pClub"     => "",
+            "pCity"     => "",
+        ];
+        if ($SubCommandAction == 1) {
+            $ReturnJsonToWeb["sAction"] = "First";
+        }
+        elseif ($SubCommandAction == 2) {
+            $ReturnJsonToWeb["sAction"] = "Second";
+        }
+        elseif ($SubCommandAction == 3) {
+            $ReturnJsonToWeb["sAction"] = "Third";
+        }
+        foreach ($EventDB['Participants'] as $ParticipantStr) {
+            if ($ParticipantStr["TRank"] == (int)$SubCommandAction) {
+                print_r($ParticipantStr["TRank"]);
+                print_r((int)$SubCommandAction);
+                $ReturnJsonToWeb["pFullName"] = $ParticipantStr["FullName"];
+                $ReturnJsonToWeb["pNation"]   = $ParticipantStr["Nation"];
+                $ReturnJsonToWeb["pClub"]     = $ParticipantStr["Club"];
+                $ReturnJsonToWeb["pCity"]     = $ParticipantStr["City"];
+            }
+        }
+        echo "---------------------------------------------------------------------\n";
+        echo "Action: Victory" . $ReturnJsonToWeb["sAction"] . ";\n";
+        echo "FullName: " . $ReturnJsonToWeb["pFullName"] . ";\n";
+        echo "Nation: "   . $ReturnJsonToWeb["pNation"] . ";\n";
+        echo "Club: "     . $ReturnJsonToWeb["pClub"] . ";\n";
+        echo "City: "     . $ReturnJsonToWeb["pCity"] . ";\n";
+    }
+    //Подиум (Все места)
+    elseif ($SubCommandAction == 0) {
+        $ReturnJsonToWeb = [
+            "timestamp"    => time(),
+            "dAction"      => "VictoryAll",
+            "EventName"    => $EventDB["Name"],
+            //"pParticipant" => [],
+        ];
+        echo "---------------------------------------------------------------------\n";
+        echo "Action: VictoryAll;\n";
+        foreach ($EventDB['Participants'] as $ParticipantStr) {
+            foreach (range(1, 3) as $line) {
+                if ($ParticipantStr["TRank"] == $line) {
+                    $ReturnJsonToWeb["pParticipant"][$ParticipantStr["TRank"]] = [
+                        "pFullName" => $ParticipantStr["FullName"],
+                        "pNation"   => $ParticipantStr["Nation"],
+                        "pClub"     => $ParticipantStr["Club"],
+                        "pCity"     => $ParticipantStr["City"],
+                        "pTRank"    => $ParticipantStr["TRank"],
+                    ];
+                    echo "FullName: " . $ParticipantStr["FullName"] . ";\n";
+                    echo "Nation: "   . $ParticipantStr["Nation"] . ";\n";
+                    echo "Club: "     . $ParticipantStr["Club"] . ";\n";
+                    echo "City: "     . $ParticipantStr["City"] . ";\n";
+                    echo "Place: "    . $ParticipantStr["TRank"] . ";\n";
+                }
+            }
+        }
+        ksort($ReturnJsonToWeb["pParticipant"]);
+    }
+    return $ReturnJsonToWeb;
+};
+
+function ActionSegment() {
+    global $EventDB;
+    $ReturnJsonToWeb = [
+        "timestamp"  => time(),
+        "dAction"    => "SEG",
+        "EventName"  => (string)$EventDB["Name"],
+        "pCategory"  => (string)$EventDB["Category"]["Name"],
+        "pSegment"   => (string)$EventDB["Segment"]["Name"],
+    ];
+
+    echo "---------------------------------------------------------------------\n";
+    echo "Action: Segment;\n";
+    echo "EventName: " . $ReturnJsonToWeb['EventName'] . ";\n";
+    echo "CategoryName: " . $ReturnJsonToWeb['pCategory'] . ";\n";
+    echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
+    return $ReturnJsonToWeb;
+};
+//Очистить всё
+function ActionClearALL() {
+    echo "Очистка экрана\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "Clear",
+    ];
+};
+//Очистить титры: Персональные данные
+function ActionClearTVPersonal() {
+    echo "Очистка экрана\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "ClearTVPersonal",
+    ];
+};
+//Очистить титры: Группы
+function ActionClearTVGroup() {
+    echo "Очистка титры: Группы\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "ClearTVGroup",
+    ];
+};
+//Очистить титры: Название серевнования (Segment)
+function ActionClearTVSegment() {
+    echo "Очистка титры: Название серевнования (Segment)\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "ClearTVSegment",
+    ];
+};
+//Воиспроизвести: Последняя минута разминки
+function ActionVoiceOneMinute() {
+    echo "Воиспроизвести: Последняя минута разминки\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "VoiceOneMinute",
+    ];
+}
+//Воиспроизвести: Разминка завершена
+function ActionVoiceWarmCompleted() {
+    echo "Воиспроизвести: Разминка завершена\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "VoiceWarmCompleted",
+    ];
+}
+//Воиспроизвести: Старт игр
+function ActionVoiceStartGame() {
+    echo "Воиспроизвести: Старт игр\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "VoiceStartGame",
+    ];
+}
+//Перезагрузить: Kiss&Cry
+function ActionReloadKissAndCry() {
+    echo "Перезагрузить: Kiss&Cry\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "ReloadKissAndCry",
+    ];
+}
+//Перезагрузить: Табло
+function ActionReloadTablo() {
+    echo "Перезагрузить: Куб\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "ReloadTablo",
+    ];
+}
+//Перезагрузить: OBS
+function ActionReloadOBS() {
+    echo "Перезагрузить: OBS\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "ReloadOBS",
+    ];
+}
+//function ActionVoiceOneMinute() {}
 
 function FuncWorksCalc($data_line, $connection) {
     global $EventDB;
@@ -60,10 +465,17 @@ function FuncWorksCalc($data_line, $connection) {
                         'pFullName' => (string)$Official['Full_Name'],
                         'pIndex'    => (int)$Official['Index'],
                         'pNation'   => (string)$Official['Nation'],
-                        'pClub'     => (string)(empty($Official['Club'])) ?  '' : preg_replace('/^(.*),(.*)/', '\1', $Official['Club']),
+                        'pClub'     => (string)$Official['Club'],
                         'dFunction' => (string)$Official['Function'],
                     ];
+                    //echo "-----------------\n";
+                    //echo "Index: "    . $EventDB['Judge'][(int)$Official['Index']]['pIndex'] . ";\n";
+                    //echo "FullName: " . $EventDB['Judge'][(int)$Official['Index']]['pFullName'] . ";\n";
+                    //echo "Nation: "   . $EventDB['Judge'][(int)$Official['Index']]['pNation'] . ";\n";
+                    //echo "Club: "     . $EventDB['Judge'][(int)$Official['Index']]['pClub'] . ";\n";
+                    //echo "Function: " . $EventDB['Judge'][(int)$Official['Index']]['dFunction'] . ";\n";
                 }
+                ksort($EventDB['Judge']);
             }
             //необходимо очистить состояние, т.к. загружаем новую базу
             $timeOldCheckAction = -1;
@@ -84,6 +496,7 @@ function FuncWorksCalc($data_line, $connection) {
                                 'Name'         => (string) $Segment['Name'],
                                 'Abbreviation' => (string) $Segment['Abbreviation'],
                                 'Type'         => (string) $Segment['Type'],
+                                'Group'        => (string) $Segment['Group'],
                             ];
                             
                             if (is_object($Segment->Segment_Official_List)) {
@@ -94,10 +507,16 @@ function FuncWorksCalc($data_line, $connection) {
                                         'pFullName' => mb_convert_case($Official['Full_Name'], MB_CASE_TITLE, "UTF-8"),
                                         'pIndex'    => (int)$Official['Index'],
                                         'pNation'   => (string)$Official['Nation'],
-                                        'pClub'     => (string)(empty($Official['Club'])) ?  '' : preg_replace('/^(.*),(.*)/', '\1', $Official['Club']),
+                                        'pClub'     => (string)$Official['Club'],
                                         'dFunction' => (string)$Official['Function'],
                                     ];
+                                    //echo "Index: "    . $EventDB['Judge'][(int)$Official['Index']]['pIndex'] . ";\n";
+                                    //echo "FullName: " . $EventDB['Judge'][(int)$Official['Index']]['pFullName'] . ";\n";
+                                    //echo "Nation: "   . $EventDB['Judge'][(int)$Official['Index']]['pNation'] . ";\n";
+                                    //echo "Club: "     . $EventDB['Judge'][(int)$Official['Index']]['pClub'] . ";\n";
+                                    //echo "Function: " . $EventDB['Judge'][(int)$Official['Index']]['dFunction'] . ";\n";
                                 }
+                                ksort($EventDB['Judge']);
                             }
                             //Критерии (требования)
                             if (is_object($Segment->Criteria_List)) {
@@ -113,7 +532,7 @@ function FuncWorksCalc($data_line, $connection) {
                             if (is_object($Segment->Deduction_List)) {
                                 foreach ($Segment->Deduction_List->Deduction as $Deduction) {
                                     $EventDB['Deduction']["d".$Deduction['Index']] = [
-                                        'Name'   => mb_convert_case($Deduction['Ded_Name'], MB_CASE_TITLE, "UTF-8"),
+                                        'Name' => mb_convert_case($Deduction['Ded_Name'], MB_CASE_TITLE, "UTF-8"),
                                         'Edit' => (string)$Deduction['Ded_Edit'],
                                     ];
                                 }
@@ -128,15 +547,27 @@ function FuncWorksCalc($data_line, $connection) {
                             if ((int) $Segment['ID'] == (int) $xml_line->Segment_Start["Segment_ID"]) {
                                 foreach ($Segment->Segment_Start_List->Performance as $Performance) {
                                     if ((int) $Participant['ID'] == (int) $Performance['ID']) {
+                                        if (preg_match_all('/^(.*?),(.*?)$/', $Participant['Club'],$ClubAndCity)) {
+                                            //print_r($ClubAndCity);
+                                        }
+                                        else {
+                                            if (!empty($Participant['Club'])) {
+                                                $ClubAndCity[1][0]=(string)$Participant['Club'];
+                                                $ClubAndCity[2][0]='';
+                                            }
+                                            else {
+                                                $ClubAndCity[1][0]='';
+                                                $ClubAndCity[2][0]='';
+                                            }
+                                        }
+                                        
                                         $EventDB['Participants']["p-".$Participant['ID']] = [
                                             'ID'          => (int)$Participant['ID'],
-                                            'SegmentID'   => 0,
-                                            'FullName'    => mb_convert_case($Participant['Full_Name'], MB_CASE_TITLE, "UTF-8"),
-                                            'Club'        => (string)$Participant['Club'],
-                                            'Nation'      => (empty($Participant['Club'])) ?  '' : preg_replace('/^(.*),(.*)/', '\1', $Participant['Club']),//$Participant['Nation']
-                                            //'Club'        => (empty($Participant['Club'])) ?  '' : preg_replace('/^(.*),(.*)/', '\2', $Participant['Club']),
-                                            'City'        => (empty($Participant['Club'])) ?  '' : preg_replace('/^(.*),(.*)/', '\1', $Participant['Club']),
-                                            'Music'       => (empty($Participant['Music'])) ? '' : (string)$Participant['Music'],
+                                            'FullName'    => (string)$Participant['Full_Name'],
+                                            'Nation'      => (string)$Participant['Nation'],
+                                            'Club'        => (string)$ClubAndCity[2][0],
+                                            'City'        => (string)$ClubAndCity[1][0],
+                                            'Music'       => (empty($Participant['Music'])) ? 'Нет музыки'  : (string)$Participant['Music'],
                                             'Coach'       => (empty($Participant['Coach'])) ? 'Нет тренера' : (string)$Participant['Coach'],
                                             'Status'      => (string)$Participant['Status'],
                                             //Сортировка за выступление
@@ -159,11 +590,8 @@ function FuncWorksCalc($data_line, $connection) {
                                             'GroupNumber' => (int)$Performance['Start_Group_Number'],
                                             'Bonus'       => 0,
                                             'DedSum'      => 0,
-                                            'Element'     => [],
-                                            'Criteria'    => [],
-                                            'Deduction'   => [],
                                         ];
-
+                                        
                                     }
                                 }
                             }
@@ -196,30 +624,38 @@ function FuncWorksCalc($data_line, $connection) {
                 echo "Загрузка данных\n";
                 if(is_object($xml_line->Segment_Running->Segment_Result_List)) {
                     foreach ($xml_line->Segment_Running->Segment_Result_List->Performance as $Performance) {
-                        //Сортировка
-                        $EventDB['Participants']["p-".$Performance['ID']]['Sort']      = (int)$Performance['Index'];
-                        //Место
-                        $EventDB['Participants']["p-".$Performance['ID']]['Rank']      = (int)$Performance['Rank'];
-                        //Балы
-                        $EventDB['Participants']["p-".$Performance['ID']]['SeqPoints'] = (string)$Performance['Points'];
-                        //Балы за элементы
-                        $EventDB['Participants']["p-".$Performance['ID']]['TES']       = (string)$Performance['TES'];
-                        //Балы за компоненты
-                        $EventDB['Participants']["p-".$Performance['ID']]['TCS']       = (string)$Performance['TCS'];
-                        //Балы Бонус
-                        $EventDB['Participants']["p-".$Performance['ID']]['Bonus']     = (string)$Performance['Bonus'];
-                        //Балы Снижение
-                        $EventDB['Participants']["p-".$Performance['ID']]['DedSum']    = (string)$Performance['Ded_Sum'];
+                        $ParticipantID = "p-" . $Performance['ID'];
+                        if (array_key_exists($ParticipantID,$EventDB['Participants'])) {
+                            //Сортировка
+                            $EventDB['Participants'][$ParticipantID]['Sort']      = (int)$Performance['Index'];
+                            //Место
+                            $EventDB['Participants'][$ParticipantID]['Rank']      = (int)$Performance['Rank'];
+                            //Балы
+                            $EventDB['Participants'][$ParticipantID]['SeqPoints'] = (string)$Performance['Points'];
+                            //Балы за элементы
+                            $EventDB['Participants'][$ParticipantID]['TES']       = (string)$Performance['TES'];
+                            //Балы за компоненты
+                            $EventDB['Participants'][$ParticipantID]['TCS']       = (string)$Performance['TCS'];
+                            //Балы Бонус
+                            $EventDB['Participants'][$ParticipantID]['Bonus']     = (string)$Performance['Bonus'];
+                            //Балы Снижение
+                            $EventDB['Participants'][$ParticipantID]['DedSum']    = (string)$Performance['Ded_Sum'];
+                        }
+                        unset($ParticipantID);
                     }
                 }
                 if(is_object($xml_line->Segment_Running->Category_Result_List)) {
                     foreach ($xml_line->Segment_Running->Category_Result_List->Participant as $Participant) {
-                        //Итоговая сортировка
-                        $EventDB['Participants']["p-".$Participant['ID']]['TSort']  = (int)$Participant['TIndex'];
-                        //Итоговое место
-                        $EventDB['Participants']["p-".$Participant['ID']]['TRank']  = (int)$Participant['TRank'];
-                        //Итоговые баллы
-                        $EventDB['Participants']["p-".$Participant['ID']]['TPoint'] = (string)$Participant['TPoint'];
+                        $ParticipantID = "p-" . $Participant['ID'];
+                        if (array_key_exists($ParticipantID,$EventDB['Participants'])) {
+                            //Итоговая сортировка
+                            $EventDB['Participants'][$ParticipantID]['TSort']  = (int)$Participant['TIndex'];
+                            //Итоговое место
+                            $EventDB['Participants'][$ParticipantID]['TRank']  = (int)$Participant['TRank'];
+                            //Итоговые баллы
+                            $EventDB['Participants'][$ParticipantID]['TPoint'] = (string)$Participant['TPoint'];
+                        }
+                        unset($ParticipantID);
                     }
                 }
                 $ReturnJsonToWeb = [
@@ -338,22 +774,23 @@ function FuncWorksCalc($data_line, $connection) {
                 if(is_object($xml_line->Segment_Running->Category_Result_List)) {
                     foreach ($xml_line->Segment_Running->Category_Result_List->Participant as $Participant) {
                         $ParticipantID = "p-" . $Participant['ID'];
-                        //Итоговая сортировка
-                        $EventDB['Participants'][$ParticipantID]['TSort'] = (int)$Participant['TIndex'];
-                        //Если участник отсутствует
-                        if ($Participant['Status'] != "ACT") {
-                            //Итоговое место
-                            $EventDB['Participants'][$ParticipantID]['TRank']  = 0;
-                            //Итоговое количество баллов
-                            $EventDB['Participants'][$ParticipantID]['TPoint'] = 0;
+                        if (array_key_exists($ParticipantID,$EventDB['Participants'])) {
+                            //Итоговая сортировка
+                            $EventDB['Participants'][$ParticipantID]['TSort'] = (int)$Participant['TIndex'];
+                            //Если участник отсутствует
+                            if ($Participant['Status'] != "ACT") {
+                                //Итоговое место
+                                $EventDB['Participants'][$ParticipantID]['TRank']  = 0;
+                                //Итоговое количество баллов
+                                $EventDB['Participants'][$ParticipantID]['TPoint'] = 0;
+                            }
+                            else {
+                                //Итоговое место
+                                $EventDB['Participants'][$ParticipantID]['TRank']  = (int)$Participant['TRank'];
+                                //Итоговое количество баллов
+                                $EventDB['Participants'][$ParticipantID]['TPoint'] = (float)$Participant['TPoint'];
+                            }
                         }
-                        else {
-                            //Итоговое место
-                            $EventDB['Participants'][$ParticipantID]['TRank']  = (int)$Participant['TRank'];
-                            //Итоговое количество баллов
-                            $EventDB['Participants'][$ParticipantID]['TPoint'] = (float)$Participant['TPoint'];
-                        }
-
                         unset($ParticipantID);
                     }
                 }
@@ -389,328 +826,45 @@ function FuncWorksCalc($data_line, $connection) {
             }
             //Показать технические результаты проката
             elseif ($CommandAction == '1SC') {
-                $ParticipantID = "p-" . $xml_line->Segment_Running->Action['Current_Participant_ID'];
-                $ReturnJsonToWeb = [
-                    "timestamp"  => time(),
-                    "dAction"    => "1SC",
-                    "EventName"  => $EventDB["Name"],
-                    "pCategory"  => $EventDB["Category"]["Name"],
-                    "pSegment"   => $EventDB["Segment"]["Name"],
-                    "pName"      => $EventDB['Participants'][$ParticipantID]['FullName'],
-                    "pClub"      => $EventDB['Participants'][$ParticipantID]['Club'],
-                    "pNation"    => $EventDB['Participants'][$ParticipantID]['Nation'],
-                    "pTES"       => $EventDB['Participants'][$ParticipantID]['TES'],
-                    "pTCS"       => $EventDB['Participants'][$ParticipantID]['TCS'],
-                    "pBonus"     => $EventDB['Participants'][$ParticipantID]['Bonus'],
-                    "pDedSum"    => $EventDB['Participants'][$ParticipantID]['DedSum'],
-                    "pSeqPoints" => $EventDB['Participants'][$ParticipantID]['SeqPoints'],
-                    "pTPoint"    => $EventDB['Participants'][$ParticipantID]['TPoint'],
-                    "pTRank"     => $EventDB['Participants'][$ParticipantID]['TRank'],
-                    "Element"    => $EventDB['Participants'][$ParticipantID]['Element'],
-                    "Deduction"  => $EventDB['Participants'][$ParticipantID]['Deduction'],
-                ];
-                unset($ParticipantID);
-
-                echo "---------------------------------------------------------------------\n";
-                echo "Action: " . $ReturnJsonToWeb['dAction'] . ";\n";
-                echo "Участник (FullName): " . $ReturnJsonToWeb['pName'] . ";\n";
-                echo "Клуб (Club): " .      $ReturnJsonToWeb['pClub'] . ";\n";
-                echo "Национальность или регион (Nation): " .    $ReturnJsonToWeb['pNation'] . ";\n";
-                echo "(TES): " .       $ReturnJsonToWeb['pTES'] . ";\n";
-                echo "TCS: " .       $ReturnJsonToWeb['pTCS'] . ";\n";
-                echo "Bonus: " .     $ReturnJsonToWeb['pBonus'] . ";\n";
-                echo "DedSum: " .    $ReturnJsonToWeb['pDedSum'] . ";\n";
-                echo "SeqPoints: " . $ReturnJsonToWeb['pSeqPoints'] . ";\n";
-                echo "TPoint: " .    $ReturnJsonToWeb['pTPoint'] . ";\n";
-                echo "TRank: " .      $ReturnJsonToWeb['pTRank'] . ";\n";
+                $ReturnJsonToWeb = ActionPersonalResult('1SC', "p-" . $xml_line->Segment_Running->Action['Current_Participant_ID']);
             }
             //Показать индивидуальные результаты проката
             elseif ($CommandAction == '2SC') {
-                $ParticipantID = "p-" . $xml_line->Segment_Running->Action['Current_Participant_ID'];
-                $ReturnJsonToWeb = [
-                    "timestamp"  => time(),
-                    "dAction"    => "2SC",
-                    "EventName"  => (string)$EventDB["Name"],
-                    "pCategory"  => (string)$EventDB["Category"]["Name"],
-                    "pSegment"   => (string)$EventDB["Segment"]["Name"],
-                    "pName"      => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['FullName'],
-                    "pClub"      => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['Club'],
-                    "pNation"    => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['Nation'],
-                    "pTES"       => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['TES'],
-                    "pTCS"       => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['TCS'],
-                    "pBonus"     => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['Bonus'],
-                    "pDedSum"    => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['DedSum'],
-                    "pSeqPoints" => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['SeqPoints'],
-                    "pTPoint"    => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['TPoint'],
-                    "pRank"      => (string)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['Rank'],
-                ];
-                unset($ParticipantID);
-
-                echo "---------------------------------------------------------------------\n";
-                echo "Action: 2SC;\n";
-                echo "Участник (FullName): " . $ReturnJsonToWeb['pName'] . ";\n";
-                echo "Клуб (Club): " .      $ReturnJsonToWeb['pClub'] . ";\n";
-                echo "Национальность или регион (Nation): " .    $ReturnJsonToWeb['pNation'] . ";\n";
-                echo "(TES): " .       $ReturnJsonToWeb['pTES'] . ";\n";
-                echo "TCS: " .       $ReturnJsonToWeb['pTCS'] . ";\n";
-                echo "Bonus: " .     $ReturnJsonToWeb['pBonus'] . ";\n";
-                echo "DedSum: " .    $ReturnJsonToWeb['pDedSum'] . ";\n";
-                echo "SeqPoints: " . $ReturnJsonToWeb['pSeqPoints'] . ";\n";
-                echo "TPoint: " .    $ReturnJsonToWeb['pTPoint'] . ";\n";
-                echo "Rank: " .      $ReturnJsonToWeb['pRank'] . ";\n";
+                $ReturnJsonToWeb = ActionPersonalResult('2SC', "p-" . $xml_line->Segment_Running->Action['Current_Participant_ID']);
             }
             //Информация об участнике
             elseif ($CommandAction == 'NAM') {
-                $ReturnJsonToWeb = [
-                    "timestamp" => time(),
-                    "dAction" => "NAM",
-                    "EventName"  => (string)$EventDB["Name"],
-                    "pCategory"  => (string)$EventDB["Category"]["Name"],
-                    "pSegment"   => (string)$EventDB["Segment"]["Name"],
-                    "pName"   => "".$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['FullName'],
-                    "pNation" => "".$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['Nation'],
-                    "pClub"   => "".$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['Club'],
-                    "pMusic"  => "".$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['Music'],
-                    "pCoach"  => "".$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['Coach'],
-                ];
-                echo "---------------------------------------------------------------------\n";
-                echo "Action: Name;\n";
-                echo "Full: " .    $ReturnJsonToWeb['pName'] . ";\n";
-                echo "Club: " .    $ReturnJsonToWeb['pClub'] . ";\n";
-                echo "Nation: " .  $ReturnJsonToWeb['pNation'] . ";\n";
-                echo "Music: " .   $ReturnJsonToWeb['pMusic'] . ";\n";
-                echo "Coach: " .   $ReturnJsonToWeb['pCoach'] . ";\n";
+                $ReturnJsonToWeb = ActionPersonalResult('NAM', "p-" . $xml_line->Segment_Running->Action['Current_Participant_ID']);
             }
             //Очистка экрана
             elseif ($CommandAction == 'CLR' or $CommandAction == 'STP') {
-                echo "Очистка экрана\n";
-                $ReturnJsonToWeb = [
-                    "timestamp"    => time(),
-                    "dAction"      => "Clear",
-                ];
+                $ReturnJsonToWeb = ActionClearAll();
             }
             //Информация об судьях
             elseif ($CommandAction == 'JDG') {
-                $JudgeID        = $xml_line->Segment_Running->Action['Judge_ID'];
-                if ($JudgeID == -1) {
-                    $ReturnJsonToWeb = [
-                        "timestamp"    => time(),
-                        "dAction"      => 'JudgeAll',
-                        "EventName"    => (string)$EventDB["Name"],
-                        "pCategory"    => (string)$EventDB["Category"]["Name"],
-                        "pSegment"     => (string)$EventDB["Segment"]["Name"],
-                        "pParticipant" => [],
-                    ];
-
-                    echo "---------------------------------------------------------------------\n";
-                    echo "Action: JudgeALL;\n";
-                    echo "EventName: " . $ReturnJsonToWeb['EventName'] . ";\n";
-                    echo "CategoryName: " . $ReturnJsonToWeb['pCategory'] . ";\n";
-                    echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
-                    $ReturnJsonToWeb["pParticipant"] = $EventDB['Judge'];
-                }
-                elseif ($JudgeID > 0) {
-                    $ReturnJsonToWeb = [
-                        "timestamp"    => time(),
-                        "dAction"      => 'JudgeOne',
-                        "EventName"    => (string)$EventDB["Name"],
-                        "pCategory"    => (string)$EventDB["Category"]["Name"],
-                        "pSegment"     => (string)$EventDB["Segment"]["Name"],
-                    ];
-                    echo "---------------------------------------------------------------------\n";
-                    echo "Action: JudgeOne;\n";
-                    echo "EventName: " . $ReturnJsonToWeb['EventName'] . ";\n";
-                    echo "CategoryName: " . $ReturnJsonToWeb['pCategory'] . ";\n";
-                    echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
-                    foreach ($EventDB['Judge'] as $JudgeStr) {
-                        if ($JudgeStr["pID"] == $JudgeID) {
-                            $ReturnJsonToWeb["pIndex"][(int)$JudgeStr["pIndex"]] = (string)$JudgeStr["dFunction"];
-                            $ReturnJsonToWeb["pName"]   = (string)$JudgeStr["pFullName"];
-                            $ReturnJsonToWeb["pNation"] = (string)$JudgeStr["pNation"];
-                            $ReturnJsonToWeb["pClub"]   = (string)$JudgeStr["pClub"];
-                            echo "-----------------\n";
-                            echo "Index: "    . $JudgeStr['pIndex'] . ";\n";
-                            echo "FullName: " . $JudgeStr['pFullName'] . ";\n";
-                            echo "Nation: "   . $JudgeStr['pNation'] . ";\n";
-                            echo "Club: "     . $JudgeStr['pClub'] . ";\n";
-                            echo "Function: " . $JudgeStr['dFunction'] . ";\n";
-                        }
-
-                    }
-                }
-                $JudgeID = 0;
+                $ReturnJsonToWeb = ActionJudge((int)$xml_line->Segment_Running->Action['Judge_ID']);
             }
-            //Стартовый лист
-            //Список группы разминки
-            //Список промежуточных результатов соревнования
-            elseif ($CommandAction == 'STL' || $CommandAction == 'WUP' || $CommandAction == '3SC') {
-                $ReturnJsonToWeb = [
-                    "timestamp"    => time(),
-                    "EventName"  => (string)$EventDB["Name"],
-                    "pCategory"  => (string)$EventDB["Category"]["Name"],
-                    "pSegment"   => (string)$EventDB["Segment"]["Name"],
-                    "pParticipant" => [],
-                ];
-
-                echo "---------------------------------------------------------------------\n";
-                if ($CommandAction == 'STL') {
-                    $ReturnJsonToWeb["dAction"] = 'STL';
-                    echo "Action: STL;\n";
-                }
-                elseif ($CommandAction == 'WUP') {
-                    $ReturnJsonToWeb["dAction"] = 'WUP';
-                    $ReturnJsonToWeb["pCurrentGroup"] = (int)$EventDB['Participants']["p-".$xml_line->Segment_Running->Action['Current_Participant_ID']]['GroupNumber'];
-                    echo "Action: WUP;\n";
-                    echo "CurrentGroupNumber: "  . $ReturnJsonToWeb["pGroup"] . ";\n";
-                }
-                elseif ($CommandAction == '3SC') {
-                    $ReturnJsonToWeb["dAction"] = '3SC';
-                    echo "Action: 3SC;\n";
-                }
-
-                echo "EventName: " . $ReturnJsonToWeb['EventName'] . ";\n";
-                echo "CategoryName: " . $ReturnJsonToWeb['pCategory'] . ";\n";
-                echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
-
-                foreach ($EventDB['Participants'] as $ParticipantStr) {
-                    if ($CommandAction == 'STL' || $CommandAction == 'WUP') {
-                        $idLine = (int)$ParticipantStr['StartNumber'];
-                    }
-                    elseif ($CommandAction == '3SC') {
-                        $idLine = (int)$ParticipantStr['TSort'];
-                    }
-                    //Для WUP (Группа разминки)
-                    //Пропускаем участника не из своей группы разминки
-                    if ($CommandAction == 'WUP' && $ReturnJsonToWeb["pCurrentGroup"] != $ParticipantStr['GroupNumber']) {
-                        echo "StartNumber: "  . $ParticipantStr['StartNumber'] . ";\n";
-                        echo "GroupNumber: "  . $ParticipantStr['GroupNumber'] . ";\n";
-                        continue;
-                    }
-
-                    $ReturnJsonToWeb["pParticipant"][$idLine] = [
-                        "ID"           => $ParticipantStr["ID"],
-                        "pStartNumber" => (int)$ParticipantStr["StartNumber"],
-                        "pGroupNumber" => (int)$ParticipantStr["GroupNumber"],
-                        "pFullName"    => (string)$ParticipantStr["FullName"],
-                        "pNation"      => (string)$ParticipantStr["Nation"],
-                        "pTRank"       => (int)$ParticipantStr["TRank"],
-                        "pTPoint"      => (string)$ParticipantStr["TPoint"],
-                        "pTSort"       => (int)$ParticipantStr["TSort"],
-                        "pStatus"      => (string)$ParticipantStr["Status"],
-                        "pCurrent"     => 2
-                    ];
-                    if ($ParticipantStr['ID'] === (int)$xml_line->Segment_Running->Action['Current_Participant_ID']) {
-                        $ReturnJsonToWeb["pParticipant"][$idLine]["pCurrent"]  = 1;
-                    }
-
-                    echo "-----------------\n";
-                    echo "StartLine: "    . $idLine . ";\n";
-                    echo "ID: "           . $ReturnJsonToWeb["pParticipant"][$idLine]['ID'] . ";\n";
-                    echo "StartNumber: "  . $ReturnJsonToWeb["pParticipant"][$idLine]['pStartNumber'] . ";\n";
-                    echo "GroupNumber: "  . $ReturnJsonToWeb["pParticipant"][$idLine]['pGroupNumber'] . ";\n";
-                    echo "FullName: "     . $ReturnJsonToWeb["pParticipant"][$idLine]['pFullName'] . ";\n";
-                    echo "Nation: "       . $ReturnJsonToWeb["pParticipant"][$idLine]['pNation'] . ";\n";
-                    echo "TRank: "        . $ReturnJsonToWeb["pParticipant"][$idLine]['pTRank'] . ";\n";
-                    echo "TPoint: "       . $ReturnJsonToWeb["pParticipant"][$idLine]['pTPoint'] . ";\n";
-                    echo "TSort: "        . $ReturnJsonToWeb["pParticipant"][$idLine]['pTSort'] . ";\n";
-                    echo "Status: "       . $ReturnJsonToWeb["pParticipant"][$idLine]['pStatus'] . ";\n";
-                    if ($CommandAction == '3SC') {
-                        echo "Current: "  . $ReturnJsonToWeb["pParticipant"][$idLine]["pCurrent"] . ";\n";
-                    }
-                }
-                ksort($ReturnJsonToWeb["pParticipant"],0);
-                foreach ($ReturnJsonToWeb["pParticipant"] as $ParticipantStr) {
-                    echo $ParticipantStr['pStartNumber'] . "-";
-                }
+            //Start List (STL) Стартовый лист
+            elseif ($CommandAction == 'STL') {
+                $ReturnJsonToWeb = ActionGroup('STL',0);
             }
-            // Церемония награждения
+            //Warm Group (WUP) Список группы разминки
+            elseif ($CommandAction == 'WUP') {
+                $ReturnJsonToWeb = ActionGroup('WUP',(int)$xml_line->Segment_Running->Action['Current_Participant_ID']);
+            }
+            //3nd Score (3SC) Список промежуточных результатов соревнования
+            elseif ($CommandAction == '3SC') {
+                $ReturnJsonToWeb = ActionGroup('3SC',0);
+            }
+            //Victory Ceremony (VTR) Церемония награждения
             elseif ($CommandAction == 'VTR') {
-                $SubCommandAction = $xml_line->Segment_Running->Action['Sub_Command'];
-                //Приглашение на награждение участников
-                if ($SubCommandAction == 5) {
-                    $ReturnJsonToWeb = [
-                        "timestamp"    => time(),
-                        "dAction"      => "VictoryStart",
-                        "EventName"    => (string)$EventDB["Name"],
-                        "pCategory"    => (string)$EventDB["Category"]["Name"],
-                    ];
-                    echo "---------------------------------------------------------------------\n";
-                    echo "Action: VictoryStart;\n";
-                }
-                // Первое место
-                elseif ($SubCommandAction == 1 || $SubCommandAction == 2 || $SubCommandAction == 3) {
-                    $ReturnJsonToWeb = [
-                        "timestamp" => time(),
-                        "dAction"   => "VictoryPlace",
-                        "sAction"   => "",
-                        "pFullName" => "",
-                        "pClub"     => "",
-                    ];
-                    if ($SubCommandAction == 1) {
-                        $ReturnJsonToWeb["sAction"] = "First";
-                    }
-                    elseif ($SubCommandAction == 2) {
-                        $ReturnJsonToWeb["sAction"] = "Second";
-                    }
-                    elseif ($SubCommandAction == 3) {
-                        $ReturnJsonToWeb["sAction"] = "Third";
-                    }
-                    foreach ($EventDB['Participants'] as $ParticipantStr) {
-                        if ($ParticipantStr["TRank"] == $SubCommandAction) {
-                            $ReturnJsonToWeb["pFullName"] = $ParticipantStr["FullName"];
-                            $ReturnJsonToWeb["pClub"]     = $ParticipantStr["Club"];
-                        }
-                    }
-                    echo "---------------------------------------------------------------------\n";
-                    echo "Action: Victory" . $ReturnJsonToWeb["sAction"] . ";\n";
-                    echo "FullName: " . $ReturnJsonToWeb["pFullName"] . ";\n";
-                    echo "Club: "     . $ReturnJsonToWeb["pClub"] . ";\n";
-                }
-                //Подиум (Все места)
-                elseif ($SubCommandAction == 0) {
-                    $ReturnJsonToWeb = [
-                        "timestamp"    => time(),
-                        "dAction"      => "VictoryAll",
-                        "EventName"    => (string)$EventDB["Name"],
-                        "pParticipant" => [],
-                    ];
-                    echo "---------------------------------------------------------------------\n";
-                    echo "Action: VictoryAll;\n";
-                    foreach ($EventDB['Participants'] as $ParticipantStr) {
-                        foreach (range(1, 3) as $line) {
-                            if ($ParticipantStr["TRank"] == $line) {
-                                $ReturnJsonToWeb["pParticipant"][$ParticipantStr["TRank"]] = [
-                                    "pFullName" => $ParticipantStr["FullName"],
-                                    "City"      => $ParticipantStr["City"],
-                                    "pTRank"    => (int)$ParticipantStr["TRank"],
-                                ];
-                                echo "FullName: " . $ParticipantStr["FullName"] . ";\n";
-                                echo "City: "     . $ParticipantStr["City"] . ";\n";
-                                echo "Place: "    . $ParticipantStr["TRank"] . ";\n";
-                            }
-                        }
-                    }
-                    ksort($ReturnJsonToWeb["pParticipant"]);
-                }
+                $ReturnJsonToWeb = ActionVictory($xml_line->Segment_Running->Action['Sub_Command']);
             }
-            //Segment
-            //Сегменты
+            //Segment (SEG) Название соревнования
             elseif ($CommandAction == 'SEG') {
-                $ReturnJsonToWeb = [
-                    "timestamp"  => time(),
-                    "dAction"    => "SEG",
-                    "EventName"  => (string)$EventDB["Name"],
-                    "pCategory"  => (string)$EventDB["Category"]["Name"],
-                    "pSegment"   => (string)$EventDB["Segment"]["Name"],
-                ];
-
-                echo "---------------------------------------------------------------------\n";
-                echo "Action: Segment;\n";
-                echo "EventName: " . $ReturnJsonToWeb['EventName'] . ";\n";
-                echo "CategoryName: " . $ReturnJsonToWeb['pCategory'] . ";\n";
-                echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
+                $ReturnJsonToWeb = ActionSegment();
             }
-            // Таймер старт 
+            // Time+ Таймер старт 
             elseif ($CommandAction == 'TFW') {
                 $EventDB["TimerAction"] = 'TimerStart';
                 $ReturnJsonToWeb = [
@@ -724,7 +878,7 @@ function FuncWorksCalc($data_line, $connection) {
                 echo "Action: Timer Start;\n";
                 echo "Time: " . $ReturnJsonToWeb['Time'] . ";  " . "Timer State: " . $ReturnJsonToWeb['TimerState'] . ";\n";
             }
-            // Таймер отсчет
+            // Time- Таймер отсчет
             elseif ($CommandAction == 'TBW') {
                 $EventDB["TimerAction"] = 'TimerCountdown';
                 $ReturnJsonToWeb = [
@@ -738,7 +892,7 @@ function FuncWorksCalc($data_line, $connection) {
                 echo "Action: Timer Countdown;\n";
                 echo "Time: " . $ReturnJsonToWeb['Time'] . ";  " . "Timer State: " . $ReturnJsonToWeb['TimerState'] . ";\n";
             }
-            // Таймер изменен
+            // Timer update (TIM) Таймер изменен
             elseif ($CommandAction == 'TIM') {
                 if ($EventDB["TimerAction"] == '' && $xml_line->Segment_Running->Action['Clock_State'] == 1) {
                     if ($timeOldCheckAction == -1) {
@@ -772,7 +926,7 @@ function FuncWorksCalc($data_line, $connection) {
                 echo "Action: Timer;\n";
                 echo "Time: " . $ReturnJsonToWeb['Time'] . ";  " . "Timer State: " . $ReturnJsonToWeb['TimerState'] . "; TimerAction:" . $EventDB["TimerAction"] . ";\n";
             }
-            // Таймер пауза
+            // Timer pause (TPA) Таймер пауза
             elseif ($CommandAction == 'TPA') {
                 $ReturnJsonToWeb = [
                     "timestamp" => time(),
@@ -785,7 +939,7 @@ function FuncWorksCalc($data_line, $connection) {
                 echo "Action: Timer Pause;\n";
                 echo "Time: " . $ReturnJsonToWeb['Time'] . ";  " . "Timer State: " . $ReturnJsonToWeb['TimerState'] . ";\n";
             }
-            // Таймер стоп
+            // Timer stop (TST) Таймер стоп
             elseif ($CommandAction == 'TST') {
                 $EventDB["TimerAction"] = '';
                 $ReturnJsonToWeb = [
@@ -851,12 +1005,12 @@ function FuncWorksCalc($data_line, $connection) {
 
         if (array_key_exists('dAction', $ReturnJsonToWeb)) {
             foreach($users as $connection) {
-                $connection->send(json_encode($ReturnJsonToWeb));
+                $connection['connect']->send(json_encode($ReturnJsonToWeb));
             }
         }
         if ($xml_line->Segment_Running->Action['Command'] != 'TIM') {
             $DBFile = fopen(__DIR__ . '/config/DB.json', 'w');
-            fwrite($DBFile, json_encode($EventDB, JSON_PRETTY_PRINT));
+            fwrite($DBFile, json_encode($EventDB, JSON_PRETTY_PRINT|JSON_HEX_APOS|JSON_HEX_QUOT));
             fclose($DBFile);
         }
 
@@ -874,23 +1028,36 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Workerman\Worker;
 use Workerman\Connection\AsyncTcpConnection;
 //TcpConnection::$defaultMaxSendBufferSize = 2*1024*1024;
-// create a ws-server. all your users will connect to it
 $ws_worker = new Worker("websocket://0.0.0.0:8000");
 
-// storage of user-connection link
+// Тут храним пользовательские соединения
 $users = [];
 
 $ws_worker->onConnect = function($connection) use (&$users) {
     $connection->onWebSocketConnect = function($connection) use (&$users) {
-        $users[$connection->id] = $connection;
+        global $ini;
+        $users[$connection->id]['connect'] = $connection;
+        if (in_array($connection->getRemoteIp(), $ini)) {
+            $users[$connection->id]['admin'] = 1;
+            $users[$connection->id]['role']  = [];
+            foreach(explode(",", $ini[$connection->getRemoteIp()]) as $val) {
+                array_push($users[$connection->id]['role'], trim($val));
+            }
+            echo "Пользователь Администратор\n";
+        }
+        else {
+            $users[$connection->id]['admin'] = 0;
+            echo "Пользователь НЕ Администратор\n";
+        }
     };
-    echo "Клиент WebSocket Подключился\n";
+    echo "Клиент WebSocket Подключился, с IP:" . $connection->getRemoteIp() . "\n";
 };
 
 $ws_worker->onMessage = function($connection, $data) use (&$users) {
     global $EventDB;
+    global $ini;
     if ($data == "INIT" && isset($EventDB["Name"])) {
-        if (is_object($users[$connection->id])) {
+        if (is_object($users[$connection->id]['connect'])) {
             $ReturnJsonToWeb = [
                 "timestamp"   => time(),
                 "dAction"     => "INIT",
@@ -907,17 +1074,110 @@ $ws_worker->onMessage = function($connection, $data) use (&$users) {
             echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
             echo "TimerAction: " . $ReturnJsonToWeb['TimerAction'] . ";\n";
 
-            $users[$connection->id]->send(json_encode($ReturnJsonToWeb));
+            $users[$connection->id]['connect']->send(json_encode($ReturnJsonToWeb));
             echo "Отправка\n";
         }
         
+    }
+    elseif ($users[$connection->id]['admin'] == 1) {
+        echo "ADMIN ACTION Ready\n";
+        $ReturnJsonToWeb = '';
+        if (in_array('All', $users[$connection->id]['role'], true)) {
+            $AllRight = true;
+            echo "---------------------------------------------------------------------\n";
+            echo "У пользовател полные права\n";
+        }
+        else {
+            $AllRight = false;
+        }
+
+        if (in_array('None', $users[$connection->id]['role'], true)) {
+            echo "---------------------------------------------------------------------\n";
+            echo "У пользовател нет никаких прав\n";
+            $ReturnJsonToWeb = '';
+        }
+        elseif ($data == "Name" && ($AllRight || false !== array_search('Name', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION NAME\n";
+        }
+        elseif ($data == "Segment" && ($AllRight || false !== array_search('Segment', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION SEGMENT\n";
+            $ReturnJsonToWeb = ActionSegment();
+        }
+        elseif ($data == "Clear" && ($AllRight || false !== array_search('Clear', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION CLEAR\n";
+            $ReturnJsonToWeb = ActionClear();
+        }
+        elseif ($data == "ResultPersonal" && ($AllRight || false !== array_search('ResultPersonal', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION ResultPersonal\n";
+        }
+        elseif ($data == "ResultAll" && ($AllRight || false !== array_search('ResultAll', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION ResultAll\n";
+        }
+        elseif ($data == "StartList" && ($AllRight || false !== array_search('StartList', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION StartList\n";
+        }
+        elseif ($data == "WarmGroup" && ($AllRight || false !== array_search('WarmGroup', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION WarmGroup\n";
+        }
+        elseif ($data == "JudgeAll" && ($AllRight || false !== array_search('JudgeAll', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION JudgeAll\n";
+        }
+        elseif ($data == "VoiceOneMinute" && ($AllRight || false !== array_search('VoiceOneMinute', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION VoiceOneMinute\n";
+            $ReturnJsonToWeb = ActionVoiceOneMinute();
+        }
+        elseif ($data == "VoiceWarmCompleted" && ($AllRight || false !== array_search('VoiceWarmCompleted', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION VoiceWarmCompleted\n";
+            $ReturnJsonToWeb = ActionVoiceWarmCompleted();
+        }
+        elseif ($data == "VoiceStartGame" && ($AllRight || false !== array_search('VoiceStartGame', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION VoiceStartGame\n";
+            $ReturnJsonToWeb = ActionVoiceStartGame();
+        }
+        elseif ($data == "ReloadKissAndCry" && ($AllRight || false !== array_search('ReloadKissAndCry', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION ReloadKissAndCry\n";
+            $ReturnJsonToWeb = ActionReloadKissAndCry();
+        }
+        elseif ($data == "ReloadTablo" && ($AllRight || false !== array_search('ReloadTablo', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION ReloadTablo\n";
+            $ReturnJsonToWeb = ActionReloadTablo();
+        }
+        elseif ($data == "ReloadOBS" && ($AllRight || false !== array_search('ReloadOBS', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION ReloadOBS\n";
+            $ReturnJsonToWeb = ActionReloadOBS();
+        }
+        else {
+            echo "У пользователя нет прав на выполнение данной команды или нет такой команды!\n";
+        }
+        if ($ReturnJsonToWeb != '') {
+            if (array_key_exists('dAction', $ReturnJsonToWeb)) {
+                foreach($users as $connection) {
+                    $connection['connect']->send(json_encode($ReturnJsonToWeb));
+                }
+            }
+            $ReturnJsonToWeb = '';
+        }
     }
 };
 
 $ws_worker->onClose = function($connection) use(&$users) {
     // unset parameter when user is disconnected
     unset($users[$connection->id]);
-    echo "Клиент WebSocket Отключился\n";
+    echo "Клиент WebSocket Отключился, с IP:" . $connection->getRemoteIp() . "\n";
 };
 
 // it starts once when you start server.php:

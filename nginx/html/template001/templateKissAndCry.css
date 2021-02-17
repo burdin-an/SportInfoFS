@@ -9,7 +9,7 @@
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- * @version	  0.0.1
+ * @version	  1.0.3
  */
 
  /**
@@ -33,7 +33,7 @@ body {
     opacity: 1;
 }
 .cl_board0 #SegmentName, .cl_board20 #SubName, .cl_board0 #TitleBlock {
-    font-size: 2rem;
+    font-size: 2vw;
 }
 .cl_board0 #SegmentName, .cl_board20 #SubName {
     display: inline-block;
@@ -47,157 +47,135 @@ body {
 .cl_board0 #TitleBlock {
     text-align: center;
     width: 100%;
-    padding: 1rem 0;
+    padding: 1vh 0;
 }
-.cl_board0 hr {
-    width: 50%;
-    margin: .5rem auto;
-}
-/*.cl_board0 .Line {
-    overflow: hidden;
-    z-index: 104;
-    width: 100%;
-    margin-top: .3rem;
-    opacity: 1;
-    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
-    color: white;
-}*/
-#LineName {
+.LineName {
     text-align: center;
-    font-size: 3rem;
-    line-height: 5rem;
+    font-size: 3vw;
     background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
     color: #fff;
-    margin: 1% 0;
-}
-.cl_board0 #LineFirst>div {
-    display: grid;
-    grid-template-columns: 19% 19% 19% 19% 19%;
-    grid-gap: 0 1.5%;
+    margin: .5% 0 0;
+    padding: .1% 0;
 }
 #pTES,#pTCS,#pDedSum,#pSeqPoints,#pRank,#pBonus,#pTPoint,#pTRank {
-    font-size: 4rem;
+    font-size: 3vw;
 }
-#LineFirst .LineType03 {
+/* Задаем общие параметры для блоков */
+.LineType03, .LineTotalPoint, .LineTotalRank {
+    font-size: 1.2vw;
+    text-align: center;
+    width: 100%;
+    padding-top: 1vh;
+}
+/*  */
+.LineType03 {
     background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
     color: black;
     text-align: center;
-    font-size: 1.5rem;
+    margin: 2% 0;
 }
-#LineFirst .LineType03:nth-child(3) {
+/*  */
+.row .col:nth-child(3) .LineType03 {
     background-image: linear-gradient( 135deg, #f57070 10%, #c65528 100%);
     color: black;
 }
-#LineFirst .LineType03:nth-child(5) {
+/*  */
+.row .col:nth-child(5) .LineType03 {
     background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
-    color: black;
+    color: white;
 }
-
-#LineElementOne {
-    display: grid;
-    grid-template-columns: 81% 18%;
-    grid-gap: 1rem 1%;
-}
-
-
-.cl_board0 #LineSecond, .cl_board0 #LineThree {
-    margin-top: 1rem;
-}
-.cl_board0 #LineSecond>div {
-    display: grid;
-    grid-template-columns: 30% 11% 11% 11% 11%;
-    grid-gap: 0;
-}
-#LineSecond .LineTechDetail {
-    text-align: center;
-    font-size: 1.5rem;
-}
-#LineSecond>div .LineTechDetail:nth-child(1) {
-    text-align: right;
-}
-
-#LineSecond>div {
+/*
+ * Блок: Элементы ------------------
+ */
+/* Цвет линии элементов (по умолчанию) */
+#LineElement>div.row {
     background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%) ;
     color: black ;
 }
-#LineSecond>div:nth-child(odd)  {
+/* Цвет линии нечетных элементов */
+#LineElement>div.row:nth-child(odd)  {
     background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
     color: black;
 }
-#LineSecond>div:nth-child(even)  {
+/*  Цвет линии четных элементов  */
+#LineElement>div.row:nth-child(even)  {
     background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
     color: black;
 }
-.cl_board0 #LineThree .LineType03  {
+#LineElement, #LineDeduction {
+    text-align: center;
+    font-size: 1.6vw;
+}
+/*  */
+#LineElement .LineTechDetail {
+    padding: .2rem 0;
+}
+
+/* ------------- */
+.LineTotalPoint  {
     background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
     color: black;
     text-align: center;
-    font-size: 1.5rem;
+    margin-bottom: 1vh;
 }
-.cl_board0 #LineThree .LineType03:nth-child(1)  {
+/* ------------- */
+.LineTotalRank  {
     background-image: linear-gradient( 135deg, #f57070 10%, #c65528 100%);
-    margin-bottom: 1rem;
 }
-
-#LineFourth {
-    margin-top: .2rem;
-}
-#LineFourth>div {
-    display: grid;
-    grid-template-columns: 30% 11%;
-    grid-gap: 0;
-}
-#LineFourth .LineTechDetail {
-    text-align: center;
-    font-size: 1.5rem;
-}
-#LineFourth>div .LineTechDetail:nth-child(1) {
-    text-align: right;
-}
-
-#LineFourth>div {
+/*
+ * Блок: Нарушения ------------------
+ */
+/* Цвет линии элементов (по умолчанию) */
+#LineDeduction>div {
     background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%) ;
     color: black ;
 }
-#LineFourth>div:nth-child(odd)  {
+/* Цвет линии нечетных элементов */
+#LineDeduction>div:nth-child(odd)  {
     background-image: linear-gradient( 135deg, #f75353 10%, #c62828 100%);
     color: black;
 }
-#LineFourth>div:nth-child(even)  {
+/*  Цвет линии четных элементов  */
+#LineDeduction>div:nth-child(even)  {
     background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
     color: black;
 }
-
+#LineDeduction .row .LineTechDetail:nth-child(2) {
+    text-align: left;
+}
 
 
 /* Анимация: Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 .cl_board0.cl_boardIn .TitleBG {
     animation: backInDown 1s linear 0s normal forwards;
 }
-.cl_board0.cl_boardIn #LineName{
+.cl_board0.cl_boardIn .LineName{
     animation: backInLeft 1s linear 0s normal backwards;
 }
-.cl_board0.cl_boardIn #LineFirst {
+.cl_board0.cl_boardIn .LineFirst {
     animation: backInRight 1s linear 0s normal backwards;
 }
-.cl_board0.cl_boardIn #LineSecond, .cl_board0.cl_boardIn #LineFourth{
+.cl_board0.cl_boardIn #LineElement, .cl_board0.cl_boardIn #LineDeduction{
     animation: backInLeft 1s linear 0s normal backwards;
 }
-.cl_board0.cl_boardIn #LineThree {
-    animation: backInRight 1s linear 0s normal backwards;
+.cl_board0.cl_boardIn .LineTotalPoint, .cl_board0.cl_boardIn .LineTotalRank {
+    animation: backInUp 1s linear 0s normal backwards;
 }
 /* Анимация: Закрытие панели ------------------------------------------------------------- */
 .cl_board0.cl_boardOut .TitleBG {
     animation: backOutUp 1s linear 0s normal forwards;
 }
-.cl_board0.cl_boardOut #LineName{
+.cl_board0.cl_boardOut .LineName{
     animation: backOutLeft 1s linear 0s normal backwards;
 }
-.cl_board0.cl_boardOut #LineFirst {
+.cl_board0.cl_boardOut .LineFirst {
     animation: backOutRight 1s linear 0s normal backwards;
 }
-.cl_board0.cl_boardOut #LineSecond, .cl_board0.cl_boardOut #LineFourth {
+.cl_board0.cl_boardOut #LineElement, .cl_board0.cl_boardOut #LineDeduction {
     animation: backOutRight 1s linear 0s normal backwards;
+}
+.cl_board0.cl_boardOut .LineTotalPoint, .cl_board0.cl_boardOut .LineTotalRank {
+    animation: backOutDown 1s linear 0s normal backwards;
 }
 /* ################################################################################################
 Информационная панель:
@@ -208,12 +186,12 @@ body {
     top:40%;
     background-color: rgba(255, 255, 255, 0);
     margin: 0 auto 0;
-    font-size: 2.8rem;
+    font-size: 2.7vw;
     width: fit-content;
     width: 90%;
 }
 .cl_boardEvent #SegmentName {
-    font-size: 2.5rem;
+    font-size: 2.4vw;
 }
 .cl_boardEvent .TitleBG {
     background-color: #09418a; /*#8a0974*/
@@ -231,9 +209,9 @@ body {
     transform: skew(-25deg);
     width: 95%;
 }
-.cl_boardEvent hr {
+.cl_boardEvent hr, .cl_board0 hr {
     width: 60%;
-    margin: .5rem auto;
+    margin: 1vh auto;
 }
 
 
@@ -247,3 +225,7 @@ body {
     transform-origin: top left; 
 }
 
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    padding-right: .5%;
+    padding-left: .5%;
+}

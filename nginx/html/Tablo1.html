@@ -1,0 +1,206 @@
+<!doctype html>
+<!--
+ * Проект "Информатор спортивных соревнований: фигурное катание на коньках"
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the MIT-LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author    Бурдин А.Н. <support@it-sakh.net>
+ * @copyright Бурдин А.Н. <support@it-sakh.net>
+ * @link      http://www.it-sakh.info/SportInfo/
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @version	  0.0.4
+
+Шаблоны для кубика (экран на льду)
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <link type="text/css" charset="utf-8" rel="stylesheet" href="css/bootstrap-grid.min.css" />
+    <link type="text/css" charset="utf-8" rel="stylesheet" href="css/animate.min.css" />
+    <link type="text/css" charset="utf-8" rel="stylesheet" href="css/main.css" />
+    <script type="text/javascript" charset="utf-8" src="js/jquery-3.5.1.min.js"></script>
+    <!-- Указываем фалы с шаблонами ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <link type="text/css" charset="utf-8" rel="stylesheet" href="template001/templateTablo.css">
+    <script type="text/javascript" charset="utf-8"          src="template001/mainConfig.js"></script>
+    <script type="text/javascript" charset="utf-8"          src="template001/templateTablo.js"></script>
+    <!-- Далее не меняем!           ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <script type="text/javascript" charset="utf-8" src="js/main-websocket.js"></script>
+
+</head>
+<body>
+
+
+  <div id="participantListContainer">
+    <div id="participantListContainer1" class="container-fluid participantListContainerInOut">
+      <div class="row LineRow"><div class="col LineText">1) Полина Подкуйко <small>  </small><span class="Nation">Усурийск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">2) Ева Соколевская <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">3) Екатерина Казаринова <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">4) Софья Шишкин <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">5) Полина Зейц <small>  </small><span class="Nation">Усурийск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">6) Анна Щелчкова <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">7) Екатерина Виловатая <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">8) Виктория Плотникова <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+    </div>
+    <div id="participantListContainer2" class="container-fluid participantListContainerIn">
+      <div class="row LineRow"><div class="col LineText">9) Диана Чун <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">10) Варвара Пронкевич <small>  </small><span class="Nation">Хабаровск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">11) Полина Подкуйко <small>  </small><span class="Nation">Усурийск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">12) Ева Соколевская <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">13) Екатерина Казаринова <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">14) Софья Шишкин <small>  </small><span class="Nation">Южно- Сахалинск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">15) Полина Зейц <small>  </small><span class="Nation">Усурийск</span></div></div>
+      <div class="row LineRow"><div class="col LineText">16) Полина Зейц <small>  </small><span class="Nation">Усурийск</span></div></div>
+    </div>
+  </div>
+  <div id="root_boardGroup">
+    <div class="slider">
+      <div class="slider__wrapper">
+        <div class="slider__item">
+          <div style="height: 250px; background: orange;">1</div>
+        </div>
+        <div class="slider__item">
+          <div style="height: 250px; background: green;">2</div>
+        </div>
+        <div class="slider__item">
+          <div style="height: 250px; background: violet;">3</div>
+        </div>
+        <div class="slider__item">
+          <div style="height: 250px; background: coral;">4</div>
+        </div>
+      </div>
+      <a class="slider__control slider__control_left" href="#" role="button"></a>
+      <a class="slider__control slider__control_right slider__control_show" href="#" role="button"></a>
+    </div>
+  </div>
+  <script>
+    'use strict';
+    var multiItemSlider = (function () {
+      return function (selector, config) {
+        var
+          _mainElement = document.querySelector(selector), // основный элемент блока
+          _sliderWrapper = _mainElement.querySelector('.slider__wrapper'), // обертка для .slider-item
+          _sliderItems = _mainElement.querySelectorAll('.slider__item'), // элементы (.slider-item)
+          _sliderControls = _mainElement.querySelectorAll('.slider__control'), // элементы управления
+          _sliderControlLeft = _mainElement.querySelector('.slider__control_left'), // кнопка "LEFT"
+          _sliderControlRight = _mainElement.querySelector('.slider__control_right'), // кнопка "RIGHT"
+          _wrapperWidth = parseFloat(getComputedStyle(_sliderWrapper).width), // ширина обёртки
+          _itemWidth = parseFloat(getComputedStyle(_sliderItems[0]).width), // ширина одного элемента    
+          _positionLeftItem = 0, // позиция левого активного элемента
+          _transform = 0, // значение транфсофрмации .slider_wrapper
+          _step = _itemWidth / _wrapperWidth * 100, // величина шага (для трансформации)
+          _items = [], // массив элементов
+          _interval = 0,
+          _config = {
+            isCycling: false, // автоматическая смена слайдов
+            direction: 'right', // направление смены слайдов
+            interval: 1000, // интервал между автоматической сменой слайдов
+            pause: true // устанавливать ли паузу при поднесении курсора к слайдеру
+          };
+
+        for (var key in config) {
+          if (key in _config) {
+            _config[key] = config[key];
+          }
+        }
+
+        // наполнение массива _items
+        _sliderItems.forEach(function (item, index) {
+          _items.push({ item: item, position: index, transform: 0 });
+        });
+
+        var position = {
+          getItemMin: function () {
+            var indexItem = 0;
+            _items.forEach(function (item, index) {
+              if (item.position < _items[indexItem].position) {
+                indexItem = index;
+              }
+            });
+            return indexItem;
+          },
+          getItemMax: function () {
+            var indexItem = 0;
+            _items.forEach(function (item, index) {
+              if (item.position > _items[indexItem].position) {
+                indexItem = index;
+              }
+            });
+            return indexItem;
+          },
+          getMin: function () {
+            return _items[position.getItemMin()].position;
+          },
+          getMax: function () {
+            return _items[position.getItemMax()].position;
+          }
+        }
+
+        var _transformItem = function (direction) {
+          var nextItem;
+          if (direction === 'right') {
+            _positionLeftItem++;
+            if ((_positionLeftItem + _wrapperWidth / _itemWidth - 1) > position.getMax()) {
+              nextItem = position.getItemMin();
+              _items[nextItem].position = position.getMax() + 1;
+              _items[nextItem].transform += _items.length * 100;
+              _items[nextItem].item.style.transform = 'translateX(' + _items[nextItem].transform + '%)';
+            }
+            _transform -= _step;
+          }
+        }
+
+        var _cycle = function (direction) {
+          if (!_config.isCycling) {
+            return;
+          }
+          _interval = setInterval(function () {
+            _transformItem(direction);
+          }, _config.interval);
+        }
+
+        var _setUpListeners = function () {
+          if (_config.pause && _config.isCycling) {
+            _mainElement.addEventListener('mouseenter', function () {
+              clearInterval(_interval);
+            });
+            _mainElement.addEventListener('mouseleave', function () {
+              clearInterval(_interval);
+              _cycle(_config.direction);
+            });
+          }
+        }
+
+        // инициализация
+        _setUpListeners();
+        _cycle(_config.direction);
+
+        return {
+          right: function () { // метод right
+            _transformItem('right');
+          },
+          left: function () { // метод left
+            _transformItem('left');
+          },
+          stop: function () { // метод stop
+            _config.isCycling = false;
+            clearInterval(_interval);
+          },
+          cycle: function () { // метод cycle 
+            _config.isCycling = true;
+            clearInterval(_interval);
+            _cycle();
+          }
+        }
+
+      }
+    }());
+
+    var slider = multiItemSlider('.slider', {
+      isCycling: true
+    })
+
+  </script>
+</body>
+</html>

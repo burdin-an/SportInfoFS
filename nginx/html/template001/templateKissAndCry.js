@@ -9,7 +9,7 @@
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- * @version   1.0.2
+ * @version   1.0.3
  */
 
 //Шаблоны для "Уголок слёз и поцелуев" (Kiss and Cry)
@@ -44,36 +44,58 @@ FS_KissAndCry = `
             <div id='SegmentName'></div>
         </div>
     </div>
-    <div id="LineName"><div class="LineType01" id="pName"></div></div>
-    <div id="LineFirst">
-        <div>
-            <div class="LineType03">Техника:<div id='pTES'></div></div>
-            <div class="LineType03">Компоненты:<div id='pTCS'></div></div>
-            <div class="LineType03">Снижения: <div id='pDedSum'></div></div>
-            <div class="LineType03">Бонусы: <div id='pBonus'></div></div>
-            <div class="LineType03">Баллы за выступление:<div id='pSeqPoints'></div></div>
-        </div>
-    </div>
-    <div id="LineElementOne">
-        <div id="LineSecond">
-            <div>Элементы:</div>
-            <div>
-                <div class="LineTechDetail">Элементы:</div>
-                <div class="LineTechDetail">Info:</div>
-                <div class="LineTechDetail">Base:</div>
-                <div class="LineTechDetail">GoE:</div>
-                <div class="LineTechDetail">Баллы:</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="LineName" id="pName"></div>
             </div>
         </div>
-        <div id="LineThree">
-            <div class="LineType03">Итоговая оценка:<div id='pTPoint'></div></div>
-            <div class="LineType03">Текущее итоговое место:<div id='pTRank'></div></div>
+        <div class="row LineFirst">
+            <div class="col center">
+                <div class="LineType03">Техника:<div id='pTES'></div></div>
+            </div>
+            <div class="col center">
+                <div class="LineType03">Компоненты:<div id='pTCS'></div></div>
+            </div>
+            <div class="col center">
+                <div class="LineType03">Снижения: <div id='pDedSum'></div></div>
+            </div>
+            <div class="col center">
+                <div class="LineType03">Бонусы: <div id='pBonus'></div></div>
+            </div>
+            <div class="col center">
+                <div class="LineType03">Баллы за выступление:<div id='pSeqPoints'></div></div>
+            </div>
         </div>
-        <div id="LineFourth">
-            <div>Нарушения:</div>
-            <div>
-                <div class="LineTechDetail">Нарушения:</div>
-                <div class="LineTechDetail">Баллы:</div>
+        <div class="row">
+            <div class="col-5">
+                <div id="LineElement" class="container-fluid">
+                    <div class="row">
+                        <div class="col-4 LineTechDetail">Элементы:</div>
+                        <div class="col LineTechDetail">Info:</div>
+                        <div class="col LineTechDetail">Base:</div>
+                        <div class="col LineTechDetail">GoE:</div>
+                        <div class="col LineTechDetail">Баллы:</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div id="LineDeduction" class="container-fluid">
+                    <div class="row">
+                        <div class="col LineTechDetail">Нарушения:</div>
+                        <div class="col-3 LineTechDetail">Баллы:</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div id="LineResult" class="container-fluid">
+                    <div class="row">
+                        <div class="LineTotalPoint">Итоговая оценка:<div id='pTPoint'></div></div>
+                    </div>
+                    <div class="row">
+                        <div class="LineTotalRank">Текущее итоговое место:<div id='pTRank'></div></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -82,3 +104,5 @@ FS_KissAndCry = `
 LineCountWeb = 7;
 // Табло "Уголок слёз и поцелуев"
 ConfigKissAndCry = true;
+//Разрешить разворачивать во весь экран
+AllowFullScreen = true;
