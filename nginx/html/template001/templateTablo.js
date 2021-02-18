@@ -301,7 +301,7 @@ const FS_VictoryPlace = (data) => `
             <div id="LineName" class="col">${data['Fullname']}</div>
         </div>
         <div id="LineNation" class="row">
-            <div class="col">${data['Club']}</div>
+            <div class="col">${data["City"]}, ${data['Club']}</div>
         </div>
         <div id="LineProff" class="row">
             <div class="col">${data['VictoryPlaсe']}</div>

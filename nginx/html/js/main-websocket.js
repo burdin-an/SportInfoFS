@@ -536,7 +536,9 @@ function updateBoard() {
         var PlaceLine = {
             'EventName': JsonData.EventName,
             'Fullname':  JsonData.pFullName,
+            'Nation':    JsonData.pNation,
             'Club':      JsonData.pClub,
+            'City':      JsonData.pCity,
         };
         if (JsonData.sAction == "First") {
             PlaceLine['VictoryPlaсe'] = VictoryPlaceFirst;
@@ -567,7 +569,7 @@ function updateBoard() {
         var PlaceLine = '';
         Object.keys(JsonData.pParticipant).forEach( function(itemKey){
             item = JsonData.pParticipant[itemKey];
-            PlaceLine += FS_VictoryAllLine({'VictoryPlaсe': item["pTRank"],'FullName': item["pFullName"],'City':item["pCity"]});
+            PlaceLine += FS_VictoryAllLine({'VictoryPlaсe': item["pTRank"],'FullName': item["pFullName"],'City':item["pCity"],'Club':item["pClub"],'Nation':item["pNation"]});
         });
         $("#root_boardGroup").html( 
             FS_VictoryAll({
