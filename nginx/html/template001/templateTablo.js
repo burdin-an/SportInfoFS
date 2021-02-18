@@ -186,7 +186,7 @@ const FS_3SCLineParticipant = (data) => `<div class='row LineRow ${data["Current
 /* Шаблон: Пустая строка между участниками */
 const FS_LineTextEmpty = `<div class='row LineRow'><div class="col LineTextEmpty">.....</div></div>`;
 /* Шаблон: Список официальных лиц */
-const FS_JugeAllLine = (data) => `<div class='row LineRow'><div class="col LineText">${data['Sort']}) ${data["Proff"]} - ${data["FullName"]} <span class="Nation">${data["Nation"]}</span></div></div>`;
+const FS_JugeAllLine = (data) => `<div class='row LineRow'><div class="col LineText">${data["Proff"]} - ${data["FullName"]} <span class="Nation">${data["Nation"]}</span></div></div>`;
 /* ################################################################################################
 Информационная панель:
     Кнопка: 3nd Score; - Промежуточные результаты соревнования

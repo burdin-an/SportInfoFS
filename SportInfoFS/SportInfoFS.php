@@ -163,23 +163,35 @@ function ActionPersonalResult($dAction,$ParticipantID) {
     echo "Music: " .     $ReturnJsonToWeb['pMusic'] . ";\n";
     echo "Coach: " .     $ReturnJsonToWeb['pCoach'] . ";\n";
     if ($dAction == "1SC") {
-        $ReturnJsonToWeb["Element"]   = $EventDB['Participants'][$ParticipantID]['Element'];
-        $ReturnJsonToWeb["Deduction"] = $EventDB['Participants'][$ParticipantID]['Deduction'];
-    }
-    if ($dAction == "1SC" || $dAction == "2SC") {
         $ReturnJsonToWeb["pTES"]       = (string)$EventDB['Participants'][$ParticipantID]['TES'];
         $ReturnJsonToWeb["pTCS"]       = (string)$EventDB['Participants'][$ParticipantID]['TCS'];
         $ReturnJsonToWeb["pBonus"]     = (string)$EventDB['Participants'][$ParticipantID]['Bonus'];
         $ReturnJsonToWeb["pDedSum"]    = (string)$EventDB['Participants'][$ParticipantID]['DedSum'];
         $ReturnJsonToWeb["pSeqPoints"] = (string)$EventDB['Participants'][$ParticipantID]['SeqPoints'];
         $ReturnJsonToWeb["pTPoint"]    = (string)$EventDB['Participants'][$ParticipantID]['TPoint'];
+        $ReturnJsonToWeb["pTRank"]     = (string)$EventDB['Participants'][$ParticipantID]['TRank'];
+        $ReturnJsonToWeb["Element"]    = $EventDB['Participants'][$ParticipantID]['Element'];
+        $ReturnJsonToWeb["Deduction"]  = $EventDB['Participants'][$ParticipantID]['Deduction'];
+        echo "TES: " .         $ReturnJsonToWeb['pTES'] . ";\n";
+        echo "TCS: " .         $ReturnJsonToWeb['pTCS'] . ";\n";
+        echo "Bonus: " .       $ReturnJsonToWeb['pBonus'] . ";\n";
+        echo "Deduction: " .   $ReturnJsonToWeb['pDedSum'] . ";\n";
+        echo "SeqPoints: " .   $ReturnJsonToWeb['pSeqPoints'] . ";\n";
+        echo "Total Point: " . $ReturnJsonToWeb['pTPoint'] . ";\n";
+        echo "Total Rank: "  . $ReturnJsonToWeb['pTRank'] . ";\n";
+    }
+    if ($dAction == "2SC") {
+        $ReturnJsonToWeb["pTES"]       = (string)$EventDB['Participants'][$ParticipantID]['TES'];
+        $ReturnJsonToWeb["pTCS"]       = (string)$EventDB['Participants'][$ParticipantID]['TCS'];
+        $ReturnJsonToWeb["pBonus"]     = (string)$EventDB['Participants'][$ParticipantID]['Bonus'];
+        $ReturnJsonToWeb["pDedSum"]    = (string)$EventDB['Participants'][$ParticipantID]['DedSum'];
+        $ReturnJsonToWeb["pSeqPoints"] = (string)$EventDB['Participants'][$ParticipantID]['SeqPoints'];
         $ReturnJsonToWeb["pRank"]      = (string)$EventDB['Participants'][$ParticipantID]['Rank'];
         echo "TES: " .       $ReturnJsonToWeb['pTES'] . ";\n";
         echo "TCS: " .       $ReturnJsonToWeb['pTCS'] . ";\n";
         echo "Bonus: " .     $ReturnJsonToWeb['pBonus'] . ";\n";
         echo "DedSum: " .    $ReturnJsonToWeb['pDedSum'] . ";\n";
         echo "SeqPoints: " . $ReturnJsonToWeb['pSeqPoints'] . ";\n";
-        echo "TPoint: " .    $ReturnJsonToWeb['pTPoint'] . ";\n";
         echo "Rank: " .      $ReturnJsonToWeb['pRank'] . ";\n";
     }
     unset($ParticipantID);    
@@ -854,7 +866,7 @@ function FuncWorksCalc($data_line, $connection) {
             }
             //3nd Score (3SC) Список промежуточных результатов соревнования
             elseif ($CommandAction == '3SC') {
-                $ReturnJsonToWeb = ActionGroup('3SC',0);
+                $ReturnJsonToWeb = ActionGroup('3SC', (int)$xml_line->Segment_Running->Action['Current_Participant_ID']);
             }
             //Victory Ceremony (VTR) Церемония награждения
             elseif ($CommandAction == 'VTR') {

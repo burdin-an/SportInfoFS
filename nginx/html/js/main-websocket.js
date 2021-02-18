@@ -227,6 +227,7 @@ function updateBoard() {
             $("#SegmentName"  ).html(JsonData.pSegment  );
             $("#pNation"      ).html(JsonData.pNation);
             $("#pClub"        ).html(JsonData.pClub);
+            $("#pCity"        ).html(JsonData.pCity);
             $("#pName"        ).html(JsonData.pName);
             $("#pTES"         ).html(JsonData.pTES);//
             $("#pTCS"         ).html(JsonData.pTCS);//
@@ -441,9 +442,10 @@ function updateBoard() {
                    'Category':  JsonData.pCategory,
                    'Segment':   JsonData.pSegment,
                    'Nation':    JsonData.pNation,
+                   'Club':      JsonData.pClub,
+                   'City':      JsonData.pCity,
                    'Fullname':  JsonData.pName,
                    'Coach':     JsonData.pCoach,
-                   'Club':      JsonData.pClub,
                    'Music':     JsonData.pMusic,
                 })
             );
@@ -466,8 +468,9 @@ function updateBoard() {
                    'Category':  JsonData.pCategory,
                    'Segment':   JsonData.pSegment,
                    'Nation':    JsonData.pNation,
-                   'Fullname':  JsonData.pName,
                    'Club':      JsonData.pClub,
+                   'City':      JsonData.pCity,
+                   'Fullname':  JsonData.pName,
                    'Proff':     ProffLine,
                 })
             );
@@ -486,6 +489,7 @@ function updateBoard() {
                     'Segment':   JsonData.pSegment,
                     'Nation':    JsonData.pNation,
                     'Club':      JsonData.pClub,
+                    'City':      JsonData.pCity,
                     'Fullname':  JsonData.pName,
                     'TechnicPoint':   JsonData.pTES,
                     'ComponentPoint': JsonData.pTCS,

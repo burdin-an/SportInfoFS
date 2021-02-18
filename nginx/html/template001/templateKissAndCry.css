@@ -19,6 +19,124 @@
 body {
     background: center / cover no-repeat #000 url("../images/background.jpg");
 }
+/* ################################################################################################
+Информационная панель:
+    Кнопка:Name; - Информация об участнике
+    Кнопка:2nd Score;  - Показать индивидуальные результаты выступления
+    Кнопка:Judge -> Send; - Информация об официальном лице (судья)
+*/
+.cl_board0 .TitleBG {
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: white;
+}
+.LineName {
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: #fff;
+}
+/*  */
+.LineType03 {
+    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
+    color: black;
+}
+/*  */
+.row .col:nth-child(3) .LineType03 {
+    background-image: linear-gradient( 135deg, #f57070 10%, #c65528 100%);
+    color: black;
+}
+/*  */
+.row .col:nth-child(5) .LineType03 {
+    background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
+    color: white;
+}
+/* Блок: Элементы ---------------------------------------------------------  */
+/* Цвет линии элементов (по умолчанию) */
+#LineElement>div.row {
+    background-image: linear-gradient( 135deg, #55bb55 10%, #37941e 100%) ;
+    color: white;
+}
+/* Цвет линии нечетных элементов */
+#LineElement>div.row:nth-child(odd)  {
+    background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
+    color: white;
+}
+/*  Цвет линии четных элементов  */
+#LineElement>div.row:nth-child(even)  {
+    background-image: linear-gradient( 135deg, #55bb55 10%, #37941e 100%);
+    color: white;
+}
+/* ------------- */
+.LineTotalPoint  {
+    background-image: linear-gradient( 135deg, #55bb55 10%, #37941e 100%);
+    color: white;
+}
+/* ------------- */
+.LineTotalRank  {
+    background-image: linear-gradient( 135deg, #f57070 10%, #c65528 100%);
+    color: white;
+}
+/* Блок: Нарушения ---------------------------------------------------------- */
+/* Цвет линии элементов (по умолчанию) */
+#LineDeduction>div {
+    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%) ;
+    color: white;
+}
+/* Цвет линии нечетных элементов */
+#LineDeduction>div:nth-child(odd)  {
+    background-image: linear-gradient( 135deg, #f75353 10%, #c62828 100%);
+    color: white;
+}
+/*  Цвет линии четных элементов  */
+#LineDeduction>div:nth-child(even)  {
+    background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
+    color: white;
+}
+/* РАЗМЕР ШРИФТА */
+.cl_board0 #SegmentName, .cl_board20 #SubName, .cl_board0 #TitleBlock {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 2vw;
+}
+.LineName {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 3vw;
+ }
+ #pTES,#pTCS,#pDedSum,#pSeqPoints,#pRank,#pBonus,#pTPoint,#pTRank {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 3vw;
+}
+.LineType03, .LineTotalPoint, .LineTotalRank {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 1.2vw;
+}
+#LineElement, #LineDeduction {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 1.6vw;
+}
+
+/* ################################################################################################
+Информационная панель:
+    Кнопка:Segment; - Название соревнования, группа и сегмент
+*/
+.cl_boardEvent {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 2.7vw;
+}
+.cl_boardEvent #SegmentName {
+    /* Размер шрифта: % от ширины экрана  */
+    font-size: 2.4vw;
+}
+.cl_boardEvent .TitleBG {
+    background-color: #09418a;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
 
 /* ################################################################################################
 Информационная панель:
@@ -32,15 +150,10 @@ body {
     height: 100%;
     opacity: 1;
 }
-.cl_board0 #SegmentName, .cl_board20 #SubName, .cl_board0 #TitleBlock {
-    font-size: 2vw;
-}
 .cl_board0 #SegmentName, .cl_board20 #SubName {
     display: inline-block;
 }
 .cl_board0 .TitleBG {
-    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
-    color: white;
     width: 100%;
     opacity: 0;
 }
@@ -51,95 +164,41 @@ body {
 }
 .LineName {
     text-align: center;
-    font-size: 3vw;
-    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
-    color: #fff;
     margin: .5% 0 0;
     padding: .1% 0;
 }
-#pTES,#pTCS,#pDedSum,#pSeqPoints,#pRank,#pBonus,#pTPoint,#pTRank {
-    font-size: 3vw;
-}
+
 /* Задаем общие параметры для блоков */
 .LineType03, .LineTotalPoint, .LineTotalRank {
-    font-size: 1.2vw;
     text-align: center;
     width: 100%;
     padding-top: 1vh;
 }
 /*  */
 .LineType03 {
-    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
-    color: black;
     text-align: center;
     margin: 2% 0;
 }
-/*  */
-.row .col:nth-child(3) .LineType03 {
-    background-image: linear-gradient( 135deg, #f57070 10%, #c65528 100%);
-    color: black;
-}
-/*  */
-.row .col:nth-child(5) .LineType03 {
-    background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
-    color: white;
-}
+
 /*
  * Блок: Элементы ------------------
  */
-/* Цвет линии элементов (по умолчанию) */
-#LineElement>div.row {
-    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%) ;
-    color: black ;
-}
-/* Цвет линии нечетных элементов */
-#LineElement>div.row:nth-child(odd)  {
-    background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
-    color: black;
-}
-/*  Цвет линии четных элементов  */
-#LineElement>div.row:nth-child(even)  {
-    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
-    color: black;
-}
 #LineElement, #LineDeduction {
     text-align: center;
-    font-size: 1.6vw;
 }
 /*  */
 #LineElement .LineTechDetail {
     padding: .2rem 0;
 }
-
 /* ------------- */
 .LineTotalPoint  {
-    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%);
-    color: black;
     text-align: center;
     margin-bottom: 1vh;
 }
-/* ------------- */
-.LineTotalRank  {
-    background-image: linear-gradient( 135deg, #f57070 10%, #c65528 100%);
-}
+
 /*
  * Блок: Нарушения ------------------
  */
-/* Цвет линии элементов (по умолчанию) */
-#LineDeduction>div {
-    background-image: linear-gradient( 135deg, #70F570 10%, #49C628 100%) ;
-    color: black ;
-}
-/* Цвет линии нечетных элементов */
-#LineDeduction>div:nth-child(odd)  {
-    background-image: linear-gradient( 135deg, #f75353 10%, #c62828 100%);
-    color: black;
-}
-/*  Цвет линии четных элементов  */
-#LineDeduction>div:nth-child(even)  {
-    background-image: linear-gradient( 135deg, #70aef5 10%, #284dc6 100%);
-    color: black;
-}
 #LineDeduction .row .LineTechDetail:nth-child(2) {
     text-align: left;
 }
@@ -184,18 +243,12 @@ body {
 .cl_boardEvent {
     position: relative;
     top:40%;
-    background-color: rgba(255, 255, 255, 0);
+    /*background-color: rgba(255, 255, 255, 0);*/
     margin: 0 auto 0;
-    font-size: 2.7vw;
     width: fit-content;
     width: 90%;
 }
-.cl_boardEvent #SegmentName {
-    font-size: 2.4vw;
-}
 .cl_boardEvent .TitleBG {
-    background-color: #09418a; /*#8a0974*/
-    color: white;
     border-radius: 1rem;
     transform: skew(25deg);
     margin: .2rem auto .2rem;

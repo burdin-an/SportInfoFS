@@ -39,7 +39,7 @@ const FS_UserInfo = (data) => `
     <div id="board00">
         <div id="board1"></div>
         <div id="board2"></div>
-        <div id="LineUP">${data['Fullname']} / ${data['City']}</div>
+        <div id="LineUP">${data['Fullname']} (${data['City']})</div>
         <div id="LineDownThree">Тренер: ${data['Coach']}</div>
         <div id="LineDownTwo">Школа:  ${data['Club']}</div>
         <div id="LineDownOne">Музыка: ${data['Music']}</div>
@@ -124,11 +124,11 @@ const FS_NameLineWrapperSecond = (data) => `</div><div data-index="${data['IDCon
 /* Шаблон: Списка участников */
 const FS_NameLineParticipant = (data) => `<div class='row LineRow'><div class="col LineText">${data["Sort"]}) ${data["FullName"]} <small>  ${data['Status']}</small><span class="Nation">${data["Nation"]}</span></div></div>`;
 /* Шаблон: Списка участников с оценками */
-const FS_3SCLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col LineText">${data["Sort"]}) ${data["FullName"]}<br><span class="Nation">${data["Nation"]}</span></div><div class='col-2 LineLast'>${data["Point"]}</div></div>`;
+const FS_3SCLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col LineText">${data["Sort"]}) ${data["FullName"]}<br><span class="Nation">${data["Nation"]}</span></div><div class='col-3 LineLast'>${data["Point"]}</div></div>`;
 /* Шаблон: Пустая строка между участниками */
 const FS_LineTextEmpty = `<div class='row LineRow'><div class="col LineTextEmpty">.....</div></div>`;
 /* Шаблон: Список официальных лиц */
-const FS_JugeAllLine = (data) => `<div class='row LineRow'><div class="col LineText">${data['Sort']}) ${data["Proff"]} / ${data["FullName"]} <span class="Nation">${data["Nation"]}</span></div></div>`;
+const FS_JugeAllLine = (data) => `<div class='row LineRow'><div class="col LineText">${data["Proff"]} / ${data["FullName"]} <span class="Nation">${data["Nation"]}</span></div></div>`;
 /* ################################################################################################
 Информационная панель:
     Кнопка: 3nd Score; - Промежуточные результаты соревнования
