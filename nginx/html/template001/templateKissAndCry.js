@@ -14,6 +14,13 @@
 
 //Шаблоны для "Уголок слёз и поцелуев" (Kiss and Cry)
 
+// Количество линий участников
+LineCountWeb = 7;
+// Табло "Уголок слёз и поцелуев"
+ConfigKissAndCry = true;
+//Разрешить разворачивать во весь экран
+AllowFullScreen = true;
+
 /* ################################################################################################
 Информационная панель:
     Кнопка:Segment; - Название соревнования, группа и сегмент
@@ -83,26 +90,20 @@ FS_KissAndCry = `
                 <div id="LineDeduction" class="container-fluid">
                     <div class="row">
                         <div class="col LineTechDetail">Нарушения:</div>
-                        <div class="col-3 LineTechDetail">Баллы:</div>
+                        <div class="col-3 LineTechDetail">Кол-во:</div>
                     </div>
                 </div>
             </div>
             <div class="col-2">
                 <div id="LineResult" class="container-fluid">
                     <div class="row">
-                        <div class="LineTotalPoint">Итоговая оценка:<div id='pTPoint'></div></div>
+                        <div class="LineTotalPoint">Сумма баллов:<div id='pTPoint'></div></div>
                     </div>
                     <div class="row">
-                        <div class="LineTotalRank">Текущее итоговое место:<div id='pTRank'></div></div>
+                        <div class="LineTotalRank">Текущее место:<div id='pTRank'></div></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>`;
-// Количество линий участников
-LineCountWeb = 7;
-// Табло "Уголок слёз и поцелуев"
-ConfigKissAndCry = true;
-//Разрешить разворачивать во весь экран
-AllowFullScreen = true;

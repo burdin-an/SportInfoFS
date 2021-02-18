@@ -579,7 +579,7 @@ function FuncWorksCalc($data_line, $connection) {
                                             'Nation'      => (string)$Participant['Nation'],
                                             'Club'        => (string)$ClubAndCity[2][0],
                                             'City'        => (string)$ClubAndCity[1][0],
-                                            'Music'       => (empty($Participant['Music'])) ? 'Нет музыки'  : (string)$Participant['Music'],
+                                            'Music'       => (empty($Participant['Music'])) ? ''  : (string)$Participant['Music'],
                                             'Coach'       => (empty($Participant['Coach'])) ? 'Нет тренера' : (string)$Participant['Coach'],
                                             'Status'      => (string)$Participant['Status'],
                                             //Сортировка за выступление
