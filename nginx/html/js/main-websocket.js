@@ -312,6 +312,8 @@ function updateBoard() {
                     'Sort':     item["pStartNumber"],
                     'FullName': item["pFullName"],
                     'Nation':   item["pNation"],
+                    'Club':     item["pClub"],
+                    'City':     item["pCity"],
                     'Status':   ParticipantStatus,
                 });
                 ParticipantStatus = '';
@@ -324,6 +326,8 @@ function updateBoard() {
                         'Sort':     item["pTSort"],
                         'FullName': item["pFullName"],
                         'Nation':   item["pNation"],
+                        'Club':     item["pClub"],
+                        'City':     item["pCity"],
                         'Point':    item["pTPoint"],
                     });
                     if (item["pCurrent"] == 1 && index >=7 && index < Object.keys(Participant).length) {
