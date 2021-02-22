@@ -9,7 +9,9 @@
  * @author    Бурдин А.Н. <support@it-sakh.net>
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
+ * @link      https://github.com/burdin-an/SportInfoFS
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @version   1.0.4
  */
 
 setlocale(LC_CTYPE, 'ru_RU.UTF-8');
