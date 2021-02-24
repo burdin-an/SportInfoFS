@@ -617,7 +617,7 @@ function FuncWorksCalc($data_line, $connection) {
         }
         //База пуста необходима загрузка из файла!!!
         elseif (is_object($xml_line->Segment_Running->Action) && empty($EventDB)) {
-            $DBFileNew = json_decode( file_get_contents(__DIR__ . '/config/DB.json') , true );
+            $DBFileNew = json_decode( file_get_contents(__DIR__ . '/DB/DB.json') , true );
             if ($DBFileNew['CurrentSegmentID'] == (int) $xml_line->Segment_Running["Segment_ID"] && $DBFileNew['IsuCalcVersion'] == (string) $xml_line["IsuCalcFs"] && $DBFileNew['DatabaseVersion'] == (int) $xml_line["Database"]) {
                     echo "-----------------------------------------------------------------------------------------\n";
                     echo "Данных Загружены!!!\n".$DBFileNew['CurrentSegmentID'] . "=".$xml_line->Segment_Running['Segment_ID'];
