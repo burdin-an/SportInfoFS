@@ -1,5 +1,58 @@
+Версия документа: 0.2
 
-Версия:0.1
+1) Установка:
+1.1) Установка для ОС Windows:
+1.1.1) Создаем рабочий каталог;
+1.1.2) Установка Веб-сервера Nginx;
+1.1.3) Установка PHP;
+1.1.4) Установка PHP framework Workerman.
+1.2) Установка для ОС Linux:
+
+# 1) Установка (Чистая).
+## 1.1) Требования к программному обеспечению.
+1) Веб-сервер. Подойдет любой, но мы рекомендуем использовать Nginx, т.к. Nginx будет использоваться как RTSP видео сервер;
+2) PHP версии 7.3 или выше. (Но тестировали работу на версии 7.3);
+3) PHP framework Workerman версии от 4.0.6
+4) Composer (https://getcomposer.org/download/)
+5) Архиватор 7-Zip (https://www.7-zip.org/download.html)
+6)Текстовый редактор: 
+6.1) или AkelPad (http://akelpad.sourceforge.net/ru/download.php)
+6.2) или Notepad++ (https://notepad-plus-plus.org/downloads/)
+6.3) или любой другой, но только не блокнот!
+7) Редактор HTML и CSS 
+7.1) или AkelPad (http://akelpad.sourceforge.net/ru/download.php)
+7.2) или Notepad++ (https://notepad-plus-plus.org/downloads/)
+7.3) Visual Studio Code (https://code.visualstudio.com/Download) Рекомендуем использовать данный редактор новичкам ().
+
+## 1.1) Установка для ОС Windows
+## 1.1.1) Создаем рабочий каталог.
+На диске «С:» создаем директорию: SportInfoFS
+## 1.1.2) Установка Веб-сервера Nginx
+1) Скачиваем с сайта последнюю основную версию Nginx в директорию: «C:\SportInfoFS\nginx-1.XX.X.zip»
+2) Распаковываем архив «C:\SportInfoFS\nginx-1.XX.X»
+3) Переименовываем директорию «nginx-1.XX.X» в «nginx»
+4) открываем в редакторе файл «C:\SportInfoFS\nginx\conf\nginx.conf»
+
+
+
+Файлы шаблонов:
+1)C:\SportInfo\nginx\html\js
+2)C:\SportInfo\nginx\html\css
+
+
+База информатора:
+C:\SportInfo\SportInfoFS\config\DB.json
+В формате JSON
+
+Файлы журналирования (лог файлы):
+C:\SportInfo\SportInfoFS\logs
+
+На каждый запуск будут создаваться два файла.
+
+RawInput-<ДАТА>-<Уникальный номер>.log - это файл с сырыми данными от CALC
+Error-<ДАТА>-<Уникальный номер>.log - это файл со всякой хренью (потом удалю)
+
+
 
 Файлы шаблонов:
 1)C:\SportInfo\nginx\html\js
