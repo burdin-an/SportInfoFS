@@ -1023,7 +1023,7 @@ function FuncWorksCalc($data_line, $connection) {
             }
         }
         if ($xml_line->Segment_Running->Action['Command'] != 'TIM') {
-            $DBFile = fopen(__DIR__ . '/config/DB.json', 'w');
+            $DBFile = fopen(__DIR__ . '/DB/DB.json', 'w');
             fwrite($DBFile, json_encode($EventDB, JSON_PRETTY_PRINT|JSON_HEX_APOS|JSON_HEX_QUOT));
             fclose($DBFile);
         }
@@ -1033,10 +1033,9 @@ function FuncWorksCalc($data_line, $connection) {
     return 1;
 }
 
-
-$randFileName = rand();
-$ErrorLogFile =    fopen(__DIR__ . '/logs/Error-' . date('Y-m-d-H') . '-' . $randFileName . '.log', 'w');
-$RawInputLogFile = fopen(__DIR__ . '/logs/RawInput-' . date('Y-m-d') . '-' . $randFileName . '.log', 'w');
+if ($ini['WriteRawInputCalc'] == 1) {
+    $RawInputLogFile = fopen(__DIR__ . '/logs/RawInput-' . date('Y-m-d') . '-' . rand() . '.log', 'w');
+}
 
 require_once __DIR__ . '/vendor/autoload.php';
 use Workerman\Worker;
@@ -1207,42 +1206,30 @@ $ws_worker->onWorkerStart = function() use (&$users) {
     $NewData = '';
     $connection->onMessage = function($connection, $data) use (&$users) {
         global $NewData;
-        global $ErrorLogFile;
-        global $RawInputLogFile;        
-        fwrite($RawInputLogFile, $data);
-        fwrite($ErrorLogFile, "Start LINE---------" . $data . "----------------------Stop Line" . PHP_EOL);
+        global $RawInputLogFile;
+        if ($ini['WriteRawInputCalc'] == 1) {
+            fwrite($RawInputLogFile, $data);
+        }
         $stopSimbol = ord(substr($data, -1));
-        fwrite($ErrorLogFile, "------Stop simbol:" . $stopSimbol . PHP_EOL);
         if ($stopSimbol == 3 && $NewData == '') {
             $NewData = $data;
-            fwrite($ErrorLogFile, "------STRING OK One LINE" . PHP_EOL);
         }
         elseif ($stopSimbol == 3 && $NewData != '') {
             $NewData .= $data;
-            fwrite($ErrorLogFile, "------EMPTY STRING3333" . PHP_EOL);
         }
         else {
             $NewData .= $data;
-            fwrite($ErrorLogFile, "------EMPTY STRING2222" . PHP_EOL);
         }
 
         if ($stopSimbol == 3) {
             foreach (explode(chr(3), $NewData) as $data_line1) {
                 $startSimbol = ord(substr($data_line1, 0));
                 if ($startSimbol == 2) {
-                    fwrite($ErrorLogFile, "------#######" . ltrim($data_line1) . PHP_EOL);
                     FuncWorksCalc(ltrim($data_line1), $connection);
-                }
-                elseif ($startSimbol == 0) {
-                    fwrite($ErrorLogFile, "------EMPTY STRING" . PHP_EOL);
-                }
-                else {
-                    fwrite($ErrorLogFile, "------XZ" . PHP_EOL);
                 }
             }
             $NewData = '';
             //unset($NewData);
-            fwrite($ErrorLogFile, "------EMPTY line" . PHP_EOL);
         }
     };
     $connection->onClose = function($connection) {
