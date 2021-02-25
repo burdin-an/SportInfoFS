@@ -24,48 +24,98 @@
 </head>
 <body>
     <h1>Информационная панель фигурного катания</h1>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-primary" href="#" id="Name" role="button" title="Показать информацию участника">Участник (Name)</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-primary" href="#" id="Segment" role="button" title="Показать название соревнования и разряда">Название (Segment)</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-danger" href="#" id="Clear" role="button" title="">Очистить (Clear)</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-primary" href="#" id="ResultPersonal" role="button" title="">Показать результаты участника (2nd Score)</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-info" href="#" id="ResultAll" role="button" title="">Показать итоговые результаты (3nd Score)</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-info" href="#" id="StartList" role="button" title="">Стартовый список (StartList)</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-info" href="#" id="WarmGroup" role="button" title="">Список участников на разминке (WarmGroup)</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-info" href="#" id="JudgeAll" role="button" title="">Показать список официальных лиц (Judge -> Send All Judges)</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-success" href="#" id="VoiceOneMinute" role="button" title="Осталась одна минута">Осталась одна минута</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-success" href="#" id="VoiceWarmCompleted" role="button" title="Разминка завершена">Разминка завершена</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-success" href="#" id="VoiceStartGame" role="button" title="Начало соревнований">Начало соревнований</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-success" href="#" id="ReloadKissAndCry" role="button" title="">Перезагрузить "Уголок слёз и поцелуев"</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-success" href="#" id="ReloadTablo" role="button" title="">Перезагрузить "Табло"</a>
-    </div>
-    <div class="btn-toolbar mb-3" role="toolbar">
-        <a class="btn btn-success" href="#" id="ReloadOBS" role="button" title="">Перезагрузить "OBS"</a>
-    </div>
+
+    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active display-4" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Общее</a>
+          </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link display-4" id="BoardTV-tab" data-toggle="tab" href="#BoardTV" role="tab" aria-controls="BoardTV" aria-selected="true">Титры</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link display-4" id="BoardTablo-tab" data-toggle="tab" href="#BoardTablo" role="tab" aria-controls="BoardTablo" aria-selected="false">Табло</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link display-4" id="BoardKissAndCry-tab" data-toggle="tab" href="#BoardKissAndCry" role="tab" aria-controls="BoardKissAndCry" aria-selected="false">Уголок</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <!--  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"><br>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-primary" href="#" id="Segment" role="button" title="Показать название соревнования и разряда">Название (Segment)</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-info" href="#" id="StartList" role="button" title="">Стартовый список (StartList)</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-info" href="#" id="JudgeAll" role="button" title="">Показать список официальных лиц (Judge -> Send All Judges)</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-warning" href="#" id="Clear" role="button" title="">Очистить (Clear)</a>
+            </div>
+        
+        
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-primary disabled" href="#" id="Name"  aria-disabled="true" role="button" title="Показать информацию участника">Участник (Name)</a>
+            </div>        
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-primary disabled" href="#" id="ResultPersonal" aria-disabled="true" role="button" title="">Показать результаты участника (2nd Score)</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-info disabled" href="#" id="ResultAll" aria-disabled="true" role="button" title="">Показать итоговые результаты (3nd Score)</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-info disabled" href="#" id="WarmGroup" aria-disabled="true" role="button" title="">Список участников на разминке (WarmGroup)</a>
+            </div>
+            
+        </div>
+        <!--  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+        <div class="tab-pane fade" id="BoardTV" role="tabpanel" aria-labelledby="BoardTV-tab"><br>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-warning" href="#" id="ClearTV" role="button" title="">Очистить Титры</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-danger" href="#" id="ReloadTV" role="button" title="">Перезагрузить Титры</a>
+            </div>
+        </div>
+        <!--  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+        <div class="tab-pane fade" id="BoardTablo" role="tabpanel" aria-labelledby="BoardTablo-tab"><br>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-warning" href="#" id="ClearTablo" role="button" title="">Очистить Табло</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-success" href="#" id="VoiceOneMinute" role="button" title="Осталась одна минута">Осталась одна минута</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-success" href="#" id="VoiceWarmCompleted" role="button" title="Разминка завершена">Разминка завершена</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-success disabled" href="#" id="VoiceStartGame" aria-disabled="true" role="button" title="Начало соревнований">Начало соревнований</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-danger" href="#" id="ReloadTablo" role="button" title="">Перезагрузить "Табло"</a>
+            </div>
+        </div>
+        <!--  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+        <div class="tab-pane fade" id="BoardKissAndCry" role="tabpanel" aria-labelledby="BoardKissAndCry-tab"><br>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-warning" href="#" id="ClearKissAndCry" role="button" title="">Очистить "Уголок слёз и поцелуев"</a>
+            </div>
+            <div class="btn-toolbar mb-3" role="toolbar">
+                <a class="btn btn-lg btn-danger" href="#" id="ReloadKissAndCry" role="button" title="">Перезагрузить "Уголок слёз и поцелуев"</a>
+            </div>
+        </div>
+      </div>
+
+
+
+
+    
+
+
+
+
     <!--div class="btn-toolbar mb-3" role="toolbar">
         <a class="btn btn-primary" href="#" id="" role="button" title="">Link</a>
     </div>-->

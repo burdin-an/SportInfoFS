@@ -70,6 +70,22 @@ function connect() {
                     ShowTimerBoard();
                 }
             }
+            // Перезагрузить табло
+            else if (JsonData.dAction == 'ReloadTablo' && ConfigShowTimer) {
+                document.location.reload();
+            }
+            // Перезагрузить титры
+            else if (JsonData.dAction == 'ReloadOBS' && !ConfigShowTimer) {
+                document.location.reload();
+            }
+            // Воиспроизвести: Последняя минута разминки
+            else if (JsonData.dAction == 'VoiceOneMinute' && ConfigShowTimer) {
+                var VoiceOneMinute = document.getElementById('RazminkaLastMinute').play();
+            }
+            // Воиспроизвести: Разминка завершена
+            else if (JsonData.dAction == 'VoiceWarmCompleted' && ConfigShowTimer) {
+                var VoiceWarmCompletedPlauer = document.getElementById('RazminkaStop').play();
+            }
             // Первые данные
             else if (JsonData.dAction == 'INIT') {
                 EventDB['EventName']    = JsonData.EventName;
@@ -181,7 +197,7 @@ function cleanBoardKissAndCry() {
 
 function clearTimerBoard() {
     $( "#id_boardTimer" ).html( "" );
-    var promise = document.getElementById('player').pause();
+    var VoiceOneMinute = document.getElementById('RazminkaLastMinute').pause();
     timerBoardOpen = false;
 }
 
@@ -194,7 +210,7 @@ function ShowTimerBoard() {
 function updateTimerBoard() {
     $( "#Timer" ).html( JsonData.Time );
     if (JsonData.Time == 1.00 && JsonData.sAction == 'TimerCountdown') {
-        var promise = document.getElementById('player').play();
+        var VoiceOneMinute = document.getElementById('RazminkaLastMinute').play();
     }
 }
 		
@@ -260,6 +276,9 @@ function updateBoard() {
                 }, AutoCloseKissAndCryTime*60000);
             }
 
+        }
+        else if (JsonData.dAction == 'ReloadKissAndCry') {
+            document.location.reload();
         }
     }
     // STL - Стартовый лист

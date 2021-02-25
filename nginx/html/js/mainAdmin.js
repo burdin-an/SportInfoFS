@@ -48,6 +48,15 @@ $(document).ready(function(){
     $('#Clear').click(function(s) {
         ws.send("Clear");
     });
+    $('#ClearTablo').click(function(s) {
+        ws.send("ClearTablo");
+    });
+    $('#ClearTV').click(function(s) {
+        ws.send("ClearTV");
+    });
+    $('#ClearKissAndCry').click(function(s) {
+        ws.send("ClearKissAndCry");
+    });
     $('#ResultPersonal').click(function() {
         ws.send("ResultPersonal");
     });
@@ -78,8 +87,8 @@ $(document).ready(function(){
     $('#ReloadTablo').click(function() {
         ws.send("ReloadTablo");
     });
-    $('#ReloadOBS').click(function() {
-        ws.send("ReloadOBS");
+    $('#ReloadTV').click(function() {
+        ws.send("ReloadTV");
     });
     $('#XXXXXXX').click(function() {
         ws.send("XXXXXXX");
