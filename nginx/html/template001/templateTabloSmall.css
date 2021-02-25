@@ -57,10 +57,13 @@
 
 /* Цвета полос */
 .cl_board0 #LineName,
-.cl_board0 .LineTitle,
+.cl_board0 .LineTitle {
+    background-color: white;
+    color: black;
+}
 .cl_board0 .LineLast {
-    background-image: linear-gradient(to right, #59005c 0%, #59005c 50%, #59005c 100%);
-    color: white;
+    background-color: white;
+    color: black;
 }
 .cl_board0 #LineNation,
 .cl_board0 #LineCoach,
@@ -79,16 +82,16 @@
 .cl_board0 .LineTitle,
 .cl_board0 .LineText,
 .cl_board0 #LineProff {
-    font-size: 8vh;
+    font-size: 7vh;
 }
 .cl_board0 .LineLast {
-    font-size: 9vh;
+    font-size: 8vh;
 }
 .cl_board0 #LineNation {
     font-size: 7vh;
 }
 .cl_board0 #LineName {
-    font-size: 10vh;
+    font-size: 9vh;
 }
 /* ################################################################################################
 Информационная панель:
@@ -101,8 +104,8 @@
 /* Цвета полос */
 .cl_board20 .LineLast,
 .cl_boardGroupResult .LineLast {
-    background-image: linear-gradient(to right, #59005c 0%, #59005c 50%, #59005c 100%);
-    color: white;
+    background-color: white;
+    color: black;
 }
 .cl_board20 .container-fluid .row:nth-child(odd), 
 .cl_boardGroupResult .container-fluid .row:nth-child(odd){
@@ -119,10 +122,17 @@
     background-image: linear-gradient(to right, #162152 0%, #162152  51%, #162152  100%) !important;
     color: white !important;
 }
+.cl_board20 .LineSort,
+.cl_boardGroupResult .LineSort {
+    background-color: white;
+    color: black;
+}
 
 /* Размер шрифта */
 .cl_board20 .LineText,
 .cl_boardGroupResult .LineText,
+.cl_board20 .LineSort,
+.cl_boardGroupResult .LineSort,
 .cl_board20 .LineTextEmpty,
 .cl_boardGroupResult .LineTextEmpty {
     font-size: 9vh;
@@ -296,6 +306,8 @@
 }
 .cl_board20 .LineTitle,
 .cl_boardGroupResult .LineTitle,
+.cl_board20 .LineSort,
+.cl_boardGroupResult .LineSort,
 .cl_board20 .LineText,
 .cl_boardGroupResult .LineText,
 .cl_board20 .LineTextEmpty,

@@ -152,9 +152,9 @@ const FS_NameLineWrapperFirst = (data) => `<div data-index="${data['IDContainer'
 /* Шаблон: Последующих блоков обёрток */
 const FS_NameLineWrapperSecond = (data) => `</div><div data-index="${data['IDContainer']}" class="participantListContainerItem container-fluid">`;
 /* Шаблон: Списка участников */
-const FS_NameLineParticipant = (data) => `<div class='row LineRow'><div class="col LineText">${data["Sort"]}) ${data["FullName"]} <small>  ${data['Status']}</small><span class="Nation">${data["Nation"]}</span></div></div>`;
+const FS_NameLineParticipant = (data) => `<div class='row LineRow'><div class="col-1 LineSort center">${data["Sort"]}</div><div class="col LineText">${data["FullName"]} <small>  ${data['Status']}</small><span class="Nation">${data["Nation"]}</span></div></div>`;
 /* Шаблон: Списка участников с оценками */
-const FS_3SCLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col LineText">${data["Sort"]}) ${data["FullName"]}<span class="Nation">${data["Nation"]}</span></div><div class='col-3 LineLast participantPoint'>${data["Point"]}</div></div>`;
+const FS_3SCLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col-1 LineSort center">${data["Sort"]}</div><div class="col LineText">${data["FullName"]}<span class="Nation">${data["Nation"]}</span></div><div class='col-3 LineLast participantPoint'>${data["Point"]}</div></div>`;
 /* Шаблон: Пустая строка между участниками */
 const FS_LineTextEmpty = `<div class='row LineRow'><div class="col LineTextEmpty">.....</div></div>`;
 /* Шаблон: Список официальных лиц */
