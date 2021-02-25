@@ -61,7 +61,7 @@ html,body,#id_boardTimer {
     color: white;
 }
 .center {
-    text-align: center;
+    text-align: center !important;
 }
 #copyright {
     position: absolute;
