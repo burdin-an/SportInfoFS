@@ -52,7 +52,7 @@ function ActionName($ParticipantID) {
     echo "Music: " .   $ReturnJsonToWeb['pMusic'] . ";\n";
     echo "Coach: " .   $ReturnJsonToWeb['pCoach'] . ";\n";
     return $ReturnJsonToWeb;
-};
+}
 //Start List (STL) Стартовый лист
 //Warm Group (WUP) Список группы разминки
 //3nd Score (3SC) Список промежуточных результатов соревнования
@@ -198,7 +198,7 @@ function ActionPersonalResult($dAction,$ParticipantID) {
     }
     unset($ParticipantID);    
     return $ReturnJsonToWeb;
-};
+}
 //
 function ActionJudge($JudgeID) {
     global $EventDB;
@@ -260,7 +260,7 @@ function ActionJudge($JudgeID) {
     }
     $JudgeID = 0;
     return $ReturnJsonToWeb;
-};
+}
 //
 function ActionVictory($SubCommandAction) {
     global $EventDB;
@@ -344,7 +344,7 @@ function ActionVictory($SubCommandAction) {
         ksort($ReturnJsonToWeb["pParticipant"]);
     }
     return $ReturnJsonToWeb;
-};
+}
 
 function ActionSegment() {
     global $EventDB;
@@ -362,7 +362,7 @@ function ActionSegment() {
     echo "CategoryName: " . $ReturnJsonToWeb['pCategory'] . ";\n";
     echo "SegmentName: " . $ReturnJsonToWeb['pSegment'] . ";\n";
     return $ReturnJsonToWeb;
-};
+}
 //Очистить всё
 function ActionClearALL() {
     echo "Очистка экрана\n";
@@ -370,7 +370,31 @@ function ActionClearALL() {
         "timestamp"    => time(),
         "dAction"      => "Clear",
     ];
-};
+}
+//Очистить Табло
+function ActionClearTablo() {
+    echo "Очистка экрана Табло\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "ClearTablo",
+    ];
+}
+//Очистить Титры
+function ActionClearTV() {
+    echo "Очистка Титров\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "ClearTV",
+    ];
+}
+//Очистить "Уголок слёз и поцелуев"
+function ActionClearKissAndCry() {
+    echo "Очистка 'Уголок слёз и поцелуев'\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "ClearKissAndCry",
+    ];
+}
 //Очистить титры: Персональные данные
 function ActionClearTVPersonal() {
     echo "Очистка экрана\n";
@@ -378,7 +402,7 @@ function ActionClearTVPersonal() {
         "timestamp"    => time(),
         "dAction"      => "ClearTVPersonal",
     ];
-};
+}
 //Очистить титры: Группы
 function ActionClearTVGroup() {
     echo "Очистка титры: Группы\n";
@@ -386,7 +410,7 @@ function ActionClearTVGroup() {
         "timestamp"    => time(),
         "dAction"      => "ClearTVGroup",
     ];
-};
+}
 //Очистить титры: Название серевнования (Segment)
 function ActionClearTVSegment() {
     echo "Очистка титры: Название серевнования (Segment)\n";
@@ -394,7 +418,7 @@ function ActionClearTVSegment() {
         "timestamp"    => time(),
         "dAction"      => "ClearTVSegment",
     ];
-};
+}
 //Воиспроизвести: Последняя минута разминки
 function ActionVoiceOneMinute() {
     echo "Воиспроизвести: Последняя минута разминки\n";
@@ -443,7 +467,14 @@ function ActionReloadOBS() {
         "dAction"      => "ReloadOBS",
     ];
 }
-//function ActionVoiceOneMinute() {}
+// Воиспроизвести: Последняя минута разминки
+/*function ActionVoiceOneMinute() {
+    echo "Перезагрузить: OBS\n";
+    return [
+        "timestamp"    => time(),
+        "dAction"      => "VoiceOneMinute",
+    ];
+};*/
 
 function FuncWorksCalc($data_line, $connection) {
     global $EventDB;
@@ -1118,10 +1149,29 @@ $ws_worker->onMessage = function($connection, $data) use (&$users) {
             echo "ADMIN ACTION SEGMENT\n";
             $ReturnJsonToWeb = ActionSegment();
         }
+        //Очистить всё
         elseif ($data == "Clear" && ($AllRight || false !== array_search('Clear', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
             echo "ADMIN ACTION CLEAR\n";
-            $ReturnJsonToWeb = ActionClear();
+            $ReturnJsonToWeb = ActionClearAll();
+        }
+        //Очистить Табло
+        elseif ($data == "ClearTablo" && ($AllRight || false !== array_search('ClearTablo', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION CLEAR\n";
+            $ReturnJsonToWeb = ActionClearTalo();
+        }
+        //Очистить Титры
+        elseif ($data == "ClearTV" && ($AllRight || false !== array_search('ClearTV', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION CLEAR\n";
+            $ReturnJsonToWeb = ActionClearTV();
+        }
+        //Очистить "Уголок слёз и поцелуев"
+        elseif ($data == "ClearKissAndCry" && ($AllRight || false !== array_search('ClearKissAndCry', $users[$connection->id]['role']))) {
+            echo "---------------------------------------------------------------------\n";
+            echo "ADMIN ACTION: Clear Kiss&Cry\n";
+            $ReturnJsonToWeb = ActionClearKissAndCry();
         }
         elseif ($data == "ResultPersonal" && ($AllRight || false !== array_search('ResultPersonal', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
@@ -1134,6 +1184,7 @@ $ws_worker->onMessage = function($connection, $data) use (&$users) {
         elseif ($data == "StartList" && ($AllRight || false !== array_search('StartList', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
             echo "ADMIN ACTION StartList\n";
+            $ReturnJsonToWeb = ActionGroup('STL',0);
         }
         elseif ($data == "WarmGroup" && ($AllRight || false !== array_search('WarmGroup', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
@@ -1142,36 +1193,43 @@ $ws_worker->onMessage = function($connection, $data) use (&$users) {
         elseif ($data == "JudgeAll" && ($AllRight || false !== array_search('JudgeAll', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
             echo "ADMIN ACTION JudgeAll\n";
+            $ReturnJsonToWeb = ActionJudge(-1);
         }
+        //Воиспроизвести: Последняя минута разминки
         elseif ($data == "VoiceOneMinute" && ($AllRight || false !== array_search('VoiceOneMinute', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
             echo "ADMIN ACTION VoiceOneMinute\n";
             $ReturnJsonToWeb = ActionVoiceOneMinute();
         }
+        //Воиспроизвести: Разминка завершена
         elseif ($data == "VoiceWarmCompleted" && ($AllRight || false !== array_search('VoiceWarmCompleted', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
             echo "ADMIN ACTION VoiceWarmCompleted\n";
             $ReturnJsonToWeb = ActionVoiceWarmCompleted();
         }
+        //Воиспроизвести: 
         elseif ($data == "VoiceStartGame" && ($AllRight || false !== array_search('VoiceStartGame', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
             echo "ADMIN ACTION VoiceStartGame\n";
             $ReturnJsonToWeb = ActionVoiceStartGame();
         }
+        //Перезагрузка "Уголок слёз и поцелуев"
         elseif ($data == "ReloadKissAndCry" && ($AllRight || false !== array_search('ReloadKissAndCry', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
             echo "ADMIN ACTION ReloadKissAndCry\n";
             $ReturnJsonToWeb = ActionReloadKissAndCry();
         }
+        //Перезагрузка табло
         elseif ($data == "ReloadTablo" && ($AllRight || false !== array_search('ReloadTablo', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
             echo "ADMIN ACTION ReloadTablo\n";
             $ReturnJsonToWeb = ActionReloadTablo();
         }
-        elseif ($data == "ReloadOBS" && ($AllRight || false !== array_search('ReloadOBS', $users[$connection->id]['role']))) {
+        //Перезагрузка титров
+        elseif ($data == "ReloadTV" && ($AllRight || false !== array_search('ReloadTV', $users[$connection->id]['role']))) {
             echo "---------------------------------------------------------------------\n";
-            echo "ADMIN ACTION ReloadOBS\n";
-            $ReturnJsonToWeb = ActionReloadOBS();
+            echo "ADMIN ACTION: Reload TV\n";
+            $ReturnJsonToWeb = ActionReloadTV();
         }
         else {
             echo "У пользователя нет прав на выполнение данной команды или нет такой команды!\n";
@@ -1206,6 +1264,7 @@ $ws_worker->onWorkerStart = function() use (&$users) {
     $NewData = '';
     $connection->onMessage = function($connection, $data) use (&$users) {
         global $NewData;
+        global $ini;
         global $RawInputLogFile;
         if ($ini['WriteRawInputCalc'] == 1) {
             fwrite($RawInputLogFile, $data);
