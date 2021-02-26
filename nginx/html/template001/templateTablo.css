@@ -85,7 +85,7 @@
     font-size: 5vh;
 }
 .cl_board0 #LineNation {
-    font-size: 3vh;
+    font-size: 5vh;
 }
 .cl_board0 #LineName {
     font-size: 6vh;
@@ -116,7 +116,7 @@
 }
 .cl_board20 .participantCurrent, 
 .cl_boardGroupResult .participantCurrent {
-    background-image: linear-gradient(to right, #4CB8C4 0%, #3CD3AD  51%, #4CB8C4  100%) !important;
+    background-image: linear-gradient(to right, rgb(0, 82, 11) 0%, rgb(0, 82, 11)  51%, rgb(0, 82, 11)  100%) !important;
     color: white !important;
 }
 
@@ -135,7 +135,7 @@
 .cl_boardGroupResult .LineText .Nation {
     font-style: italic;
     float: right;
-    /*font-size: 3vh;*/
+    font-size: 4vh;
 }
 /* ################################################################################################
 Информационная панель:
@@ -160,7 +160,7 @@
 */
 /* Цвет  */
 .cl_boardTimer,.cl_boardTimerCircle {
-    background: #4679BD;
+    background-image: linear-gradient(to right, #517fa4 0%, #243949 50%, #517fa4 100%);
 }
 /* Размер шрифта */
 .cl_boardTimerCircle {

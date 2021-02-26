@@ -72,11 +72,13 @@ function connect() {
             }
             // Перезагрузить табло
             else if (JsonData.dAction == 'ReloadTablo' && ConfigShowTimer) {
-                document.location.reload();
+                window.location.href = window.location.href;
+                document.location.reload();                
             }
             // Перезагрузить титры
             else if (JsonData.dAction == 'ReloadOBS' && !ConfigShowTimer) {
-                document.location.reload();
+                window.location.href = window.location.href;
+                document.location.reload();                
             }
             // Воиспроизвести: Последняя минута разминки
             else if (JsonData.dAction == 'VoiceOneMinute' && ConfigShowTimer) {
