@@ -6,6 +6,6 @@ ECHO.
 ECHO.Останавливаем Веб-сервер ...
 
 C:
-cd C:\SportInfo\nginx\
-nginx.exe -s stop
+cd %~dp0nginx\
+%~dp0nginx\nginx.exe -s stop
 TIMEOUT 5

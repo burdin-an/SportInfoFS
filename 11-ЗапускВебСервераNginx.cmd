@@ -1,5 +1,8 @@
 @ECHO OFF
+chcp 65001
+color 0a
+
 C:
-cd C:\SportInfo\nginx\
-start C:\SportInfo\nginx\nginx.exe
-pause
+cd %~dp0nginx\
+start nginx.exe
+TIMEOUT 5
