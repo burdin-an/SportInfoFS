@@ -76,7 +76,7 @@ function connect() {
                 document.location.reload();                
             }
             // Перезагрузить титры
-            else if (JsonData.dAction == 'ReloadOBS' && !ConfigShowTimer) {
+            else if (JsonData.dAction == 'ReloadTV' && !ConfigShowTimer) {
                 window.location.href = window.location.href;
                 document.location.reload();                
             }
@@ -118,6 +118,30 @@ function connect() {
                     cleanBoardPersonal();
                 }
             }
+            //Очистить экран Табло
+            else if (JsonData.dAction == 'ClearTablo' && ConfigShowTimer) {
+                if (boardSegmentOpen) {
+                    cleanBoardSegment();
+                }
+                if (boardGroupOpen) {
+                    cleanBoardGroup();
+                }
+                if (boardPersonalOpen) {
+                    cleanBoardPersonal();
+                }
+            }
+            //Очистить экран Табло
+            else if (JsonData.dAction == 'ClearTV' && !ConfigShowTimer && !ConfigKissAndCry) {
+                if (boardSegmentOpen) {
+                    cleanBoardSegment();
+                }
+                if (boardGroupOpen) {
+                    cleanBoardGroup();
+                }
+                if (boardPersonalOpen) {
+                    cleanBoardPersonal();
+                }
+            }
             // Очистить экран если панель открыта
             /*else if (boardOpen && !ConfigKissAndCry && JsonData.dAction != '1SC') {
                 cleanBoard(1);
@@ -147,16 +171,17 @@ function connect() {
 }
 
 function cleanBoardPersonal() {
-    if (debuging != false) {console.log('Action: Clear board personal');};
+    if (debuging != false) {console.log('Action: Clear board personal++');};
     $( "#boardPersonal" ).removeClass("cl_boardIn");
     $( "#boardPersonal" ).addClass("cl_boardOut");
-    const node1 = document.querySelector( '#boardPersonal' );
+    const node1 = document.getElementById('boardPersonal');
     function handleAnimationEnd1() {
+        if (debuging != false) {console.log('Action: Clear board personal END');};
         node1.remove();
         clearTimeout(timerCloseBoardPersonal);
         boardPersonalOpen = false;
     }
-    node1.addEventListener('animationend', handleAnimationEnd1(), {once: true});
+    node1.addEventListener('animationend', handleAnimationEnd1, {once: true});
 }
 function cleanBoardGroup() {
     if (debuging != false) {console.log('Action: Clear board Group');};
@@ -167,9 +192,10 @@ function cleanBoardGroup() {
         node2.remove();
         clearTimeout(timerCloseBoardGroup);
         clearInterval(timerCaruselBoardGroup);
+        if (debuging != false) {console.log('Clear Interval');};
         boardGroupOpen = false;
     }
-    node2.addEventListener('animationend', handleAnimationEnd2(), {once: true});
+    node2.addEventListener('animationend', handleAnimationEnd2, {once: true});
 }
 function cleanBoardSegment() {
     if (debuging != false) {console.log('Action: Clear board Segment');};
@@ -181,7 +207,7 @@ function cleanBoardSegment() {
         clearTimeout(timerCloseBoardSegment);
         boardSegmentOpen = false;
     }
-    node3.addEventListener('animationend', handleAnimationEnd3(), {once: true});
+    node3.addEventListener('animationend', handleAnimationEnd3, {once: true});
 }
 function cleanBoardKissAndCry() {
     if (debuging != false) {console.log('Action: Clear board Kiss And Cry');};
@@ -193,7 +219,7 @@ function cleanBoardKissAndCry() {
         clearTimeout(timerCloseBoardKissAndCry);
         boardKissAndCryOpen = false;
     }
-    node4.addEventListener('animationend', handleAnimationEnd(), {once: true});
+    node4.addEventListener('animationend', handleAnimationEnd, {once: true});
 }
 
 
@@ -240,9 +266,9 @@ function updateBoard() {
             }
             if (debuging != false) {console.log('Action 1SC');};
             $("#root_boardKissAndCry").html(FS_KissAndCry);
-            $("#EventName"    ).html(JsonData.EventName );
-            $("#CategoryName" ).html(JsonData.pCategory );
-            $("#SegmentName"  ).html(JsonData.pSegment  );
+            $("#EventName"    ).html(JsonData.EventName);
+            $("#CategoryName" ).html(JsonData.pCategory);
+            $("#SegmentName"  ).html(JsonData.pSegment);
             $("#pNation"      ).html(JsonData.pNation);
             $("#pClub"        ).html(JsonData.pClub);
             $("#pCity"        ).html(JsonData.pCity);
@@ -286,13 +312,17 @@ function updateBoard() {
     // STL - Стартовый лист
     // WUP - Стартовый лист по группам
     // 3SC - Показать промежуточные результаты соревнования
+    // IRS - Показать промежуточные результаты соревнования
+    // RES - Показать промежуточные результаты соревнования
     // JudgeAll - Информация о всех судьях
-    else if (JsonData.dAction == 'STL' || JsonData.dAction == 'WUP' || JsonData.dAction == '3SC' || JsonData.dAction == 'JudgeAll') {
+    else if (JsonData.dAction == 'STL' || JsonData.dAction == 'WUP' || JsonData.dAction == '3SC' || JsonData.dAction == 'JudgeAll' || JsonData.dAction == 'IRS' || JsonData.dAction == 'RES') {
         if (boardGroupOpen && !ConfigShowTimer) {
             cleanBoardGroup();
         }
         var PlaceLine = '';
         Participant = JsonData.pParticipant;
+        var LineCountWeb = LineCountWebParticipant;
+        if (JsonData.dAction == 'JudgeAll') {LineCountWeb = LineCountWebOfficial;}
         var ListParticipantNumberAll = 1;
         Object.keys(Participant).forEach( function(itemKey, index){
             if (index != 0 && index % LineCountWeb === 0) {
@@ -339,27 +369,51 @@ function updateBoard() {
                 });
                 ParticipantStatus = '';
             }
-            //Показать промежуточные результаты соревнования
+            //Показать промежуточные результаты соревнования (краткий список)
             else if (JsonData.dAction == '3SC') {
                 if (index <= 2 || item["pCurrent"] == 1) {
                     PlaceLine +=  FS_3SCLineParticipant({
                         'CurrentClass':  item["pCurrent"] == 1 ? "participantCurrent" : "",
-                        'Sort':     item["pTSort"],
+                        'Sort':     item["pTSort"] + "-" + index,
                         'FullName': item["pFullName"],
                         'Nation':   item["pNation"],
                         'Club':     item["pClub"],
                         'City':     item["pCity"],
                         'Point':    item["pTPoint"],
                     });
-                    if (item["pCurrent"] == 1 && index >=7 && index < Object.keys(Participant).length) {
+                    if (item["pCurrent"] == 1 && index >=3 && index + 1 < Object.keys(Participant).length) {
                         PlaceLine += FS_LineTextEmpty;
                     }
                 }
-                else if ((index == 3 && Object.keys(Participant).length >= 5 &&  Object.keys(Participant).length < 7) || (index == 5 && Object.keys(Participant).length >= 7)) {
+                else if (index == 3 && Object.keys(Participant).length >= 4) {
                     PlaceLine += FS_LineTextEmpty;
                 }
             }
-            //Информация об судьях
+            //Показать промежуточные результаты соревнования
+            else if (JsonData.dAction == 'IRS') {
+                PlaceLine +=  FS_IRSLineParticipant({
+                    'CurrentClass':  item["pCurrent"] == 1 ? "participantCurrent" : "",
+                    'Sort':     item["pTSort"],
+                    'FullName': item["pFullName"],
+                    'Nation':   item["pNation"],
+                    'Club':     item["pClub"],
+                    'City':     item["pCity"],
+                    'Point':    item["pTPoint"],
+                });
+            }
+            //Показать промежуточные результаты соревнования
+            else if (JsonData.dAction == 'RES') {
+                PlaceLine +=  FS_RESLineParticipant({
+                    'CurrentClass':  item["pCurrent"] == 1 ? "participantCurrent" : "",
+                    'Sort':     item["pTSort"],
+                    'FullName': item["pFullName"],
+                    'Nation':   item["pNation"],
+                    'Club':     item["pClub"],
+                    'City':     item["pCity"],
+                    'Point':    item["pTPoint"],
+                });
+            }
+            //Информация: Официальные лица
             else if (JsonData.dAction == 'JudgeAll') {
                 if (debuging != false) {console.log('Action JudgeAll');};
 
@@ -369,7 +423,7 @@ function updateBoard() {
                 else {
                     item["pProff"] = OfficialFunction[item['dFunction']];
                 }
-                PlaceLine += FS_JugeAllLine({'Sort': index + 1, 'FullName':item["pFullName"],'Nation':item["pNation"], "Proff":item["pProff"]});
+                PlaceLine += FS_JudgeAllLine({'Sort': index + 1, 'FullName':item["pFullName"],'Nation':item["pNation"], "Proff":item["pProff"]});
             }           
         });
         PlaceLine += "</div>";
@@ -406,6 +460,28 @@ function updateBoard() {
                 })
             );
         }
+        else if (JsonData.dAction == 'IRS') {
+            $( "#root_boardGroup").html( 
+                FS_UsersList({
+                    'EventName': JsonData.EventName,
+                    'Category':  JsonData.pCategory,
+                    'Segment':   JsonData.pSegment,
+                    'SubName':   TitleSubNameIRS,
+                    'PlaceLine': PlaceLine,
+                })
+            );
+        }
+        else if (JsonData.dAction == 'RES') {
+            $( "#root_boardGroup").html( 
+                FS_UsersList({
+                    'EventName': JsonData.EventName,
+                    'Category':  JsonData.pCategory,
+                    'Segment':   JsonData.pSegment,
+                    'SubName':   TitleSubNameRES,
+                    'PlaceLine': PlaceLine,
+                })
+            );
+        }
         else if (JsonData.dAction == 'JudgeAll') {
             $( "#root_boardGroup").html( 
                 FS_UsersList({
@@ -425,7 +501,6 @@ function updateBoard() {
             let activeItems = 1;
             timerCaruselBoardGroup = setInterval(
                 function () {
-                    console.log("Index" + activeItems);
                     const root = document.querySelector('#participantListContainer');
                     const $itemList   = root.querySelectorAll('.participantListContainerItem');
                     if ($itemList.length > 1) {
@@ -441,14 +516,14 @@ function updateBoard() {
                         if (activeItems >= $itemList.length)  {activeItems = 1;}
                         else {activeItems += 1;}
                     }
-                }, 10000
+                }, AutoCaruselBoardTime * 1000
             );
         }
         
-        if (!ConfigShowTimer) {
+        if (!ConfigShowTimer && JsonData.dAction == '3SC') {
             timerCloseBoardGroup = setTimeout(function() {
                 cleanBoardGroup();
-            }, 300000);
+            }, AutoCloseTV3SC * 1000);
         }
     }
     // NAM - Информация об участнике
@@ -530,7 +605,7 @@ function updateBoard() {
         if (!ConfigShowTimer) {
             timerCloseBoardPersonal = setTimeout(function() {
                 cleanBoardPersonal();
-            }, 40000);
+            }, AutoCloseTVPersonal * 1000);
         }
     }
     // Приглашение на церемонию награждения
@@ -549,7 +624,7 @@ function updateBoard() {
         if (!ConfigShowTimer) {
             timerCloseBoardSegment = setTimeout(function() {
                 cleanBoardSegment();
-            }, 40000);
+            }, AutoCloseTVVictoryStart * 1000);
         }
     }
     // Церемония награждения, места
@@ -582,7 +657,7 @@ function updateBoard() {
         if (!ConfigShowTimer) {
             timerCloseBoardPersonal = setTimeout(function() {
                 cleanBoardPersonal();
-            }, 40000);
+            }, AutoCloseTVVictoryPlace * 1000);
         }
     }
     // Церемония награждения, все места
@@ -610,7 +685,7 @@ function updateBoard() {
         if (!ConfigShowTimer) {
             timerCloseBoardGroup = setTimeout(function() {
                 cleanBoardGroup();
-            }, 30000);
+            }, AutoCloseTVVictoryAll * 1000);
         }
     }
     //Показать название программы выступления
@@ -630,7 +705,7 @@ function updateBoard() {
         if (!ConfigShowTimer) {
             timerCloseBoardSegment = setTimeout(function() {
                 cleanBoardSegment();
-            }, 30000);
+            }, AutoCloseTVSegment * 1000);
         }
     }
 
