@@ -9,7 +9,7 @@
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- * @version	  0.0.1
+ * @version	  1.0.4
  */
 
  /**
@@ -118,23 +118,27 @@
 }
 .cl_board20 .container-fluid .row:nth-child(odd), 
 .cl_boardGroupResult .container-fluid .row:nth-child(odd){
-    background-image: linear-gradient(to right, #243949 0%, #243949 50%, #243949 100%);
+    background-color: #243949;
     color: white;
 }
 .cl_board20 .container-fluid .row:nth-child(even), 
 .cl_boardGroupResult .container-fluid .row:nth-child(even) {
-    background-image: linear-gradient(to right, #243949 0%, #243949 50%, #243949 100%);
+    background-color: #243949;
     color: white;
-}
-.cl_board20 .participantCurrent, 
-.cl_boardGroupResult .participantCurrent {
-    background-image: linear-gradient(to right, rgb(0, 82, 11) 0%, rgb(0, 82, 11)  51%, rgb(0, 82, 11)  100%) !important;
-    color: white !important;
 }
 .cl_board20 .LineSort,
 .cl_boardGroupResult .LineSort {
     background-color: rgb(97, 1, 9);
     color: rgb(250, 234, 6);
+}
+.cl_board20 .participantCurrent,
+.cl_board20 .participantCurrent .LineLast,
+.cl_board20 .participantCurrent .LineSort,
+.cl_boardGroupResult .participantCurrent,
+.cl_boardGroupResult .participantCurrent .LineLast,
+.cl_boardGroupResult .participantCurrent .LineSort{
+    background-color: rgb(0, 82, 11) !important;
+    color: white !important;
 }
 
 /* Размер шрифта */
@@ -328,7 +332,6 @@
 .cl_board20 .LineLast,
 .cl_boardGroupResult .LineLast {
     font-weight: bold;
-    border-left: .3rem blue solid;
 }
 .cl_board20 .LineText,
 .cl_boardGroupResult .LineText {
@@ -349,52 +352,27 @@
 }
 
 /* Анимация: Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-.cl_board20.cl_boardIn .TitleBG,
-.cl_boardGroupResult.cl_boardIn .TitleBG {
-    animation: backInDown 1s linear 0s normal forwards;
-}
-.cl_board20.cl_boardIn,
-.cl_boardGroupResult.cl_boardIn{
-    animation: zoomInRight 2s linear 0s normal backwards;
-}
+
 .cl_boardGroupResult.cl_boardIn #participantListContainerOne.participantListContainerIn>.participantList {
     animation: fadeIn 1s ease-out 2s normal forwards;
 }
+.cl_board20.cl_boardIn #participantListContainer .active>.row:nth-child(odd),
+.cl_boardGroupResult.cl_boardIn #participantListContainer .active>.row:nth-child(odd) {
+    animation: backInRight 1s ease-out 0s normal forwards;
+}
+.cl_board20.cl_boardIn #participantListContainer .active>.row:nth-child(even),
+.cl_boardGroupResult.cl_boardIn #participantListContainer .active>.row:nth-child(even) {
+    animation: backInLeft 1s ease-out 0s normal forwards;
+}
 
-.cl_board20.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList {
-    animation: fadeIn 1s ease-out 2s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList {
-    animation: fadeIn 1s ease-out 2s normal forwards,
-    fadeOut 1s linear 8s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList {
-    animation: fadeIn 2s ease-out 10s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList {
-    animation: fadeIn 2s ease-out 10s normal forwards,
-    fadeOut 1s linear 18s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer3>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer3>.participantList{
-    animation: fadeIn 2s ease-out 20s normal forwards;
-}
 /* Анимация: Закрытие панели ------------------------------------------------------------- */
-.cl_board20.cl_boardOut .TitleBG,
-.cl_boardGroupResult.cl_boardOut .TitleBG{
-    animation: backOutUp 1s linear 0s normal forwards;
+.cl_board20.cl_boardOut #participantListContainer .active>.row:nth-child(odd),
+.cl_boardGroupResult.cl_boardOut #participantListContainer .active>.row:nth-child(odd) {
+    animation: backOutRight 1s ease-out 0s normal backwards;
 }
-.cl_board20.cl_boardOut .participantList:nth-child(odd),
-.cl_boardGroupResult.cl_boardOut .participantList:nth-child(odd){
-    animation: backOutRight 1s linear 0s normal forwards;
-}
-.cl_board20.cl_boardOut .participantList:nth-child(even),
-.cl_boardGroupResult.cl_boardOut .participantList:nth-child(even){
-    animation: backOutLeft 1s linear 0s normal forwards;
+.cl_board20.cl_boardOut #participantListContainer .active>.row:nth-child(even),
+.cl_boardGroupResult.cl_boardOut #participantListContainer .active>.row:nth-child(even) {
+    animation: backOutLeft 1s ease-out 0s normal backwards;
 }
 
 /* ################################################################################################

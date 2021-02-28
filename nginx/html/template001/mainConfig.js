@@ -9,7 +9,7 @@
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- * @version   1.0.3
+ * @version   1.0.4
  */
 
 //Общие настройки
@@ -75,8 +75,10 @@ var FS_KissAndCry = '';
 //var FS_VictoryPlace = '';
 
 
-// Количество линий участников
-var LineCountWeb = 8;
+// Количество строк участников
+var LineCountWebParticipant = 8;
+// Количество строк официальных представителей
+var LineCountWebOfficial = 8;
 // Табло "Куб" или "Экран"на льду
 // Значение: true  - Включено
 // Значение: false - Выключено
@@ -99,20 +101,38 @@ var AllowFullScreen = false;
 var AutoCloseKissAndCry = false;
 // На сколько минут показываем результаты на экране "Уголок слёз и поцелуев"
 var AutoCloseKissAndCryTime = 6;
+// Через сколько секунд переключать списки участников
+let AutoCaruselBoardTime = 10;
+//На сколько секунд показываем титры:Промежуточные результаты (Кнопка: 3ndScore)
+let AutoCloseTV3SC = 10;
+//На сколько секунд показываем персональные титры (Кнопки: Name,2ndScore,Judge,...)
+let AutoCloseTVPersonal = 10;
+//На сколько секунд показываем титры: Показать приглашение на награждение (Кнопка: V.Cerem -> Send Victory)
+let AutoCloseTVVictoryStart = 10;
+//На сколько секунд показываем титры: Показать призовое место (Кнопка: V.Cerem -> Send Gold, Send Silver, Send Bronze)
+let AutoCloseTVVictoryPlace = 10;
+//На сколько секунд показываем титры: Показать все призовые места (Кнопка: V.Cerem -> Send Podium)
+let AutoCloseTVVictoryAll = 10;
+//На сколько секунд показываем титры: Название соревнования (Кнопка: Segment)
+let AutoCloseTVSegment = 10;
 
-// 
+// Заголовок для кнопки: 
 var TitleSubNameJudgeAll = "Официальные лица:";
-// 
+// Заголовок для кнопки: 3dScore
 var TitleSubName3nd = "Промежуточные результаты:";
-// 
+// Заголовок для кнопки: Result
+var TitleSubNameIRS = "Промежуточные результаты:";
+// Заголовок для кнопки: I.Result
+var TitleSubNameRES = "Окончательные результаты:";
+// Заголовок для кнопки: WarmUP
 var TitleSubNameWup = "Разминка, группа №:";
-// 
+// Заголовок для кнопки: StartList
 var TitleSubNameStartList = "Стартовый лист:";
 //Первое место
 var VictoryPlaceFirst  = "ПЕРВОЕ МЕСТО";
 //Второе место
 var VictoryPlaceSecond = "ВТОРОЕ МЕСТО";
-//Тетье место
+//Третье место
 var VictoryPlaceThird  = "ТРЕТЬЕ МЕСТО";
 
 //Официальные лица
@@ -129,7 +149,7 @@ OfficialFunction['TCO'] = "Технический контролёр";
 OfficialFunction['ERF'] = "Старший судья";
 //Оператор ввода данных или видео оператор
 OfficialFunction['DOP'] = "Оператор ввода данных";
-//Пока незнаю кто это
+//Пока не знаю кто это
 OfficialFunction['REP'] = "Representative";
-//Пока незнаю кто это
+//Пока не знаю кто это
 OfficialFunction['TDG'] = "Технический делегат";

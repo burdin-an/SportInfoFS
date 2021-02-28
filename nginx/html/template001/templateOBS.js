@@ -9,13 +9,15 @@
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- * @version   1.0.2
+ * @version   1.0.4
  */
 
 //Шаблоны для титров
 
-// Количество линий участников
-LineCountWeb = 10;
+// Количество строк участников
+LineCountWebParticipant = 10;
+// Количество строк официальных представителей
+LineCountWebOfficial = 10;
 
 
 
@@ -122,13 +124,13 @@ const FS_NameLineWrapperFirst = (data) => `<div data-index="${data['IDContainer'
 /* Шаблон: Последующих блоков обёрток */
 const FS_NameLineWrapperSecond = (data) => `</div><div data-index="${data['IDContainer']}" class="participantListContainerItem container-fluid">`;
 /* Шаблон: Списка участников */
-const FS_NameLineParticipant = (data) => `<div class='row LineRow'><div class="col LineText">${data["Sort"]}) ${data["FullName"]} <small>  ${data['Status']}</small><span class="Nation">${data["Nation"]}</span></div></div>`;
+const FS_NameLineParticipant = (data) => `<div class='row LineRow'><div class="col LineText">${data["Sort"]}) ${data["FullName"]} <small>  ${data['Status']}</small><span class="Nation">${data["City"]}</span></div></div>`;
 /* Шаблон: Списка участников с оценками */
-const FS_3SCLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col LineText">${data["Sort"]}) ${data["FullName"]}<br><span class="Nation">${data["Nation"]}</span></div><div class='col-3 LineLast'>${data["Point"]}</div></div>`;
-/* Шаблон: Пустая строка между участниками */
-const FS_LineTextEmpty = `<div class='row LineRow'><div class="col LineTextEmpty">.....</div></div>`;
+const FS_IRSLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col LineText">${data["Sort"]}) ${data["FullName"]}<span class="Nation">${data["City"]}</span></div><div class='col-1 LineLast'>${data["Point"]}</div></div>`;
+/* Шаблон: Списка участников с оценками */
+const FS_RESLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col LineText">${data["Sort"]}) ${data["FullName"]}<span class="Nation">${data["City"]}</span></div><div class='col-1 LineLast'>${data["Point"]}</div></div>`;
 /* Шаблон: Список официальных лиц */
-const FS_JugeAllLine = (data) => `<div class='row LineRow'><div class="col LineText">${data["Proff"]} / ${data["FullName"]} <span class="Nation">${data["Nation"]}</span></div></div>`;
+const FS_JudgeAllLine = (data) => `<div class='row LineRow'><div class="col LineText">${data["Proff"]} / ${data["FullName"]} <span class="Nation">${data["Nation"]}</span></div></div>`;
 /* ################################################################################################
 Информационная панель:
     Кнопка: 3nd Score; - Промежуточные результаты соревнования
@@ -148,6 +150,10 @@ const FS_ListResult = (data) => `
     </div>
     <div id="participantListContainer">${data['PlaceLine']}</div>
 </div>`;
+/* Шаблон: Списка участников с оценками */
+const FS_3SCLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col LineText">${data["Sort"]}) ${data["FullName"]}<br><span class="Nation">${data["City"]}</span></div><div class='col-3 LineLast'>${data["Point"]}</div></div>`;
+/* Шаблон: Пустая строка между участниками */
+const FS_LineTextEmpty = `<div class='row LineRow'><div class="col LineTextEmpty">.....</div></div>`;
 /* ################################################################################################
 Информационная панель:
     Кнопка: Segment; - Название соревнования, группа и сегмент

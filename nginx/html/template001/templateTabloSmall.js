@@ -9,13 +9,15 @@
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- * @version   1.0.1
+ * @version   1.0.4
  */
 
 //Шаблоны для кубика (экран на льду)
 
-// Количество линий участников
-LineCountWeb = 6;
+// Количество строк участников
+LineCountWebParticipant = 6;
+// Количество строк официальных представителей
+LineCountWebOfficial = 4;
 // Показать время 
 ConfigShowTimer = true;
 
@@ -157,8 +159,12 @@ const FS_NameLineParticipant = (data) => `<div class='row LineRow'><div class="c
 const FS_3SCLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col-1 LineSort center">${data["Sort"]}</div><div class="col LineText">${data["FullName"]}</div><div class='col-3 LineLast participantPoint'>${data["Point"]}</div></div>`;
 /* Шаблон: Пустая строка между участниками */
 const FS_LineTextEmpty = `<div class='row LineRow'><div class="col LineTextEmpty">.....</div></div>`;
+/* Шаблон: Списка участников с оценками */
+const FS_IRSLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col-1 LineSort center">${data["Sort"]}</div><div class="col LineText">${data["FullName"]}</div><div class='col-3 LineLast participantPoint'>${data["Point"]}</div></div>`;
+/* Шаблон: Списка участников с оценками */
+const FS_RESLineParticipant = (data) => `<div class='row LineRow ${data["CurrentClass"]}'><div class="col-1 LineSort center">${data["Sort"]}</div><div class="col LineText">${data["FullName"]}</div><div class='col-3 LineLast participantPoint'>${data["Point"]}</div></div>`;
 /* Шаблон: Список официальных лиц */
-const FS_JugeAllLine = (data) => `<div class='row LineRow'><div class="col LineText">${data["Proff"]} - ${data["FullName"]} <span class="Nation">${data["Nation"]}</span></div></div>`;
+const FS_JudgeAllLine = (data) => `<div class='row LineRow'><div class="col LineText">${data["Proff"]}<br>${data["FullName"]} <span class="Nation">${data["Nation"]}</span></div></div>`;
 /* ################################################################################################
 Информационная панель:
     Кнопка: 3nd Score; - Промежуточные результаты соревнования

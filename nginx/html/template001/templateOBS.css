@@ -9,7 +9,7 @@
  * @copyright Бурдин А.Н. <support@it-sakh.net>
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- * @version	  0.0.1
+ * @version	  1.0.4
  */
 
  /**
@@ -277,17 +277,7 @@
 
 /* Анимация: Закрытие панели ------------------------------------------------------------- */
 .cl_board0.cl_boardOut {
-    animation: animation_boardOut 2s linear 1.5s normal forwards;
-    transform-origin: right center;
-}
-.cl_board0.cl_boardOut #LineUP, .cl_board0.cl_boardOut #LineDown, .cl_board0.cl_boardOut #LineDownThree {
-    animation: fadeOut 1s linear 0s normal both;
-}
-.cl_board0.cl_boardOut #board3 {
-    animation: fadeOut 1s linear 0s forwards;
-}
-.cl_board0.cl_boardOut #board2 {
-    animation: animation_board2Out 1s linear 1s normal both;
+    animation: fadeOut 2s linear 0s normal forwards;
 }
 
 
@@ -384,28 +374,15 @@
     animation: fadeIn 1s ease-out 2s normal forwards;
 }
 
-.cl_board20.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer1.participantListContainerIn>.participantList {
-    animation: fadeIn 1s ease-out 2s normal forwards;
+.cl_board20.cl_boardIn #participantListContainer .active>.row:nth-child(odd),
+.cl_boardGroupResult.cl_boardIn #participantListContainer .active>.row:nth-child(odd) {
+    animation: flipInX 1s ease-out 0s normal forwards;
 }
-.cl_board20.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer1.participantListContainerInOut>.participantList {
-    animation: fadeIn 1s ease-out 2s normal forwards,
-    fadeOut 1s linear 8s normal forwards;
+.cl_board20.cl_boardIn #participantListContainer .active>.row:nth-child(even),
+.cl_boardGroupResult.cl_boardIn #participantListContainer .active>.row:nth-child(even) {
+    animation: flipInX 1s ease-out 0s normal forwards;
 }
-.cl_board20.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer2.participantListContainerIn>.participantList {
-    animation: fadeIn 2s ease-out 10s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer2.participantListContainerInOut>.participantList {
-    animation: fadeIn 2s ease-out 10s normal forwards,
-    fadeOut 1s linear 18s normal forwards;
-}
-.cl_board20.cl_boardIn #participantListContainer3>.participantList,
-.cl_boardGroupResult.cl_boardIn #participantListContainer3>.participantList{
-    animation: fadeIn 2s ease-out 20s normal forwards;
-}
+
 /* Анимация: Закрытие панели ------------------------------------------------------------- */
 .cl_board20.cl_boardOut,
 .cl_boardGroupResult.cl_boardOut {
