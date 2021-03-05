@@ -265,45 +265,121 @@ function updateBoard() {
                 cleanBoardKissAndCry();
             }
             if (debuging != false) {console.log('Action 1SC');};
-            $("#root_boardKissAndCry").html(FS_KissAndCry);
-            $("#EventName"    ).html(JsonData.EventName);
-            $("#CategoryName" ).html(JsonData.pCategory);
-            $("#SegmentName"  ).html(JsonData.pSegment);
-            $("#pNation"      ).html(JsonData.pNation);
-            $("#pClub"        ).html(JsonData.pClub);
-            $("#pCity"        ).html(JsonData.pCity);
-            $("#pName"        ).html(JsonData.pName);
-            $("#pTES"         ).html(JsonData.pTES);//
-            $("#pTCS"         ).html(JsonData.pTCS);//
-            $("#pDedSum"      ).html(JsonData.pDedSum == 0.00 ? '-' : `-${JsonData.pDedSum}`);//
-            $("#pBonus"       ).html(JsonData.pBonus == 0.00 ? '-' : JsonData.pBonus);
-            $("#pSeqPoints"   ).html(JsonData.pSeqPoints);//
-            $("#pTPoint"      ).html(JsonData.pTPoint);//
-            $("#pTRank"       ).html(JsonData.pTRank);//
+            var ElementLine='';
+            var DeductionLine='';
+            var PlaceLine='';
 
+            /*  Список участников  */
+            if (JsonData.Participant != undefined) {
+                var ListParticipantNumber = 1;
+                Object.keys(JsonData.Participant).forEach( function(itemKey, index){
+                    if (index == 0) {
+                        PlaceLine += FS_KissAndCryLineWrapperFirst({
+                            'IDContainer': ListParticipantNumber,
+                        });
+                    }
+                    else if (index % LineCountWebParticipant === 0) {
+                        ListParticipantNumber += 1;
+                        PlaceLine += FS_KissAndCryLineWrapperSecond({
+                            'IDContainer': ListParticipantNumber,
+                        });
+                    }
+                    item = JsonData.Participant[itemKey];
+                    PlaceLine +=  FS_KissAndCryLineParticipant({
+                        'CurrentClass':  item["pCurrent"] == 1 ? "participantCurrent" : "",
+                        'Sort':     item["TSort"],
+                        'FullName': item["FullName"],
+                        'Nation':   item["Nation"],
+                        'Club':     item["Club"],
+                        'City':     item["City"],
+                        'Point':    item["TPoint"],
+                    });
+                });
+                PlaceLine += "</div>";
+            }            
 
-            Object.keys(JsonData.Element).forEach( function(itemKey){
-                item = JsonData.Element[itemKey];
-                    $( "#LineElement" ).append( `<div class="row"><div class="col-4 LineTechDetail">${item['Name']}</div><div class="col LineTechDetail">${item['Info']}</div><div class="col LineTechDetail">${item['BV']}</div><div class="col LineTechDetail">${item['GOE']}</div><div class="col LineTechDetail">${item['Points']}</div></div>` );
-            });
-            Object.keys(JsonData.Deduction).forEach( function(itemKey){
-                item = JsonData.Deduction[itemKey];
-                    $( "#LineDeduction" ).append( `<div class="row"><div class="col LineTechDetail">${item['Name']}</div><div class="col-3 LineTechDetail">${item['Value']}</div></div>` );
-            });
+            /*  Список элементов  */
+            if (JsonData.Element != undefined) {
+                Object.keys(JsonData.Element).forEach( function(itemKey){
+                    item = JsonData.Element[itemKey];
+                    ElementLine += FS_KissAndCryLineElement({'ElementName': item['Name'], 'ElementInfo':item["Info"],'ElementBV':item["BV"],'ElementGOE':item["GOE"],'ElementPoint':item["Points"]});
+                });
+            }
+            /* Список нарушений */
+            if (JsonData.Deduction != undefined) {
+                Object.keys(JsonData.Deduction).forEach( function(itemKey){
+                    item = JsonData.Deduction[itemKey];
+                    DeductionLine += FS_KissAndCryLineDeduction({'DeductionName': item['Name'], 'DeductionCount': item["Value"]});
+                });
+            }
+            $( "#root_boardKissAndCry").html(
+                FS_KissAndCry({
+                    'EventName': EventDB['EventName'],
+                    'Category':  EventDB['CategoryName'],
+                    'Segment':   EventDB['SegmentName'],
+                    'FullName':  JsonData.pName,
+                    'Nation':    JsonData.pNation,
+                    'Club':      JsonData.pClub,
+                    'City':      JsonData.pCity,
+                    'TechnicPoint':   JsonData.pTES,
+                    'ComponentPoint': JsonData.pTCS,
+                    'DeductionPoint': JsonData.pDedSum == 0.00 ? '-' : `-${JsonData.pDedSum}`,
+                    'BonusPoint':     JsonData.pBonus == 0.00 ? '-' : JsonData.pBonus,
+                    'Points':         JsonData.pSeqPoints,
+                    'TPoints':         JsonData.pTPoint,
+                    'TRank':          JsonData.pTRank,
+                    'PlaceLine':      PlaceLine,
+                    'DeductionLine':  DeductionLine,
+                    'ElementLine':    ElementLine,
+                })
+            );
             $( "#boardKissAndCry" ).addClass("cl_boardIn");
             boardKissAndCryOpen = true;
-            if (AutoCloseKissAndCry) {
-                timerCloseBoardKissAndCry = setTimeout(function() {
-                    cleanBoardKissAndCry();
-                    $("#root_boardSegment").html(FS_EventName);
-                    $("#EventName"   ).html(EventDB['EventName']);
-                    $("#CategoryName").html(EventDB['CategoryName']);
-                    $("#SegmentName" ).html(EventDB['SegmentName']);
-                    $("#boardSegment").addClass("cl_boardIn");
-                    boardSegmentOpen = true;
-                }, AutoCloseKissAndCryTime*60000);
+            /* Карусель списка участников */
+            let activeItems = 2;
+            if (KissAndCryAutoScrollParticipantList) {
+                timerCaruselBoardGroup = setInterval(
+                    function () {
+                        const root = document.querySelector('#participantListContainer');
+                        const $itemList   = root.querySelectorAll('.participantListContainerItem');
+                        if ($itemList.length > 1) {
+                            for (let i = 0, length = $itemList.length; i < length; i++) {
+                                const $item = $itemList[i];
+                                const index = +$item.dataset.index;
+                                if (activeItems == index) {
+                                    $item.classList.add('active');
+                                } else {
+                                    $item.classList.remove('active');
+                                }
+                            }
+                            if (activeItems >= $itemList.length)  {activeItems = 1;}
+                            else {activeItems += 1;}
+                        }
+                    }, AutoCaruselBoardTime * 1000
+                );
             }
+            else {
+                $( "#participantListContainer" ).prepend(FS_KissAndCryNextButton);
+                const button = document.getElementById('ButtonNextParticipant');
 
+                button.addEventListener('click', event => {
+                    const root = document.querySelector('#participantListContainer');
+                    const $itemList   = root.querySelectorAll('.participantListContainerItem');
+                    if ($itemList.length > 1) {
+                        for (let i = 0, length = $itemList.length; i < length; i++) {
+                            const $item = $itemList[i];
+                            const index = +$item.dataset.index;
+                            if (activeItems == index) {
+                                $item.classList.add('active');
+                            } else {
+                                $item.classList.remove('active');
+                            }
+                        }
+                        if (activeItems >= $itemList.length)  {activeItems = 1;}
+                        else {activeItems += 1;}
+                    }
+                });
+            }
         }
         else if (JsonData.dAction == 'ReloadKissAndCry') {
             document.location.reload();
@@ -374,7 +450,7 @@ function updateBoard() {
                 if (index <= 2 || item["pCurrent"] == 1) {
                     PlaceLine +=  FS_3SCLineParticipant({
                         'CurrentClass':  item["pCurrent"] == 1 ? "participantCurrent" : "",
-                        'Sort':     item["pTSort"] + "-" + index,
+                        'Sort':     item["pTSort"],
                         'FullName': item["pFullName"],
                         'Nation':   item["pNation"],
                         'Club':     item["pClub"],

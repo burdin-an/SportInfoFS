@@ -65,7 +65,12 @@ body {
     color: white;
 }
 /* ------------- */
-.LineTotalPoint  {
+.LineSeqPoint {
+    background-color: #284dc6;
+    color: white;
+}
+/* ------------- */
+.LineTotalPoint {
     background-color: #37941e;
     color: white;
 }
@@ -86,27 +91,27 @@ body {
     color: white;
 }
 /* РАЗМЕР ШРИФТА */
-.cl_board0 #SegmentName, .cl_board20 #SubName, .cl_board0 #TitleBlock {
+.cl_board0 #SegmentName, .cl_board0 #SubName, .cl_board0 #TitleBlock {
     /* Размер шрифта: % от ширины экрана  */
-    font-size: 1.7vw;
+    font-size: 4vh;
 }
 .LineName {
     /* Размер шрифта: % от ширины экрана  */
-    font-size: 3vw;
+    font-size: 6vh;
  }
  #pTES,#pTCS,#pDedSum,#pSeqPoints,#pRank,#pBonus,#pTPoint,#pTRank {
     /* Размер шрифта: % от ширины экрана  */
-    font-size: 3vw;
+    font-size: 6vh;
     font-weight: bold;
 }
-.LineType03, .LineTotalPoint, .LineTotalRank {
+.LineType03, .LineSeqPoint, .LineTotalPoint, .LineTotalRank {
     /* Размер шрифта: % от ширины экрана  */
-    font-size: 1.2vw;
+    font-size: 3vh;
     font-weight: bold;
 }
 #LineElement, #LineDeduction {
     /* Размер шрифта: % от ширины экрана  */
-    font-size: 1.6vw;
+    font-size: 3vh;
     font-weight: bold;
 }
 
@@ -153,7 +158,7 @@ body {
 }
 .cl_board0 .TitleBG {
     width: 100%;
-    opacity: 0;
+    opacity: 1;
 }
 .cl_board0 #TitleBlock {
     text-align: center;
@@ -162,20 +167,15 @@ body {
 }
 .LineName {
     text-align: center;
-    margin: .5% 0 0;
-    padding: .1% 0;
+    margin-top: .5vh;
 }
 
 /* Задаем общие параметры для блоков */
-.LineType03, .LineTotalPoint, .LineTotalRank {
+.LineType03, .LineSeqPoint, .LineTotalPoint, .LineTotalRank {
     text-align: center;
     width: 100%;
-    padding-top: 1vh;
-}
-/*  */
-.LineType03 {
-    text-align: center;
-    margin: 2% 0;
+    margin-top: .5vh;
+    padding-top: .5vh;
 }
 
 /*
@@ -187,8 +187,8 @@ body {
 /*  */
 #LineElement .LineTechDetail,
 #LineDeduction .LineTechDetail {
-    padding-top: .5vh;
-    padding-bottom: .5vh;
+    padding-top: .3vh;
+    padding-bottom: .3vh;
 }
 /* ------------- */
 .LineTotalPoint  {
@@ -201,6 +201,110 @@ body {
  */
 #LineDeduction .row .LineTechDetail:nth-child(2) {
     text-align: left;
+}
+
+
+/*
+ * Блок: Список пользователей ------------------
+ */
+
+/* Цвета полос */
+.participantListContainerItem .LineLast {
+    /* Цвет */
+    background-image: linear-gradient(to right, #85008A 0%, #59005c 50%, #85008A 100%);
+    color: white;
+    /* Размер шрифта */
+    font-size: 2.5vh;
+    font-weight: bold;
+}
+.participantListContainerItem .row:nth-child(odd){
+    /* Цвет */
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: white;
+    /* Размер шрифта */
+
+}
+.participantListContainerItem .row:nth-child(even) {
+    /* Цвет */
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    color: white;
+    /* Размер шрифта */
+
+}
+.participantListContainerItem .LineSort {
+    /* Цвет */
+    background-image: linear-gradient(to right, #85008A 0%, #59005c 50%, #85008A 100%);
+    color: white;
+}
+/* Размер шрифта */
+.participantListContainerItem .LineText,
+.participantListContainerItem .LineSort {
+    font-size: 2.5vh;
+}
+.participantListContainerItem .participantCurrent,
+.participantListContainerItem .participantCurrent .LineLast,
+.participantListContainerItem .participantCurrent .LineSort{
+    /* Цвет */
+    background-image: linear-gradient(to right, rgb(0, 82, 11) 0%, rgb(0, 82, 11)  51%, rgb(0, 82, 11)  100%) !important;
+    color: white !important;
+    /* Размер шрифта */
+    font-size: 5vh;
+    font-weight: bold;
+}
+
+.participantListContainerItem .LineText .Nation {
+    font-style: italic;
+    float: right;
+    font-size: 2vh;
+}
+
+.participantListContainerItem .LineRow {
+    margin-top: 0.5vh;
+    text-align: center;
+}
+.participantListContainerItem .LineTitle,
+.participantListContainerItem .LineText {
+    padding: 1vh 1vw 1vh 1vw;
+}
+.participantListContainerItem .LineSort,
+.participantListContainerItem .LineLast {
+    padding: 1vh 0 1vh;
+}
+.participantListContainerItem .LineText {
+    text-align: left;
+}
+.participantListContainerItem .LineSort{
+    text-align: center;
+}
+
+
+
+
+#participantListContainer {
+    position: relative;
+    min-height: 400px;
+}
+#participantListContainer>div {
+    position: absolute;
+    top: 5.5vh;
+    width: 100%;
+    height: 100%;
+}
+#participantListContainer>div:nth-child(1) {
+    top: .5vh;
+}
+a.btn {
+    font-size: 2vh;
+}
+
+.participantListContainerItem {
+    opacity: 0;
+}
+.participantListContainerItem>div:nth-child(1) {
+    opacity: 1;
+}
+.participantListContainerItem.active {
+    opacity: 1;
 }
 
 
@@ -217,8 +321,65 @@ body {
 .cl_board0.cl_boardIn #LineElement, .cl_board0.cl_boardIn #LineDeduction{
     animation: backInLeft 1s linear 0s normal backwards;
 }
-.cl_board0.cl_boardIn .LineTotalPoint, .cl_board0.cl_boardIn .LineTotalRank {
+.cl_board0.cl_boardIn .LineSeqPoint, .cl_board0.cl_boardIn .LineTotalPoint, .cl_board0.cl_boardIn .LineTotalRank {
     animation: backInUp 1s linear 0s normal backwards;
+}
+/*.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(odd) {
+    animation: backInRight 1s ease-out 0s normal forwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(even) {
+    animation: backInLeft 1s ease-out 0s normal forwards;
+}*/
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(1) {
+    animation: backInRight 1s ease-out 0s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(2) {
+    animation: backInRight 1s ease-out 0.04s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(3) {
+    animation: backInRight 1s ease-out 0.08s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(4) {
+    animation: backInRight 1s ease-out 0.12s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(5) {
+    animation: backInRight 1s ease-out 0.16s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(6) {
+    animation: backInRight 1s ease-out 0.20s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(7) {
+    animation: backInRight 1s ease-out 0.24s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(8) {
+    animation: backInRight 1s ease-out 0.28s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(9) {
+    animation: backInRight 1s ease-out 0.32s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(10) {
+    animation: backInRight 1s ease-out 0.36s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(11) {
+    animation: backInRight 1s ease-out 0.40s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(12) {
+    animation: backInRight 1s ease-out 0.44s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(13) {
+    animation: backInRight 1s ease-out 0.48s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(14) {
+    animation: backInRight 1s ease-out 0.52s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(15) {
+    animation: backInRight 1s ease-out 0.56s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(16) {
+    animation: backInRight 1s ease-out 0.60s normal backwards;
+}
+.cl_board0.cl_boardIn #participantListContainer .active>.row:nth-child(17) {
+    animation: backInRight 1s ease-out 0.62s normal backwards;
 }
 /* Анимация: Закрытие панели ------------------------------------------------------------- */
 .cl_board0.cl_boardOut .TitleBG {
