@@ -226,6 +226,7 @@ function cleanBoardKissAndCry() {
 function clearTimerBoard() {
     $( "#id_boardTimer" ).html( "" );
     var VoiceOneMinute = document.getElementById('RazminkaLastMinute').pause();
+    var VoiceStop      = document.getElementById('RazminkaStop').pause();
     timerBoardOpen = false;
 }
 
@@ -239,6 +240,9 @@ function updateTimerBoard() {
     $( "#Timer" ).html( JsonData.Time );
     if (JsonData.Time == 1.00 && JsonData.sAction == 'TimerCountdown') {
         var VoiceOneMinute = document.getElementById('RazminkaLastMinute').play();
+    }
+    if (JsonData.Time == 0.00 && JsonData.sAction == 'TimerCountdown') {
+        var VoiceStop = document.getElementById('RazminkaStop').play();
     }
 }
 		
