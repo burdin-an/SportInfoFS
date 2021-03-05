@@ -147,15 +147,33 @@ function ActionPersonalResult($dAction,$ParticipantID) {
     echo "Music: " .     $ReturnJsonToWeb['pMusic'] . ";\n";
     echo "Coach: " .     $ReturnJsonToWeb['pCoach'] . ";\n";
     if ($dAction == "1SC") {
-        $ReturnJsonToWeb["pTES"]       = (string)$EventDB['Participants'][$ParticipantID]['TES'];
-        $ReturnJsonToWeb["pTCS"]       = (string)$EventDB['Participants'][$ParticipantID]['TCS'];
-        $ReturnJsonToWeb["pBonus"]     = (string)$EventDB['Participants'][$ParticipantID]['Bonus'];
-        $ReturnJsonToWeb["pDedSum"]    = (string)$EventDB['Participants'][$ParticipantID]['DedSum'];
-        $ReturnJsonToWeb["pSeqPoints"] = (string)$EventDB['Participants'][$ParticipantID]['SeqPoints'];
-        $ReturnJsonToWeb["pTPoint"]    = (string)$EventDB['Participants'][$ParticipantID]['TPoint'];
-        $ReturnJsonToWeb["pTRank"]     = (string)$EventDB['Participants'][$ParticipantID]['TRank'];
+        $ReturnJsonToWeb["pTES"]       = $EventDB['Participants'][$ParticipantID]['TES'];
+        $ReturnJsonToWeb["pTCS"]       = $EventDB['Participants'][$ParticipantID]['TCS'];
+        $ReturnJsonToWeb["pBonus"]     = $EventDB['Participants'][$ParticipantID]['Bonus'];
+        $ReturnJsonToWeb["pDedSum"]    = $EventDB['Participants'][$ParticipantID]['DedSum'];
+        $ReturnJsonToWeb["pSeqPoints"] = $EventDB['Participants'][$ParticipantID]['SeqPoints'];
+        $ReturnJsonToWeb["pTPoint"]    = $EventDB['Participants'][$ParticipantID]['TPoint'];
+        $ReturnJsonToWeb["pTRank"]     = $EventDB['Participants'][$ParticipantID]['TRank'];
         $ReturnJsonToWeb["Element"]    = $EventDB['Participants'][$ParticipantID]['Element'];
         $ReturnJsonToWeb["Deduction"]  = $EventDB['Participants'][$ParticipantID]['Deduction'];
+        
+        foreach ($EventDB['Participants'] as $ParticipantStr) {
+            $idLine = (int)$ParticipantStr['TSort'];
+            $ReturnJsonToWeb["Participant"][$idLine] = [
+                "ID"       => $ParticipantStr["ID"],
+                "FullName" => $ParticipantStr["FullName"],
+                "Nation"   => $ParticipantStr["Nation"],
+                "Club"     => $ParticipantStr["Club"],
+                "City"     => $ParticipantStr["City"],
+                "TPoint"   => $ParticipantStr["TPoint"],
+                "TSort"    => $ParticipantStr["TSort"],
+                "Current"  => 2
+            ];
+            if ($ParticipantStr['ID'] === (int)$ParticipantID) {
+                $ReturnJsonToWeb["Participant"][$idLine]["Current"]  = 1;
+            }
+        }
+        ksort($ReturnJsonToWeb["Participant"],0);
         echo "TES: " .         $ReturnJsonToWeb['pTES'] . ";\n";
         echo "TCS: " .         $ReturnJsonToWeb['pTCS'] . ";\n";
         echo "Bonus: " .       $ReturnJsonToWeb['pBonus'] . ";\n";
@@ -602,17 +620,17 @@ function FuncWorksCalc($data_line, $connection) {
                                             //Место за текущее выступление
                                             'Rank'        => 0,
                                             //Баллы за текущее выступление
-                                            'SeqPoints'   => 0,
+                                            'SeqPoints'   => '',
                                             //Баллы за элементы
-                                            'TES'         => 0,
+                                            'TES'         => '',
                                             //Баллы за компоненты
-                                            'TCS'         => 0,
+                                            'TCS'         => '',
                                             //Общая сортировка соревнования
                                             'TSort'       => 0,
                                             //Итоговое место
                                             'TRank'       => 0,
                                             //Общее количество баллов
-                                            'TPoint'      => 0,
+                                            'TPoint'      => '',
                                             'StartNumber' => (int)$Performance['Start_Number'],
                                             'GroupNumber' => (int)$Performance['Start_Group_Number'],
                                             'Bonus'       => 0,
@@ -721,17 +739,17 @@ function FuncWorksCalc($data_line, $connection) {
                         //Сокращенное наименование элементов
                         $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['Name']     = (string)$Element['Elm_Name'];
                         //Баллы
-                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['Points']   = (float)$Element['Points'];
+                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['Points']   = (string)$Element['Points'];
                         //
-                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['BV']       = (float)$Element['Elm_XBV'];
+                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['BV']       = (string)$Element['Elm_XBV'];
                         //
-                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['GOE']      = (float)$Element['Elm_XGOE'];
+                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['GOE']      = (string)$Element['Elm_XGOE'];
                         //
                         $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['Info']     = (string)$Element['Elm_Info'];
                         //Элемент защитан или нет
-                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['Half']     = (int)$Element['Elm_Half'];
+                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['Half']     = (string)$Element['Elm_Half'];
                         //
-                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['BVWB']     = (float)$Element['Elm_XBVWB'];
+                        $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['BVWB']     = (string)$Element['Elm_XBVWB'];
                         //
                         $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['Review']   = (int)$Element['Elm_Review'];
                         //Полное наименование элементов
@@ -742,14 +760,15 @@ function FuncWorksCalc($data_line, $connection) {
                 }
                 //Нарушения (Пока не знаю что за хрень)
                 if(is_object($xml_line->Segment_Running->Prf_Details->Deduction_List)) {
+                    $EventDB['Participants'][$ParticipantID]['Deduction']="";
                     foreach ($xml_line->Segment_Running->Prf_Details->Deduction_List->Deduction as $Deduction) {
                         $DeductionID = "d" . $Deduction['Index'];
                         //Название нарушения
                         $EventDB['Participants'][$ParticipantID]['Deduction'][$DeductionID]['Name']  = (string)$EventDB['Deduction']['d'.$Deduction['Index']]['Name'];
                         //Баллы
-                        $EventDB['Participants'][$ParticipantID]['Deduction'][$DeductionID]['Value'] = (float)$Deduction['Ded_Value'];
+                        $EventDB['Participants'][$ParticipantID]['Deduction'][$DeductionID]['Value'] = (string)$Deduction['Ded_Value'];
                         //
-                        $EventDB['Participants'][$ParticipantID]['Deduction'][$DeductionID]['Count'] = (int)$Deduction['Ded_Count'];
+                        $EventDB['Participants'][$ParticipantID]['Deduction'][$DeductionID]['Count'] = (string)$Deduction['Ded_Count'];
                         unset($DeductionID);
                     }
                     ksort($EventDB['Participants'][$ParticipantID]['Deduction']);
@@ -761,7 +780,7 @@ function FuncWorksCalc($data_line, $connection) {
                         //Сокращенное наименование элементов
                         $EventDB['Participants'][$ParticipantID]['Criteria'][$CriteriaID]['Name']   = (string)$EventDB['Criteria']['c'.$Criteria['Index']]['Name'];
                         //Баллы
-                        $EventDB['Participants'][$ParticipantID]['Criteria'][$CriteriaID]['Points'] = (int)$Criteria['Points'];
+                        $EventDB['Participants'][$ParticipantID]['Criteria'][$CriteriaID]['Points'] = (string)$Criteria['Points'];
                         unset($CriteriaID);
                     }
                     ksort($EventDB['Participants'][$ParticipantID]['Criteria']);
@@ -782,13 +801,13 @@ function FuncWorksCalc($data_line, $connection) {
                             //Место
                             $EventDB['Participants'][$ParticipantID]['Rank']      = 0;
                             //Балы за прокат
-                            $EventDB['Participants'][$ParticipantID]['SeqPoints'] = 0;
+                            $EventDB['Participants'][$ParticipantID]['SeqPoints'] = '';
                         }
                         else {
                             //Место
                             $EventDB['Participants'][$ParticipantID]['Rank']      = (int)$Performance['Rank'];
                             //Балы за прокат
-                            $EventDB['Participants'][$ParticipantID]['SeqPoints'] = (float)$Performance['Points'];
+                            $EventDB['Participants'][$ParticipantID]['SeqPoints'] = (string)$Performance['Points'];
                         }
                         unset($ParticipantID);
                     }
@@ -809,13 +828,13 @@ function FuncWorksCalc($data_line, $connection) {
                                 //Итоговое место
                                 $EventDB['Participants'][$ParticipantID]['TRank']  = 0;
                                 //Итоговое количество баллов
-                                $EventDB['Participants'][$ParticipantID]['TPoint'] = 0;
+                                $EventDB['Participants'][$ParticipantID]['TPoint'] = '';
                             }
                             else {
                                 //Итоговое место
                                 $EventDB['Participants'][$ParticipantID]['TRank']  = (int)$Participant['TRank'];
                                 //Итоговое количество баллов
-                                $EventDB['Participants'][$ParticipantID]['TPoint'] = (float)$Participant['TPoint'];
+                                $EventDB['Participants'][$ParticipantID]['TPoint'] = (string)$Participant['TPoint'];
                             }
                         }
                         unset($ParticipantID);
