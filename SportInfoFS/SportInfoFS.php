@@ -760,7 +760,7 @@ function FuncWorksCalc($data_line, $connection) {
                 }
                 //Нарушения (Пока не знаю что за хрень)
                 if(is_object($xml_line->Segment_Running->Prf_Details->Deduction_List)) {
-                    $EventDB['Participants'][$ParticipantID]['Deduction']="";
+                    $EventDB['Participants'][$ParticipantID]['Deduction']=[];
                     foreach ($xml_line->Segment_Running->Prf_Details->Deduction_List->Deduction as $Deduction) {
                         $DeductionID = "d" . $Deduction['Index'];
                         //Название нарушения
