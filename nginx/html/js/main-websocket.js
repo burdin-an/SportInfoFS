@@ -342,6 +342,7 @@ function updateBoard() {
             /* Карусель списка участников */
             let activeItems = 2;
             if (KissAndCryAutoScrollParticipantList) {
+                $( "#participantListContainer" ).prepend(FS_KissAndCryNextButtonDisable);
                 timerCaruselBoardGroup = setInterval(
                     function () {
                         const root = document.querySelector('#participantListContainer');

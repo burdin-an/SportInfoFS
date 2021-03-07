@@ -153,4 +153,6 @@ const FS_KissAndCryLineElement = (data) => `<div class="row"><div class="col-4 L
 const FS_KissAndCryLineDeduction = (data) => `<div class="row"><div class="col LineTechDetail">${data['DeductionName']}</div><div class="col-3 LineTechDetail">${data['DeductionCount']}</div></div>`;
 
 /* Шаблон: Кнопки далее */
-const FS_KissAndCryNextButton = `<div class="container-fluid"><div class="row"><div class="col"><a href='#' id="ButtonNextParticipant" class='btn btn-info w-100' role="button">Далее</a></div></div></div>`
+const FS_KissAndCryNextButton = `<div class="container-fluid"><div class="row"><div class="col"><a href='#' id="ButtonNextParticipant" class='btn btn-info w-100' role="button">Далее</a></div></div></div>`;
+/* Шаблон: Кнопки далее когда она отключена */
+const FS_KissAndCryNextButtonDisable = `<div class="container-fluid"><div class="row"><div class="col">&nbsp;</div></div></div>`
