@@ -17,7 +17,7 @@
 // Количество линий участников
 LineCountWebParticipant = 14;
 // Автоматически переключать списки участников в 
-KissAndCryAutoScrollParticipantList = false;
+KissAndCryAutoScrollParticipantList = true;
 // Через сколько секунд переключать списки участников
 AutoCaruselBoardTime = 10;
 // Табло "Уголок слёз и поцелуев"
