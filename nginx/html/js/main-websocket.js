@@ -11,7 +11,8 @@
  * @link      http://www.it-sakh.info/SportInfo/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
+// Порт для Web Socket
+const WebSocketPort = 8100;
 var Participant = [];
 var EventDB = [];
 var JsonData;
@@ -35,7 +36,7 @@ let timerCloseBoardKissAndCry;
 let timerCaruselBoardGroup;
 
 function connect() {
-    var ws = new WebSocket('ws://' + window.location.hostname + ':8000');
+    var ws = new WebSocket('ws://' + window.location.hostname + ':' + WebSocketPort);
     ws.onopen = function() {
         if (debuging != false) {console.log('WebSocket connected');};
         if (boardConfigure == false) {
@@ -261,14 +262,14 @@ function updateBoard() {
     }
     // Табло для KissAndCry
     if (ConfigKissAndCry) {
-        if (JsonData.dAction == '1SC') {
+        if (JsonData.dAction == '2SC') {
             if (boardSegmentOpen) {
                 cleanBoardSegment();
             }
             if (boardKissAndCryOpen) {
                 cleanBoardKissAndCry();
             }
-            if (debuging != false) {console.log('Action 1SC');};
+            if (debuging != false) {console.log('Action 2SC');};
             var ElementLine='';
             var DeductionLine='';
             var PlaceLine='';

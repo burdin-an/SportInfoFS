@@ -13,12 +13,14 @@
  * @version   1.0.1
  */
 
+// Порт для Web Socket
+const WebSocketPort = 8100;
 // Отладочная информация
 var debuging = true;
 $(document).ready(function(){
     let ws;
     function connect() {
-        ws = new WebSocket('ws://' + window.location.hostname + ':8000');
+        ws = new WebSocket('ws://' + window.location.hostname + ':' + WebSocketPort);
         ws.onopen = function() {
             if (debuging != false) {console.log('WebSocket connected');};
 
