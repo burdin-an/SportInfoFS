@@ -1,3 +1,4 @@
 /SportInfoFS/vendor/*
 /SportInfoFS/logs/*
 /SportInfoFS/DB/*
+/SportInfoFS/config-local.ini
