@@ -104,19 +104,19 @@ var AutoCloseKissAndCryTime = 6;
 // Автоматически переключать списки участников на экране "Уголок слёз и поцелуев"
 let KissAndCryAutoScrollParticipantList = true;
 // Через сколько секунд переключать списки участников
-let AutoCaruselBoardTime = 10;
+let AutoCaruselBoardTime = 20;
 //На сколько секунд показываем титры:Промежуточные результаты (Кнопка: 3ndScore)
-let AutoCloseTV3SC = 10;
+let AutoCloseTV3SC = 20;
 //На сколько секунд показываем персональные титры (Кнопки: Name,2ndScore,Judge,...)
-let AutoCloseTVPersonal = 10;
+let AutoCloseTVPersonal = 20;
 //На сколько секунд показываем титры: Показать приглашение на награждение (Кнопка: V.Cerem -> Send Victory)
-let AutoCloseTVVictoryStart = 10;
+let AutoCloseTVVictoryStart = 20;
 //На сколько секунд показываем титры: Показать призовое место (Кнопка: V.Cerem -> Send Gold, Send Silver, Send Bronze)
-let AutoCloseTVVictoryPlace = 10;
+let AutoCloseTVVictoryPlace = 20;
 //На сколько секунд показываем титры: Показать все призовые места (Кнопка: V.Cerem -> Send Podium)
-let AutoCloseTVVictoryAll = 10;
+let AutoCloseTVVictoryAll = 20;
 //На сколько секунд показываем титры: Название соревнования (Кнопка: Segment)
-let AutoCloseTVSegment = 10;
+let AutoCloseTVSegment = 20;
 
 // Заголовок для кнопки: 
 var TitleSubNameJudgeAll = "Официальные лица:";
