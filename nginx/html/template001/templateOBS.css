@@ -13,8 +13,15 @@
  */
 
  /**
- * Шаблоны для титров
+ * Шаблоны для титров (Яркостный ключ, вырезаем весь черный цвет)
  */
+/* ################################################################################################
+Основные настройки:
+*/
+ /* Делаем черный фон*/
+ html,body,#id_board {
+    background-color: #000;
+}
 
 /* ################################################################################################
 Шапка (заголовок) всех плашек
@@ -427,6 +434,64 @@
 }
 /* Анимация: Закрытие панели ------------------------------------------------------------- */
 .cl_boardEvent.cl_boardOut {
+    animation: hinge 2s linear 0s normal forwards;
+    transform-origin: top left; 
+}
+
+/* ################################################################################################
+Информационная панель:
+    LiveTV; - Название соревнования, группа и сегмент
+*/
+.cl_boardLTV {
+    
+    /*    */
+    position: absolute;
+    top: 10vh;
+    left: 5vw;
+    width: 30vh;
+    background-color: blueviolet;
+    color: black;
+    /* display:block; */
+    display: none;
+}
+.LTVClassElementName {
+    text-align: center;
+    padding: 1vh 0;
+    background-color: aqua;
+}
+.LTVClassScores {
+    background-color: #e4941e;
+    padding: 1vh 0;
+}
+.LTVClassBV,.LTVClassGOE {
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+}
+.LTVClassCurrentParticipant {
+    background-color: blue;
+    color: white;
+}
+.CurrentParticipantName,.CurrentParticipantCount,.CurrentLeaderName,.CurrentLeaderCount {
+    display: inline-block;
+    width: 50%;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+}
+.CurrentParticipantName,.CurrentLeaderName {
+    text-align: left;
+    padding-left: .4vw;
+}
+.CurrentParticipantCount,.CurrentLeaderCount {
+    text-align: center;
+}
+
+/* Анимация: Открытие панели ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.cl_boardLTV.cl_boardIn {
+    animation: bounceInDown 2s linear 0s normal backwards;
+}
+/* Анимация: Закрытие панели ------------------------------------------------------------- */
+.cl_boardLTV.cl_boardOut {
     animation: hinge 2s linear 0s normal forwards;
     transform-origin: top left; 
 }
