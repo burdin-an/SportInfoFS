@@ -1330,6 +1330,29 @@ $ws_worker->onMessage = function($connection, $data) use (&$users, &$ini, &$Even
             echo "ADMIN ACTION: Reload TV\n";
             $ReturnJsonToWeb = ActionReloadTV();
         }
+        //Перезагрузка конфиг. файла
+        elseif ($data == "ReOpenINI") {
+            echo "Action: ReOpenINI\n";
+            // Обрабатываем конфигурационный файл по-умолчанию: config-default.ini
+            $configDefault = parse_ini_file(__DIR__ . "/config-default.ini");
+            // Обрабатываем локальный конфигурационный файл: config-local.ini
+            if (file_exists(__DIR__ . "/config-local.ini")) {
+                $configLocal = parse_ini_file(__DIR__ . "/config-local.ini");
+                $ini = array_merge($configDefault, $configLocal);
+                unset($configLocal);
+            }
+            else {
+                $ini = $configDefault;
+            }
+
+            unset($configDefault);
+
+            if (!is_array($ini)) {
+                print_r($ini);
+                echo "Не удалось прочитать конфигурационный файл.\n";
+                exit;
+            }
+        }
         else {
             echo "У пользователя нет прав на выполнение данной команды или нет такой команды!\n";
         }

@@ -92,7 +92,7 @@ $(document).ready(function(){
     $('#ReloadTV').click(function() {
         ws.send("ReloadTV");
     });
-    $('#XXXXXXX').click(function() {
-        ws.send("XXXXXXX");
+    $('#ReOpenINI').click(function() {
+        ws.send("ReOpenINI");
     });
 });
