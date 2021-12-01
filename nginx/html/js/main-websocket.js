@@ -22,6 +22,7 @@ var boardSegmentOpen = false;
 var boardGroupOpen = false;
 var boardKissAndCryOpen = false;
 var timerBoardOpen = false;
+var liveTVBoardOpen = false;
 var boardConfigure = false;
 
 // Таймер закрытия панели
@@ -71,6 +72,10 @@ function connect() {
                     ShowTimerBoard();
                 }
             }
+            // Очистить табло со временем
+            else if (JsonData.dAction == 'LiveTV') {
+                LiveTVBoard();
+            }
             // Перезагрузить табло
             else if (JsonData.dAction == 'ReloadTablo' && ConfigShowTimer) {
                 window.location.href = window.location.href;
@@ -87,7 +92,7 @@ function connect() {
             }
             // Воиспроизвести: Разминка завершена
             else if (JsonData.dAction == 'VoiceWarmCompleted' && ConfigShowTimer) {
-                var VoiceWarmCompletedPlauer = document.getElementById('RazminkaStop').play();
+                var VoiceWarmCompletedPlayer = document.getElementById('RazminkaStop').play();
             }
             // Первые данные
             else if (JsonData.dAction == 'INIT') {
@@ -246,7 +251,16 @@ function updateTimerBoard() {
         var VoiceStop = document.getElementById('RazminkaStop').play();
     }
 }
-		
+
+function LiveTVBoard() {
+    if (liveTVBoardOpen == false) {
+        /*$( "#id_LiveTV" ).html( FS_LiveTV );*/
+        $( "#Timer" ).html( JsonData.Time );
+        liveTVBoardOpen = true;
+    }
+    $( "#CurrentParticipantCount" ).html( JsonData.TES );
+    $( "#CurrentLeaderCount" ).html( JsonData.TESLeader );
+}
 			
 function updateBoard() {
     if (ConfigShowTimer && JsonData.dAction != '1SC') {
@@ -565,7 +579,7 @@ function updateBoard() {
             );
         }
         else if (JsonData.dAction == 'JudgeAll') {
-            $( "#root_boardGroup").html( 
+            $( "#root_boardGroup").html(
                 FS_UsersList({
                     'EventName': JsonData.EventName,
                     'Category':  JsonData.pCategory,
