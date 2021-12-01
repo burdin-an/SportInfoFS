@@ -17,8 +17,20 @@
 setlocale(LC_CTYPE, 'ru_RU.UTF-8');
 error_reporting(E_ALL ^ E_WARNING);
 
-// Обрабатываем конфигурационный файл: config.ini
-$ini = parse_ini_file(__DIR__ . "/config.ini");
+// Обрабатываем конфигурационный файл по-умолчанию: config-default.ini
+$configDefault = parse_ini_file(__DIR__ . "/config-default.ini");
+// Обрабатываем локальный конфигурационный файл: config-local.ini
+if (file_exists(__DIR__ . "/config-local.ini")) {
+    $configLocal = parse_ini_file(__DIR__ . "/config-local.ini");
+    $ini = array_merge($configDefault, $configLocal);
+    unset($configLocal);
+}
+else {
+    $ini = $configDefault;
+}
+
+unset($configDefault);
+
 if (!is_array($ini)) {
     print_r($ini);
     echo "Не удалось прочитать конфигурационный файл.\n";
@@ -124,7 +136,6 @@ function ActionGroup($CommandAction,$ParticipantID) {
 //Показать индивидуальные результаты проката 2SC и 1SC
 function ActionPersonalResult($dAction,$ParticipantID) {
     global $EventDB;
-    echo "ParticipantID: "   .  $ParticipantID . ";\n";
     $ReturnJsonToWeb = [
         "timestamp"  => time(),
         "dAction"    => (string)$dAction,
@@ -502,6 +513,8 @@ function FuncWorksCalc($data_line, $connection) {
                 'Participants'     => [],
                 'Criteria'         => [],
                 'Deduction'        => [],
+                'LiveTV'           => [],
+                'ELS'              => [],
             ];
             if (is_object($xml_line->Segment_Start->Event->Event_Officials_List)) {
                 foreach ($xml_line->Segment_Start->Event->Event_Officials_List->Official as $Official) {
@@ -1021,39 +1034,110 @@ function FuncWorksCalc($data_line, $connection) {
                 echo "Action: Timer Clear;\n";
                 echo "Time: " . $ReturnJsonToWeb['Time'] . ";  " . "Timer State: " . $ReturnJsonToWeb['TimerState'] . ";\n";
             }
-            // Элементы для ТВ, короткое
+            // Элементы для ТВ, баллы
             elseif ($CommandAction == 'LTV') {
+                if ($EventDB['LiveTV'] && $EventDB["TimerAction"] == "TimerStart" && 
+                    ($EventDB['LiveTV']['TES']        != (string)$xml_line->Segment_Running->Prf_Details['TES'] || 
+                     $EventDB['LiveTV']['TES_Leader'] != (string)$xml_line->Segment_Running->Prf_Details['TES_Leader'])
+                   ) {
+                    $EventDB['LiveTV'] = [
+                        "TES"                => (string)$xml_line->Segment_Running->Prf_Details['TES'],
+                        "TES_Leader"         => (string)$xml_line->Segment_Running->Prf_Details['TES_Leader'],
+                        "TES_Leader_Overall" => (string)$xml_line->Segment_Running->Prf_Details['TES_Leader_Overall'],
+                    ];
+                    $ReturnJsonToWeb = [
+                        "timestamp"  => time(),
+                        "dAction"    => "LiveTV",
+                        "TES"        => $EventDB['LiveTV']['TES'],
+                        "TESLeader" => $EventDB['LiveTV']['TES_Leader'],
+                    ];
+    
+                    echo "---------------------------------------------------------------------\n";
+                    echo "Action: LiveTV;\n";
+                    echo "TES: " . $ReturnJsonToWeb['TES'] . ";\n";
+                    echo "TES Leader: " . $ReturnJsonToWeb['TESLeader'] . ";\n";
+                }
+            }
+            // Элементы для ТВ, элементы
+            elseif ($CommandAction == 'ELS') {
+                $ParticipantID = (int)$xml_line->Segment_Running->Action['Current_Participant_ID'];
                 $ReturnJsonToWeb = [
                     "timestamp" => time(),
                     "dAction"   => "LiveTV",
-                    "TES"                => (string)$xml_line->Segment_Running->Prf_Details['TES'],
-                    "TES_Leader"         => (string)$xml_line->Segment_Running->Prf_Details['TES_Leader'],
-                    "TES_Leader_Overall" => (string)$xml_line->Segment_Running->Prf_Details['TES_Leader_Overall'],
-                ];
-
-                echo "---------------------------------------------------------------------\n";
-                echo "Action: LiveTV;\n";
-                echo "TES: " . $ReturnJsonToWeb['TES'] . ";\n";
-                echo "TES_Leader: " . $ReturnJsonToWeb['TES_Leader'] . ";\n";
-                echo "TES_Leader_Overall: " . $ReturnJsonToWeb['TES_Leader_Overall'] . ";\n";
-            }
-            // Элементы для ТВ, подробное
-            elseif ($CommandAction == 'ELS') {
-                $ReturnJsonToWeb = [
-                    "timestamp" => time(),
-                    "dAction"   => "LiveTV2",
+                    //Баллы за текущее выступление
                     "Points"    => (string)$xml_line->Segment_Running->Prf_Details['Points'],
+                    //Баллы за элементы
                     "TES"       => (string)$xml_line->Segment_Running->Prf_Details['TES'],
+                    //Баллы за компоненты
                     "TCS"       => (string)$xml_line->Segment_Running->Prf_Details['TCS'],
+                    //Баллы Бонус
                     "Bonus"     => (string)$xml_line->Segment_Running->Prf_Details['Bonus'],
+                    //Баллы Снижение
                     "Ded_Sum"   => (string)$xml_line->Segment_Running->Prf_Details['Ded_Sum'],
                 ];
+                //Элементы
+                if(is_object($xml_line->Segment_Running->Prf_Details->Element_List)) {
+                    foreach ($xml_line->Segment_Running->Prf_Details->Element_List->Element as $Element) {
+                        $ElementID = (int)$Element['Index'];
+                        //Сокращенное наименование элементов
+                        $ReturnJsonToWeb['Element'][$ElementID]['Name']     = (string)$Element['Elm_Name'];
+                        //Баллы
+                        $ReturnJsonToWeb['Element'][$ElementID]['Points']   = (string)$Element['Points'];
+                        //
+                        $ReturnJsonToWeb['Element'][$ElementID]['BV']       = (string)$Element['Elm_XBV'];
+                        //
+                        $ReturnJsonToWeb['Element'][$ElementID]['GOE']      = (string)$Element['Elm_XGOE'];
+                        //
+                        $ReturnJsonToWeb['Element'][$ElementID]['Info']     = (string)$Element['Elm_Info'];
+                        //Элемент защитан или нет
+                        $ReturnJsonToWeb['Element'][$ElementID]['Half']     = (string)$Element['Elm_Half'];
+                        //
+                        $ReturnJsonToWeb['Element'][$ElementID]['BVWB']     = (string)$Element['Elm_XBVWB'];
+                        //
+                        $ReturnJsonToWeb['Element'][$ElementID]['Review']   = (int)$Element['Elm_Review'];
+                        //Полное наименование элементов
+                        $ReturnJsonToWeb['Element'][$ElementID]['Fullname'] = (string)$Element['Elm_Name_Long'];
+                        unset($ElementID);
+                    }
+                    if (array_key_exists('Element', $ReturnJsonToWeb)) {
+                        ksort($ReturnJsonToWeb['Element']);
+                    }
+                }
+                //Нарушения
+                if(is_object($xml_line->Segment_Running->Prf_Details->Deduction_List)) {
+                    foreach ($xml_line->Segment_Running->Prf_Details->Deduction_List->Deduction as $Deduction) {
+                        $DeductionID = (int)$Deduction['Index'];
+                        //Название нарушения
+                        $ReturnJsonToWeb['Deduction'][$DeductionID]['Name']  = (string)$EventDB['Deduction']['d'.$Deduction['Index']]['Name'];
+                        //Баллы
+                        $ReturnJsonToWeb['Deduction'][$DeductionID]['Value'] = (string)$Deduction['Ded_Value'];
+                        unset($DeductionID);
+                    }
+                    if (array_key_exists('Deduction', $ReturnJsonToWeb)) {
+                        ksort($ReturnJsonToWeb['Deduction']);
+                    }
+                }
+                //Критерии (Пока не знаю что за хрень)
+                if(is_object($xml_line->Segment_Running->Prf_Details->Criteria_List)) {
+                    foreach ($xml_line->Segment_Running->Prf_Details->Criteria_List->Criteria as $Criteria) {
+                        $CriteriaID = (int)$Criteria['Index'];
+                        //Сокращенное наименование элементов
+                        $ReturnJsonToWeb['Criteria'][$CriteriaID]['Name']   = (string)$EventDB['Criteria']['c'.$Criteria['Index']]['Name'];
+                        //Баллы
+                        $ReturnJsonToWeb['Criteria'][$CriteriaID]['Points'] = (string)$Criteria['Points'];
+                        unset($CriteriaID);
+                    }
+                    if (array_key_exists('Criteria', $ReturnJsonToWeb)) {
+                        ksort($ReturnJsonToWeb['Criteria']);
+                    }
+                }
+                unset($ParticipantID);
 
                 echo "---------------------------------------------------------------------\n";
-                echo "Action: LiveTV;\n";
+                echo "Action: LiveTV(ELS);\n";
                 echo "TES: " . $ReturnJsonToWeb['TES'] . ";\n";
-                echo "TES_Leader: " . $ReturnJsonToWeb['TES_Leader'] . ";\n";
-                echo "TES_Leader_Overall: " . $ReturnJsonToWeb['TES_Leader_Overall'] . ";\n";
+                //echo "TES_Leader: " . $ReturnJsonToWeb['TES_Leader'] . ";\n";
+                //echo "TES_Leader_Overall: " . $ReturnJsonToWeb['TES_Leader_Overall'] . ";\n";
             }
         }
 
@@ -1073,30 +1157,38 @@ function FuncWorksCalc($data_line, $connection) {
     return 1;
 }
 
-if ($ini['WriteRawInputCalc'] == 1) {
+if ($ini['WriteRawInputCalc'] == "y") {
     $RawInputLogFile = fopen(__DIR__ . '/logs/RawInput-' . date('Y-m-d') . '-' . rand() . '.log', 'w');
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
 use Workerman\Worker;
 use Workerman\Connection\AsyncTcpConnection;
-//TcpConnection::$defaultMaxSendBufferSize = 2*1024*1024;
-$ws_worker = new Worker("websocket://0.0.0.0:8000");
+
+$ws_worker = new Worker("websocket://0.0.0.0:" . $ini["WebSocketPort"]);
 
 // Тут храним пользовательские соединения
 $users = [];
+// Тут храним пользовательские соединения
+$users2 = [];
 
-$ws_worker->onConnect = function($connection) use (&$users) {
-    $connection->onWebSocketConnect = function($connection) use (&$users) {
-        global $ini;
+$ws_worker->onConnect = function($connection) use (&$users, &$ini) {
+    $connection->onWebSocketConnect = function($connection) use (&$users, &$ini) {
         $users[$connection->id]['connect'] = $connection;
-        if (in_array($connection->getRemoteIp(), $ini)) {
-            $users[$connection->id]['admin'] = 1;
-            $users[$connection->id]['role']  = [];
-            foreach(explode(",", $ini[$connection->getRemoteIp()]) as $val) {
-                array_push($users[$connection->id]['role'], trim($val));
+        $RemoteIP = (string)$connection->getRemoteIp();
+        if (array_key_exists($RemoteIP, $ini)) {
+            if ($ini[$RemoteIP] != "") {
+                $users[$connection->id]['admin'] = 1;
+                $users[$connection->id]['role']  = [];
+                foreach(explode(",", $ini[$RemoteIP]) as $val) {
+                    array_push($users[$connection->id]['role'], trim($val));
+                }
+                if ($ini["PrintConsoleInfo"] == 1) {echo "Пользователь Администратор\n";}
             }
-            echo "Пользователь Администратор\n";
+            else {
+                $users[$connection->id]['admin'] = 0;
+                echo "Пользователь НЕ Администратор\n";
+            }
         }
         else {
             $users[$connection->id]['admin'] = 0;
@@ -1106,9 +1198,7 @@ $ws_worker->onConnect = function($connection) use (&$users) {
     echo "Клиент WebSocket Подключился, с IP:" . $connection->getRemoteIp() . "\n";
 };
 
-$ws_worker->onMessage = function($connection, $data) use (&$users) {
-    global $EventDB;
-    global $ini;
+$ws_worker->onMessage = function($connection, $data) use (&$users, &$ini, &$EventDB) {
     if ($data == "INIT" && isset($EventDB["Name"])) {
         if (is_object($users[$connection->id]['connect'])) {
             $ReturnJsonToWeb = [
@@ -1261,8 +1351,23 @@ $ws_worker->onClose = function($connection) use(&$users) {
 };
 
 // it starts once when you start server.php:
-$ws_worker->onWorkerStart = function() use (&$users) {
-    global $ini;
+$ws_worker->onWorkerStart = function() use (&$users, &$users2, &$ini) {
+
+    $ws_worker2 = new Worker("tcp://" . $ini['PROXY_CALC_IP'] . ":". $ini['PROXY_CALC_PORT']);
+
+    $ws_worker2->onConnect = function($connection) use (&$users2, &$ini) {
+        $users2[$connection->id]['connect'] = $connection;
+        echo "Клиент подключился, с IP:" . $connection->getRemoteIp() . "\n";
+    };
+
+    $ws_worker2->onClose = function($connection) use(&$users2) {
+        // unset parameter when user is disconnected
+        unset($users2[$connection->id]);
+        echo "Клиент Отключился, с IP:" . $connection->getRemoteIp() . "\n";
+    };
+    $ws_worker2->listen();
+
+
     $connection = new AsyncTcpConnection("tcp://" . $ini['CALC_IP'] . ":". $ini['CALC_PORT']);
     $connection->maxSendBufferSize = 4*1024*1024;
     $connection->onConnect = function($connection) {
@@ -1271,11 +1376,13 @@ $ws_worker->onWorkerStart = function() use (&$users) {
     $EventDB = [];
     $stop = 1;
     $NewData = '';
-    $connection->onMessage = function($connection, $data) use (&$users) {
+    $connection->onMessage = function($connection, $data) use (&$users, &$users2, &$ini) {
         global $NewData;
-        global $ini;
         global $RawInputLogFile;
-        if ($ini['WriteRawInputCalc'] == 1) {
+        /*foreach($users2 as $connection2) {
+            $connection2['connect']->send($data);
+        }*/
+        if ($ini['WriteRawInputCalc'] == "y") {
             fwrite($RawInputLogFile, $data);
         }
         $stopSimbol = ord(substr($data, -1));
@@ -1307,6 +1414,11 @@ $ws_worker->onWorkerStart = function() use (&$users) {
     };
     $connection->connect();
 };
+
+
+
+
+
 
 // Run worker
 Worker::runAll();
