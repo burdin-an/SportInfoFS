@@ -165,8 +165,6 @@ function ActionPersonalResult($dAction,$ParticipantID) {
         $ReturnJsonToWeb["pSeqPoints"] = $EventDB['Participants'][$ParticipantID]['SeqPoints'];
         $ReturnJsonToWeb["pTPoint"]    = $EventDB['Participants'][$ParticipantID]['TPoint'];
         $ReturnJsonToWeb["pTRank"]     = $EventDB['Participants'][$ParticipantID]['TRank'];
-        $ReturnJsonToWeb["Element"]    = $EventDB['Participants'][$ParticipantID]['Element'];
-        $ReturnJsonToWeb["Deduction"]  = $EventDB['Participants'][$ParticipantID]['Deduction'];
         
         foreach ($EventDB['Participants'] as $ParticipantStr) {
             $idLine = (int)$ParticipantStr['TSort'];
@@ -200,12 +198,36 @@ function ActionPersonalResult($dAction,$ParticipantID) {
         $ReturnJsonToWeb["pDedSum"]    = (string)$EventDB['Participants'][$ParticipantID]['DedSum'];
         $ReturnJsonToWeb["pSeqPoints"] = (string)$EventDB['Participants'][$ParticipantID]['SeqPoints'];
         $ReturnJsonToWeb["pRank"]      = (string)$EventDB['Participants'][$ParticipantID]['Rank'];
-        echo "TES: " .       $ReturnJsonToWeb['pTES'] . ";\n";
-        echo "TCS: " .       $ReturnJsonToWeb['pTCS'] . ";\n";
-        echo "Bonus: " .     $ReturnJsonToWeb['pBonus'] . ";\n";
-        echo "DedSum: " .    $ReturnJsonToWeb['pDedSum'] . ";\n";
-        echo "SeqPoints: " . $ReturnJsonToWeb['pSeqPoints'] . ";\n";
-        echo "Rank: " .      $ReturnJsonToWeb['pRank'] . ";\n";
+        $ReturnJsonToWeb["pTPoint"]    = $EventDB['Participants'][$ParticipantID]['TPoint'];
+        $ReturnJsonToWeb["pTRank"]     = $EventDB['Participants'][$ParticipantID]['TRank'];
+        $ReturnJsonToWeb["Element"]    = $EventDB['Participants'][$ParticipantID]['Element'];
+        $ReturnJsonToWeb["Deduction"]  = $EventDB['Participants'][$ParticipantID]['Deduction'];
+        foreach ($EventDB['Participants'] as $ParticipantStr) {
+            $idLine = (int)$ParticipantStr['TSort'];
+            $ReturnJsonToWeb["Participant"][$idLine] = [
+                "ID"       => $ParticipantStr["ID"],
+                "FullName" => $ParticipantStr["FullName"],
+                "Nation"   => $ParticipantStr["Nation"],
+                "Club"     => $ParticipantStr["Club"],
+                "City"     => $ParticipantStr["City"],
+                "TPoint"   => $ParticipantStr["TPoint"],
+                "TSort"    => $ParticipantStr["TSort"],
+                "Current"  => 2
+            ];
+            if ($ParticipantStr['ID'] === (int)$ParticipantID) {
+                $ReturnJsonToWeb["Participant"][$idLine]["Current"]  = 1;
+            }
+        }
+        ksort($ReturnJsonToWeb["Participant"],0);
+
+        echo "TES: " .         $ReturnJsonToWeb['pTES'] . ";\n";
+        echo "TCS: " .         $ReturnJsonToWeb['pTCS'] . ";\n";
+        echo "Bonus: " .       $ReturnJsonToWeb['pBonus'] . ";\n";
+        echo "DedSum: " .      $ReturnJsonToWeb['pDedSum'] . ";\n";
+        echo "SeqPoints: " .   $ReturnJsonToWeb['pSeqPoints'] . ";\n";
+        echo "Rank: " .        $ReturnJsonToWeb['pRank'] . ";\n";
+        echo "Total Point: " . $ReturnJsonToWeb['pTPoint'] . ";\n";
+        echo "Total Rank: "  . $ReturnJsonToWeb['pTRank'] . ";\n";
     }
     unset($ParticipantID);    
     return $ReturnJsonToWeb;
