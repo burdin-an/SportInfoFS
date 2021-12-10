@@ -48,3 +48,14 @@
 * Кнопка "IDENT" - Прямая трансляция видео с экрана "Табло" (он же Кубик)
 * В титрах нет LiveTV (Live Technical Element Score)
 * Плагин для "Stream Deck"
+
+# Конфигурационные файлы:
+
+* C:\SportInfo\SportInfoFS\config-local.ini  (Настройка сервера)
+* C:\SportInfo\nginx\html\template001\mainConfig.js (Настройка графики)
+* C:\SportInfo\nginx\html\template001\templateKissAndCry (Настройки и шаблоны для "Уголок слёз и поцелуев")
+* C:\SportInfo\nginx\html\template001\templateOBS (Настройки и шаблоны для титров ТВ)
+* C:\SportInfo\nginx\html\template001\templateTablo (Настройки и шаблоны для больших кубов)
+* C:\SportInfo\nginx\html\template001\templateTabloSmall (Настройки и шаблоны для маленьких кубиков)
+
+
