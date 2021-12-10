@@ -223,7 +223,7 @@
     font-size: 18px;
     height: 31px;
     line-height: 31px;
-    color: black;
+    color: #8f0000;
 }
 #LineDown>span {
     margin-left: 0px;
@@ -443,16 +443,13 @@
     LiveTV; - Название соревнования, группа и сегмент
 */
 .cl_boardLTV {
-    
-    /*    */
     position: absolute;
     top: 10vh;
     left: 5vw;
     width: 30vh;
     background-color: blueviolet;
     color: black;
-    /* display:block; */
-    display: none;
+    display:none;
 }
 .LTVClassElementName {
     text-align: center;

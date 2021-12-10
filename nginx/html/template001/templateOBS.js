@@ -225,12 +225,12 @@ const FS_VictoryAllLine = (data) => `<div class='row ListRow'><div class="col Li
 */
 const FS_VictoryPlace = (data) => `
 <div id="boardPersonal" class="cl_board0">
-    <div id="board-circle1"></div>
-    <div id="board3"></div>
-    <div id="board00">
-        <div id="board1"></div>
-        <div id="board2"></div>
-        <div id="LineUP">${data['Fullname']} (${data['Club']})</div>
-        <div id="LineDown">${data['VictoryPlaсe']}</div>
+<div id="board-circle1"></div>
+<div id="board3"></div>
+<div id="board00">
+    <div id="board1"></div>
+    <div id="board2"></div>
+    <div id="LineUP">${data['Fullname']} (${data['Club']})</div>
+    <div id="LineDown">${data['VictoryPlaсe']}</div>
     </div>
 </div>`;
