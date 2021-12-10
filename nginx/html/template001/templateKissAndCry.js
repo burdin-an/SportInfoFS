@@ -87,10 +87,10 @@ const FS_KissAndCry = (data) => `
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-7">
                         <div id="LineElement" class="container-fluid">
                             <div class="row">
-                                <div class="col-4 LineTechDetail">Элементы:</div>
+                                <div class="col-5 LineTechDetail">Элементы:</div>
                                 <div class="col LineTechDetail">Info:</div>
                                 <div class="col LineTechDetail">Base:</div>
                                 <div class="col LineTechDetail">GoE:</div>
@@ -99,7 +99,7 @@ const FS_KissAndCry = (data) => `
                             ${data['ElementLine']}
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         <div id="LineDeduction" class="container-fluid">
                             <div class="row">
                                 <div class="col LineTechDetail">Нарушения:</div>
@@ -144,7 +144,7 @@ const FS_KissAndCryLineParticipant = (data) => `<div class='row LineRow ${data["
    ${data['ElementGOE']}   - 
    ${data['ElementPoint']} - 
  */
-const FS_KissAndCryLineElement = (data) => `<div class="row"><div class="col-4 LineTechDetail">${data['ElementName']}</div><div class="col LineTechDetail">${data['ElementInfo']}</div><div class="col LineTechDetail">${data['ElementBV']}</div><div class="col LineTechDetail">${data['ElementGOE']}</div><div class="col LineTechDetail">${data['ElementPoint']}</div></div>`;
+const FS_KissAndCryLineElement = (data) => `<div class="row"><div class="col-5 LineTechDetail">${data['ElementName']}</div><div class="col LineTechDetail">${data['ElementInfo']}</div><div class="col LineTechDetail">${data['ElementBV']}</div><div class="col LineTechDetail">${data['ElementGOE']}</div><div class="col LineTechDetail">${data['ElementPoint']}</div></div>`;
 /* Шаблон: Списка участников с оценками:
 
    ${data['DeductionName']}  - 

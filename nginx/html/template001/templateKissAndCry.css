@@ -211,7 +211,7 @@ body {
 /* Цвета полос */
 .participantListContainerItem .LineLast {
     /* Цвет */
-    background-image: linear-gradient(to right, #85008A 0%, #59005c 50%, #85008A 100%);
+    background-image: linear-gradient(to right, #85008A 0%, #630066 50%, #85008A 100%);
     color: white;
     /* Размер шрифта */
     font-size: 2.5vh;
@@ -233,7 +233,7 @@ body {
 }
 .participantListContainerItem .LineSort {
     /* Цвет */
-    background-image: linear-gradient(to right, #85008A 0%, #59005c 50%, #85008A 100%);
+    background-image: linear-gradient(to right, #85008A 0%, #630066 50%, #85008A 100%);
     color: white;
 }
 /* Размер шрифта */
@@ -286,7 +286,7 @@ body {
 }
 #participantListContainer>div {
     position: absolute;
-    top: 5.5vh;
+    /*top: 5.5vh;*/
     width: 100%;
     height: 100%;
 }
