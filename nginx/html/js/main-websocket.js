@@ -219,6 +219,7 @@ function cleanBoardKissAndCry() {
     if (debuging != false) {console.log('Action: Clear board Kiss And Cry');};
     $("#boardKissAndCry").removeClass("cl_boardIn");
     $("#boardKissAndCry").addClass("cl_boardOut");
+    clearInterval(timerCaruselBoardGroup);
     const node4 = document.querySelector('#boardKissAndCry');
     function handleAnimationEnd() {
         node4.remove();
