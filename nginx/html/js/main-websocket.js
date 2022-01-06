@@ -293,27 +293,29 @@ function updateBoard() {
             if (JsonData.Participant != undefined) {
                 var ListParticipantNumber = 1;
                 Object.keys(JsonData.Participant).forEach( function(itemKey, index){
-                    if (index == 0) {
-                        PlaceLine += FS_KissAndCryLineWrapperFirst({
-                            'IDContainer': ListParticipantNumber,
-                        });
-                    }
-                    else if (index % LineCountWebParticipant === 0) {
-                        ListParticipantNumber += 1;
-                        PlaceLine += FS_KissAndCryLineWrapperSecond({
-                            'IDContainer': ListParticipantNumber,
-                        });
-                    }
                     item = JsonData.Participant[itemKey];
-                    PlaceLine +=  FS_KissAndCryLineParticipant({
-                        'CurrentClass':  item["pCurrent"] == 1 ? "participantCurrent" : "",
-                        'Sort':     item["TSort"],
-                        'FullName': item["FullName"],
-                        'Nation':   item["Nation"],
-                        'Club':     item["Club"],
-                        'City':     item["City"],
-                        'Point':    item["TPoint"],
-                    });
+                    if (item["TPoint"] > 0 || item["pCurrent"] == 1) {
+                        if (index == 0) {
+                            PlaceLine += FS_KissAndCryLineWrapperFirst({
+                                'IDContainer': ListParticipantNumber,
+                            });
+                        }
+                        else if (index % LineCountWebParticipant === 0) {
+                            ListParticipantNumber += 1;
+                            PlaceLine += FS_KissAndCryLineWrapperSecond({
+                                'IDContainer': ListParticipantNumber,
+                            });
+                        }
+                        PlaceLine +=  FS_KissAndCryLineParticipant({
+                            'CurrentClass':  item["pCurrent"] == 1 ? "participantCurrent" : "",
+                            'Sort':     item["TSort"],
+                            'FullName': item["FullName"],
+                            'Nation':   item["Nation"],
+                            'Club':     item["Club"],
+                            'City':     item["City"],
+                            'Point':    item["TPoint"],
+                        });
+                    }
                 });
                 PlaceLine += "</div>";
             }            
