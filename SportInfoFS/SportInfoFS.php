@@ -157,40 +157,6 @@ function ActionPersonalResult($dAction,$ParticipantID) {
     echo "Страна: " .    $ReturnJsonToWeb['pNation'] . ";\n";
     echo "Music: " .     $ReturnJsonToWeb['pMusic'] . ";\n";
     echo "Coach: " .     $ReturnJsonToWeb['pCoach'] . ";\n";
-    if ($dAction == "1SC") {
-        $ReturnJsonToWeb["pTES"]       = $EventDB['Participants'][$ParticipantID]['TES'];
-        $ReturnJsonToWeb["pTCS"]       = $EventDB['Participants'][$ParticipantID]['TCS'];
-        $ReturnJsonToWeb["pBonus"]     = $EventDB['Participants'][$ParticipantID]['Bonus'];
-        $ReturnJsonToWeb["pDedSum"]    = $EventDB['Participants'][$ParticipantID]['DedSum'];
-        $ReturnJsonToWeb["pSeqPoints"] = $EventDB['Participants'][$ParticipantID]['SeqPoints'];
-        $ReturnJsonToWeb["pTPoint"]    = $EventDB['Participants'][$ParticipantID]['TPoint'];
-        $ReturnJsonToWeb["pTRank"]     = $EventDB['Participants'][$ParticipantID]['TRank'];
-        
-        foreach ($EventDB['Participants'] as $ParticipantStr) {
-            $idLine = (int)$ParticipantStr['TSort'];
-            $ReturnJsonToWeb["Participant"][$idLine] = [
-                "ID"       => $ParticipantStr["ID"],
-                "FullName" => $ParticipantStr["FullName"],
-                "Nation"   => $ParticipantStr["Nation"],
-                "Club"     => $ParticipantStr["Club"],
-                "City"     => $ParticipantStr["City"],
-                "TPoint"   => $ParticipantStr["TPoint"],
-                "TSort"    => $ParticipantStr["TSort"],
-                "Current"  => 2
-            ];
-            if ($ParticipantStr['ID'] === (int)$ParticipantID) {
-                $ReturnJsonToWeb["Participant"][$idLine]["Current"]  = 1;
-            }
-        }
-        ksort($ReturnJsonToWeb["Participant"],0);
-        echo "TES: " .         $ReturnJsonToWeb['pTES'] . ";\n";
-        echo "TCS: " .         $ReturnJsonToWeb['pTCS'] . ";\n";
-        echo "Bonus: " .       $ReturnJsonToWeb['pBonus'] . ";\n";
-        echo "Deduction: " .   $ReturnJsonToWeb['pDedSum'] . ";\n";
-        echo "SeqPoints: " .   $ReturnJsonToWeb['pSeqPoints'] . ";\n";
-        echo "Total Point: " . $ReturnJsonToWeb['pTPoint'] . ";\n";
-        echo "Total Rank: "  . $ReturnJsonToWeb['pTRank'] . ";\n";
-    }
     if ($dAction == "2SC") {
         $ReturnJsonToWeb["pTES"]       = (string)$EventDB['Participants'][$ParticipantID]['TES'];
         $ReturnJsonToWeb["pTCS"]       = (string)$EventDB['Participants'][$ParticipantID]['TCS'];
@@ -214,7 +180,7 @@ function ActionPersonalResult($dAction,$ParticipantID) {
                 "TSort"    => $ParticipantStr["TSort"],
                 "Current"  => 2
             ];
-            if ($ParticipantStr['ID'] === (int)$ParticipantID) {
+            if ($ParticipantStr['ID'] === (int)str_replace('p-', '', $ParticipantID)) {
                 $ReturnJsonToWeb["Participant"][$idLine]["Current"]  = 1;
             }
         }
@@ -229,7 +195,7 @@ function ActionPersonalResult($dAction,$ParticipantID) {
         echo "Total Point: " . $ReturnJsonToWeb['pTPoint'] . ";\n";
         echo "Total Rank: "  . $ReturnJsonToWeb['pTRank'] . ";\n";
     }
-    unset($ParticipantID);    
+    unset($ParticipantID);
     return $ReturnJsonToWeb;
 }
 //
@@ -792,7 +758,7 @@ function FuncWorksCalc($data_line, $connection) {
                         $EventDB['Participants'][$ParticipantID]['Element'][$ElementID]['Fullname'] = (string)$Element['Elm_Name_Long'];
                         unset($ElementID);
                     }
-                    ksort($EventDB['Participants'][$ParticipantID]['Element']);
+                    //ksort($EventDB['Participants'][$ParticipantID]['Element']);
                 }
                 //Нарушения (Пока не знаю что за хрень)
                 if(is_object($xml_line->Segment_Running->Prf_Details->Deduction_List)) {
@@ -806,7 +772,7 @@ function FuncWorksCalc($data_line, $connection) {
                         $EventDB['Participants'][$ParticipantID]['Deduction'][$DeductionID]['Count'] = (string)$Deduction['Ded_Count'];
                         unset($DeductionID);
                     }
-                    ksort($EventDB['Participants'][$ParticipantID]['Deduction']);
+                    //ksort($EventDB['Participants'][$ParticipantID]['Deduction']);
                 }
                 //Критерии (Пока не знаю что за хрень)
                 if(is_object($xml_line->Segment_Running->Prf_Details->Criteria_List)) {
@@ -818,7 +784,7 @@ function FuncWorksCalc($data_line, $connection) {
                         $EventDB['Participants'][$ParticipantID]['Criteria'][$CriteriaID]['Points'] = (string)$Criteria['Points'];
                         unset($CriteriaID);
                     }
-                    ksort($EventDB['Participants'][$ParticipantID]['Criteria']);
+                    //ksort($EventDB['Participants'][$ParticipantID]['Criteria']);
                 }
                 unset($ParticipantID);
                 echo "---------------------------------------------------------------------\n";
@@ -907,7 +873,8 @@ function FuncWorksCalc($data_line, $connection) {
             }
             //Показать технические результаты проката
             elseif ($CommandAction == '1SC') {
-                $ReturnJsonToWeb = ActionPersonalResult('1SC', "p-" . $xml_line->Segment_Running->Action['Current_Participant_ID']);
+                //Ничего выводить и изменять не надо!
+                //$ReturnJsonToWeb = ActionPersonalResult('1SC', "p-" . $xml_line->Segment_Running->Action['Current_Participant_ID']);
             }
             //Показать индивидуальные результаты проката
             elseif ($CommandAction == '2SC') {

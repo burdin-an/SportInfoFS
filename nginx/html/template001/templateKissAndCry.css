@@ -248,7 +248,13 @@ body {
     background-image: linear-gradient(to right, rgb(0, 82, 11) 0%, rgb(0, 82, 11)  51%, rgb(0, 82, 11)  100%) !important;
     color: white !important;
     /* Размер шрифта */
-    font-size: 5vh;
+    font-size: 2.9vh;
+    font-weight: bold;
+}
+.participantListContainerItem .participantCurrent .LineText{
+    /* Размер шрифта */
+    font-size: 3vh;
+    padding-top: 1vh;
     font-weight: bold;
 }
 

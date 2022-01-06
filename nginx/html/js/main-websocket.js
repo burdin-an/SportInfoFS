@@ -307,7 +307,7 @@ function updateBoard() {
                             });
                         }
                         PlaceLine +=  FS_KissAndCryLineParticipant({
-                            'CurrentClass':  item["pCurrent"] == 1 ? "participantCurrent" : "",
+                            'CurrentClass':  item["Current"] == 1 ? "participantCurrent" : "",
                             'Sort':     item["TSort"],
                             'FullName': item["FullName"],
                             'Nation':   item["Nation"],
